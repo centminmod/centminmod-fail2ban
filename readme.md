@@ -25,7 +25,7 @@ Then
 
 * populate your `/etc/fail2ban/jail.local` with you [jail.local](/jail.local) contents.
 * copy [action.d](/action.d) files to `/etc/fail2ban/action.d`
-* copy [filer.d](/filter.d) files to `/etc/fail2ban/filter.d`
+* copy [filter.d](/filter.d) files to `/etc/fail2ban/filter.d`
 
 ## notes
 
