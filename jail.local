@@ -1,0 +1,171 @@
+ignoreip = 127.0.0.1/8 ::1
+
+# bantime is the number of seconds that a host is banned.
+bantime  = 600
+
+# A host is banned when hits maxretry during the last findtime seconds.
+findtime  = 600
+
+# maxretry is the number of failures before a host get banned.
+maxretry = 3
+
+[nginx-auth-main]
+enabled = true
+filter = nginx-auth-main
+action = csfdeny[name=nginx-auth-main]
+#action   = cloudflare
+logpath = /usr/local/nginx/logs/*error*.log
+bantime = 3600
+maxretry = 3
+findtime = 600
+
+[nginx-auth]
+enabled = true
+filter = nginx-auth
+action = csfdeny[name=nginx-auth]
+#action   = cloudflare
+logpath = /var/log/nginx/*error*.log
+bantime = 3600
+maxretry = 3
+findtime = 600
+
+[nginx-badrequests]
+enabled = true
+filter = nginx-badrequests
+action = csfdeny[name=nginx-badrequests]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+bantime = 604800
+maxretry = 1
+
+[nginx-req-limit-main]
+enabled = true
+filter = nginx-req-limit
+action = csfdeny[name=nginx-req-limit-main]
+#action   = cloudflare
+logpath = /usr/local/nginx/logs/*error*.log
+findtime = 600
+bantime = 7200
+maxretry = 10
+
+[nginx-req-limit]
+enabled = true
+filter = nginx-req-limit
+action = csfdeny[name=nginx-req-limit]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+findtime = 600
+bantime = 7200
+maxretry = 10
+
+[nginx-get-f5]
+enabled = true
+filter = nginx-get-f5
+action = csfdeny[name=nginx-get-f5]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port   = http,https
+maxretry = 15
+findtime = 1
+bantime = 600
+
+[nginx-xmlrpc]
+enabled = true
+filter = nginx-xmlrpc
+action = csfdeny[name=nginx-xmlrpc]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 6
+findtime = 60
+
+[nginx-w00tw00t]
+enabled = true
+filter = nginx-w00tw00t
+action = csfdeny[name=nginx-w00tw00t]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port   = http,https
+maxretry = 1
+bantime  = 86400
+
+[wordpress-auth]
+enabled = true
+filter = wordpress-auth
+action = csfdeny[name=wordpress-auth]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 3
+findtime = 60
+
+[wordpress-comment]
+enabled = true
+filter = wordpress-comment
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+bantime = 3600
+maxretry = 5
+findtime = 60
+
+[wordpress-dict]
+enabled = true
+filter = wp-login-dict
+action = csfdeny[name=wordpress-dict]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+bantime = 28800
+maxretry = 3
+findtime = 60
+
+[wordpress-pingback]
+enabled = true
+filter = wp-pingback
+action = csfdeny[name=wordpress-pingback]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+backend  = polling
+journalmatch =
+port = http,https
+bantime = 604800
+maxretry = 1
+findtime = 1
+
+[vbulletin]
+enabled = true
+filter = vbulletin
+action = csfdeny[name=vbulletin]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+bantime = 28800
+maxretry = 3
+findtime = 60
+
+[xenforo-sec]
+enabled = false
+port = http,https
+filter = http-xensec
+logpath = /home/nginx/domains/*/log/access.log
+#number of occurances
+maxretry = 3
+#find duration 1 day in seconds
+findtime = 86400 
+#ban for 5 days (in seconds)
+bantime = 432000 
+action = csfdeny[name=xenforo-sec]
+#action   = cloudflare
+sendmail-whois[name=XenSec, dest=root]
+ignoreip = 127.0.0.0/8
+
+#[pure-ftpd]
+#port     = ftp,ftp-data,ftps,ftps-data
+#logpath  = %(pureftpd_log)s
+#backend  = %(pureftpd_backend)s
+
+#[nsd]
+#port     = 53
+#action   = %(banaction)s[name=%(__name__)s-tcp, port="%(port)s", protocol="tcp", chain="%(chain)s", actname=%(banaction)s-tcp]
+           %(banaction)s[name=%(__name__)s-udp, port="%(port)s", protocol="udp", chain="%(chain)s", actname=%(banaction)s-udp]
+#logpath = /var/log/nsd.log
