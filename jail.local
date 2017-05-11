@@ -1,3 +1,5 @@
+[DEFAULT]
+
 ignoreip = 127.0.0.1/8 ::1
 
 # bantime is the number of seconds that a host is banned.
@@ -29,14 +31,14 @@ bantime = 3600
 maxretry = 3
 findtime = 600
 
-[nginx-badrequests]
-enabled = true
-filter = nginx-badrequests
-action = csfdeny[name=nginx-badrequests]
-#action   = cloudflare
-logpath = /home/nginx/domains/*/log/access.log
-bantime = 604800
-maxretry = 1
+#[nginx-badrequests]
+#enabled = true
+#filter = nginx-badrequests
+#action = csfdeny[name=nginx-badrequests]
+##action   = cloudflare
+#logpath = /home/nginx/domains/*/log/access.log
+#bantime = 604800
+#maxretry = 1
 
 [nginx-req-limit-main]
 enabled = true
@@ -121,7 +123,7 @@ findtime = 60
 
 [wordpress-pingback]
 enabled = true
-filter = wp-pingback
+filter = wordpress-pingback
 action = csfdeny[name=wordpress-pingback]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
