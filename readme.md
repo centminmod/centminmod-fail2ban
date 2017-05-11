@@ -21,6 +21,12 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with CSF
     systemctl start fail2ban
     systemctl enable fail2ban
 
+Then 
+
+* populate your `/etc/fail2ban/jail.local` with you [jail.local](/jail.local) contents.
+* copy [action.d](/action.d) files to `/etc/fail2ban/action.d`
+* copy [filer.d](/filter.d) files to `/etc/fail2ban/filter.d`
+
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
