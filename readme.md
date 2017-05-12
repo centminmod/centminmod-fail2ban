@@ -67,59 +67,98 @@ testing Centmin Mod's centmin.sh menu option 22 auto installed and configured Wo
         #limit_conn xwpconlimit 30;
 
 
-use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks):
+use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks) connection timed out entries are when CSF Firewall banned the IP via `csfdeny.conf` action profile:
 
 ```
-siege -b -c2 -r3 http://domain.com/wp-login.php
+siege -b -c3 -r10 http://domain.com/wp-login.php
 ** SIEGE 4.0.2
-** Preparing 2 concurrent users for battle.
+** Preparing 3 concurrent users for battle.
 The server is now under siege...
-HTTP/1.1 200     0.52 secs:    7066 bytes ==> GET  /wp-login.php
-HTTP/1.1 200     0.54 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.57 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.62 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
 HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
-HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 503     0.61 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.45 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.49 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.44 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 503     0.56 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.51 secs:    1665 bytes ==> GET  /wp-login.php
 HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
 HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
 HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
-HTTP/1.1 200     0.51 secs:    7066 bytes ==> GET  /wp-login.php
-HTTP/1.1 200     0.90 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 503     0.46 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.46 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.50 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.91 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 503     0.48 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.48 secs:    1665 bytes ==> GET  /wp-login.php
+[error] socket: -1555597568 connection timed out.: Connection timed out
+[error] socket: -1538812160 connection timed out.: Connection timed out
+[error] socket: -1538812160 connection timed out.: Connection timed out
+[error] socket: -1555597568 connection timed out.: Connection timed out
+[error] socket: -1555597568 connection timed out.: Connection timed out
+[error] socket: -1538812160 connection timed out.: Connection timed out
+[error] socket: -1555597568 connection timed out.: Connection timed out
+[error] socket: -1538812160 connection timed out.: Connection timed out
 
-Transactions:                      6 hits
-Availability:                  66.67 %
-Elapsed time:                   3.33 secs
-Data transferred:               0.31 MB
-Response time:                  0.96 secs
-Transaction rate:               1.80 trans/sec
-Throughput:                     0.09 MB/sec
-Concurrency:                    1.72
-Successful transactions:           6
-Failed transactions:               3
-Longest transaction:            0.93
-Shortest transaction:           0.47
+Transactions:                      8 hits
+Availability:                  23.53 %
+Elapsed time:                  64.99 secs
+Data transferred:               0.44 MB
+Response time:                  1.82 secs
+Transaction rate:               0.12 trans/sec
+Throughput:                     0.01 MB/sec
+Concurrency:                    0.22
+Successful transactions:           8
+Failed transactions:              26
+Longest transaction:            0.94
+Shortest transaction:           0.44
 ```
 
 Centmin Mod Nginx error log entries at `/home/nginx/domains/domain.com/log/error.log`
 
-    tail -1 error.log
+    tail -3 error.log                                                  
     2017/05/12 06:32:07 [error] 30167#30167: *104 limiting requests, excess: 1.068 by zone "xwplogin", client: IPADDR, server: domain.com, request: "GET /wp-login.php HTTP/1.1", host: "domain.com"
+    2017/05/12 06:32:07 [error] 30167#30167: *105 limiting requests, excess: 1.001 by zone "xwplogin", client: IPADDR, server: domain.com, request: "GET /wp-login.php HTTP/1.1", host: "domain.com"
+    2017/05/12 06:32:07 [error] 30167#30167: *108 limiting requests, excess: 1.735 by zone "xwplogin", client: IPADDR, server: domain.com, request: "GET /wp-login.php HTTP/1.1", host: "domain.com"
+
+CSF Firewall blocked IP note the `Added by Fail2Ban for nginx-req-limit` comment in csf.deny entry
+
+    csf -g IPADDR                                                
+    
+    Chain            num   pkts bytes target     prot opt in     out     source               destination         
+    No matches found for IPADDR in iptables
+    
+    
+    IPSET: Set:chain_DENY Match:IPADDR Setting: File:/etc/csf/csf.deny
+    
+    csf.deny: IPADDR # Added by Fail2Ban for nginx-req-limit - Fri May 12 07:09:21 2017
 
 nginx-req-limit filter status and regex test
 
 ```
-fail2ban-client status nginx-req-limit
+fail2ban-client status nginx-req-limit                       
 Status for the jail: nginx-req-limit
 |- Filter
 |  |- Currently failed: 1
-|  |- Total failed:     3
+|  |- Total failed:     21
 |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
 `- Actions
-   |- Currently banned: 0
-   |- Total banned:     0
-   `- Banned IP list:
+   |- Currently banned: 1
+   |- Total banned:     1
+   `- Banned IP list:   IPADDR
 ```
 
 ```
-fail2ban-regex error.log /etc/fail2ban/filter.d/nginx-req-limit.conf 
+fail2ban-regex error.log /etc/fail2ban/filter.d/nginx-req-limit.conf
 
 Running tests
 =============
@@ -133,19 +172,21 @@ Use         encoding : UTF-8
 Results
 =======
 
-Failregex: 3 total
+Failregex: 21 total
 |-  #) [# of hits] regular expression
-|   1) [3] ^\s*\[error\] \d+#\d+: \*\d+ limiting requests, excess: [\d\.]+ by zone "(?:[^"]+)", client: <HOST>,
+|   1) [21] ^\s*\[error\] \d+#\d+: \*\d+ limiting requests, excess: [\d\.]+ by zone "(?:[^"]+)", client: <HOST>,
 `-
 
 Ignoreregex: 0 total
 
 Date template hits:
 |- [# of hits] date format
-|  [3] {^LN-BEG}ExYear(?P<_sep>[-/.])Month(?P=_sep)Day[T ]24hour:Minute:Second(?:[.,]Microseconds)?(?:\s*Zone offset)?
+|  [21] {^LN-BEG}ExYear(?P<_sep>[-/.])Month(?P=_sep)Day[T ]24hour:Minute:Second(?:[.,]Microseconds)?(?:\s*Zone offset)?
 `-
 
-Lines: 3 lines, 0 ignored, 3 matched, 0 missed
+Lines: 21 lines, 0 ignored, 21 matched, 0 missed
+[processed in 0.01 sec]
+
 ```
 
 
