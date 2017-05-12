@@ -51,10 +51,10 @@ Then
 ## examples
 
 ```
-fail2ban-client status
+fail2ban-client status  
 Status
 |- Number of jail:      13
-`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-pingback
+`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-pingback, wordpress-pingback-repeat
 ```
 
 wordpress-auth filter status

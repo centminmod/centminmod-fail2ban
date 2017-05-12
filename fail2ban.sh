@@ -139,7 +139,7 @@ install() {
     rm -rf /etc/fail2ban/jail.local.download
 
     systemctl daemon-reload
-    systemctl start fail2ban
+    systemctl restart fail2ban
     systemctl enable fail2ban
     echo
     systemctl status fail2ban
