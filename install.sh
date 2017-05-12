@@ -101,7 +101,8 @@ install() {
     rm -rf /etc/fail2ban/filter.d/wp-login-dict.conf
     wget -O /etc/fail2ban/filter.d/wp-login-dict.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wp-login-dict.conf
     
-    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" > /etc/fail2ban/jail.local
+    echo "[DEFAULT]" > /etc/fail2ban/jail.local
+    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
     wget -O /etc/fail2ban/jail.local.download https://github.com/centminmod/centminmod-fail2ban/raw/master/jail.local
     sed -i '/\[DEFAULT\]/d' /etc/fail2ban/jail.local.download
     sed -i '/ignoreip/d' /etc/fail2ban/jail.local.download
