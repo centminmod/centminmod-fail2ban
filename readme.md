@@ -4,6 +4,7 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with CSF
 
 * https://github.com/fail2ban/fail2ban
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
+* https://github.com/fail2ban/fail2ban/wiki/Troubleshooting
 
 ## fail2ban installation for CentOS 7.x Only
 
@@ -20,6 +21,7 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with CSF
     systemctl daemon-reload
     systemctl start fail2ban
     systemctl enable fail2ban
+    systemctl status fail2ban
 
 Then 
 
@@ -31,4 +33,5 @@ Then
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
+* centmin mod buffers access log writes to Nginx in memory with directives `buffer=256k flush=60m`, so for fail2ban to work optimally, you would need to disable access log memory buffering by removing those two directives from your Nginx vhost config file's `access_log` line. ```access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;```
 * suggestions, corrections and bug fixes are welcomed
