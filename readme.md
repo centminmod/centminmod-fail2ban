@@ -65,7 +65,7 @@ testing Centmin Mod's centmin.sh menu option 22 auto installed and configured Wo
     location ~* /(wp-login\.php) {
         limit_req zone=xwplogin burst=1 nodelay;
         #limit_conn xwpconlimit 30;
-        
+
 
 use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks):
 
@@ -97,6 +97,11 @@ Failed transactions:               3
 Longest transaction:            0.93
 Shortest transaction:           0.47
 ```
+
+Centmin Mod Nginx error log entries at `/home/nginx/domains/domain.com/log/error.log`
+
+    tail -1 error.log
+    2017/05/12 06:32:07 [error] 30167#30167: *104 limiting requests, excess: 1.068 by zone "xwplogin", client: IPADDR, server: domain.com, request: "GET /wp-login.php HTTP/1.1", host: "domain.com"
 
 nginx-req-limit filter status and regex test
 
