@@ -8,7 +8,7 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CS
 
 ## fail2ban installation for CentOS 7.x Only
 
-    USERIP=$(last -i | grep "still logged in" | awk '{print $3}')
+    USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
     SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
     IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
     cd /svr-setup/
@@ -17,7 +17,8 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CS
     cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
     cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
     cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
-    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" > /etc/fail2ban/jail.local
+    echo "[DEFAULT]" > /etc/fail2ban/jail.local
+    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
     systemctl daemon-reload
     systemctl start fail2ban
     systemctl enable fail2ban

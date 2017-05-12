@@ -99,15 +99,15 @@ port = http,https
 maxretry = 6
 findtime = 60
 
-[nginx-w00tw00t]
-enabled = true
-filter = nginx-w00tw00t
-action = csfdeny[name=nginx-w00tw00t]
-#action   = cloudflare
-logpath = /home/nginx/domains/*/log/access.log
-port   = http,https
-maxretry = 1
-bantime  = 86400
+#[nginx-w00tw00t]
+#enabled = true
+#filter = nginx-w00tw00t
+#action = csfdeny[name=nginx-w00tw00t]
+##action   = cloudflare
+#logpath = /home/nginx/domains/*/log/access.log
+#port   = http,https
+#maxretry = 1
+#bantime  = 86400
 
 [wordpress-auth]
 enabled = true
