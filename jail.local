@@ -133,7 +133,7 @@ filter = wordpress-pingback
 action = csfdeny[name=wordpress-pingback]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
-backend  = polling
+#backend  = polling
 journalmatch =
 port = http,https
 bantime = 86400
@@ -145,11 +145,7 @@ findtime = 1
 [wordpress-pingback-repeat]
 enabled = true
 filter = wordpress-pingback-repeat
-action = csfdeny[name=wordpress-pingback-repeat]
-#action   = cloudflare
 logpath = /var/log/fail2ban.log
-backend  = polling
-port = http,https
 bantime  = 259200
 maxretry = 5
 findtime = 21600
