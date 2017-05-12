@@ -33,7 +33,7 @@ Then
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
-* centmin mod buffers access log writes to Nginx in memory with directives `main_ext buffer=256k flush=60m` and custom log format called `main_ext`, so for fail2ban to work optimally, you would need to disable access log memory buffering and reverting to nginx default log format by removing those three directives from your Nginx vhost config file's `access_log` line. So `access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;` becomes `access_log /home/nginx/domains/domain.com/log/access.log;` and restart Nginx
+* centmin mod buffers access log writes to Nginx in memory with directives `main_ext buffer=256k flush=60m` and custom log format called `main_ext`, so for fail2ban to work optimally, you would need to disable access log memory buffering and revert to nginx default log format by removing those three directives from your Nginx vhost config file's `access_log` line. So `access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;` becomes `access_log /home/nginx/domains/domain.com/log/access.log;` and restart Nginx
 * suggestions, corrections and bug fixes are welcomed
 
 ## examples
@@ -41,8 +41,8 @@ Then
 ```
 fail2ban-client status
 Status
-|- Number of jail:      13
-`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-dict, wordpress-pingback
+|- Number of jail:      14
+`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-dict, wordpress-pingback
 ```
 
 wordpress-auth filter status
