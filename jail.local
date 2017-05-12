@@ -60,6 +60,15 @@ findtime = 600
 bantime = 7200
 maxretry = 10
 
+[nginx-botsearch]
+enabled = true
+filter = nginx-botsearch
+action = csfdeny[name=nginx-get-f5]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port     = http,https
+maxretry = 2
+
 [nginx-get-f5]
 enabled = true
 filter = nginx-get-f5
