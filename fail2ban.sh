@@ -127,6 +127,8 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/wordpress-comment.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-comment.conf
     rm -rf /etc/fail2ban/filter.d/wordpress-pingback.conf
     wget -cnv -O /etc/fail2ban/filter.d/wordpress-pingback.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-pingback.conf
+    rm -rf /etc/fail2ban/filter.d/wordpress-pingback-repeat.conf
+    wget -cnv -O /etc/fail2ban/filter.d/wordpress-pingback-repeat.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-pingback-repeat.conf
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
