@@ -37,6 +37,8 @@ Status
 `- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-dict, wordpress-pingback
 ```
 
+wordpress-auth filter status
+
 ```
 fail2ban-client status wordpress-auth                 
 Status for the jail: wordpress-auth
@@ -49,6 +51,41 @@ Status for the jail: wordpress-auth
    |- Total banned:     0
    `- Banned IP list:
 ```
+
+testing Centmin Mod's centmin.sh menu option 22 auto installed and configured Wordpress Nginx vhost which auto configures nginx level rate limiting on wp-login.php pages
+
+use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks):
+
+```
+siege -b -c2 -r3 http://domain.com/wp-login.php
+** SIEGE 4.0.2
+** Preparing 2 concurrent users for battle.
+The server is now under siege...
+HTTP/1.1 200     0.52 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.54 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.51 secs:    7066 bytes ==> GET  /wp-login.php
+HTTP/1.1 200     0.90 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+
+Transactions:                      6 hits
+Availability:                  66.67 %
+Elapsed time:                   3.33 secs
+Data transferred:               0.31 MB
+Response time:                  0.96 secs
+Transaction rate:               1.80 trans/sec
+Throughput:                     0.09 MB/sec
+Concurrency:                    1.72
+Successful transactions:           6
+Failed transactions:               3
+Longest transaction:            0.93
+Shortest transaction:           0.47
+```
+
+nginx-req-limit filter status and regex test
 
 ```
 fail2ban-client status nginx-req-limit
