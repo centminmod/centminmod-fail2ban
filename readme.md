@@ -242,5 +242,154 @@ Unbanning the IP via fail2ban-client
 
     fail2ban-client unban IPADDR
 
+## fail2ban.sh
+
+fail2ban.sh is a script to automate fail2ban install for CentOS 7 based Centmin Mod LEMP stack based servers.
+
+Usage options
+
+    ./fail2ban.sh
+    ./fail2ban.sh {install|status}
+
+fail2ban.sh status output
+
+    ./fail2ban.sh status 
+    ---------------------------------------
+    Status for the jail: nginx-auth
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /var/log/nginx/localhost.error.log /var/log/nginx/localhost_ssl.error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-auth-main
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /usr/local/nginx/logs/error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-botsearch
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-conn-limit
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-get-f5
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-req-limit
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-req-limit-main
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /usr/local/nginx/logs/error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-xmlrpc
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: vbulletin
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: wordpress-auth
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: wordpress-comment
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: wordpress-pingback
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 1
+      |- Total banned:     1
+      `- Banned IP list:   104.237.xxx.xxx
+    ---------------------------------------
+    Status for the jail: wordpress-pingback-repeat
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /var/log/fail2ban.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Top 10 Banned IP Addresses:
+          1 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Top 10 Restored Banned IP Addresses:
+          5 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
 
 
