@@ -52,6 +52,7 @@ fi
 install() {
     cd "$DIR_TMP"
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
+    cd fail2ban
     python setup.py install
     \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
     \cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf

@@ -13,6 +13,7 @@ fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CS
     IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
     cd /svr-setup/
     git clone -b 0.10 https://github.com/fail2ban/fail2ban
+    cd fail2ban
     python setup.py install
     cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
     cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
