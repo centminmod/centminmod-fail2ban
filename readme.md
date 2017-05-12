@@ -1,6 +1,6 @@
 # fail2ban for centminmod.com LEMP stacks
 
-fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html)
+fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). Suggestions, corrections and bug fixes are welcomed
 
 * https://github.com/fail2ban/fail2ban
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
@@ -34,7 +34,15 @@ Then
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
 * centmin mod buffers access log writes to Nginx in memory with directives `main_ext buffer=256k flush=60m` and custom log format called `main_ext`, so for fail2ban to work optimally, you would need to disable access log memory buffering and revert to nginx default log format by removing those three directives from your Nginx vhost config file's `access_log` line. So `access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;` becomes `access_log /home/nginx/domains/domain.com/log/access.log;` and restart Nginx
-* suggestions, corrections and bug fixes are welcomed
+* default `action.d/csfdeny.conf` ban option is to use `csf -d` to permanentaly block ip. Though temp block would be more appropriate:
+
+```
+-td, --tempdeny ip ttl [-p port] [-d direction] [comment]
+       Add an IP to the temp IP ban list. ttl is how long to blocks for
+       (default:seconds, can use one suffix of h/m/d).  Optional  port.
+       Optional  direction  of  block  can  be one of: in, out or inout
+       (default:in)
+```
 
 ## examples
 
