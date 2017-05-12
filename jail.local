@@ -1,5 +1,4 @@
 [DEFAULT]
-
 ignoreip = 127.0.0.1/8 ::1
 
 # bantime is the number of seconds that a host is banned.
