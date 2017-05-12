@@ -385,10 +385,16 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
-    Top 10 Banned IP Addresses:
+    All Time: Top 10 Banned IP Addresses:
           1 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
-    Top 10 Restored Banned IP Addresses:
+    All Time: Top 10 Restored Banned IP Addresses:
+          5 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Today: Top 10 Banned IP Addresses:
+          1 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Today: Top 10 Restored Banned IP Addresses:
           5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
 
