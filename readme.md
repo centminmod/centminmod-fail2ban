@@ -33,5 +33,5 @@ Then
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
-* centmin mod buffers access log writes to Nginx in memory with directives `buffer=256k flush=60m`, so for fail2ban to work optimally, you would need to disable access log memory buffering by removing those two directives from your Nginx vhost config file's `access_log` line. ```access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;```
+* centmin mod buffers access log writes to Nginx in memory with directives `main_ext buffer=256k flush=60m` and custom log format called `main_ext`, so for fail2ban to work optimally, you would need to disable access log memory buffering and reverting to nginx default log format by removing those three directives from your Nginx vhost config file's `access_log` line. So `access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;` becomes `access_log /home/nginx/domains/domain.com/log/access.log;` and restart Nginx
 * suggestions, corrections and bug fixes are welcomed
