@@ -37,6 +37,19 @@ Status
 `- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-dict, wordpress-pingback
 ```
 
+```
+fail2ban-client status wordpress-auth                 
+Status for the jail: wordpress-auth
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     0
+|  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+`- Actions
+   |- Currently banned: 0
+   |- Total banned:     0
+   `- Banned IP list:
+```
+
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
