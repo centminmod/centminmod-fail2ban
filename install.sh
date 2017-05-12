@@ -37,7 +37,7 @@ if [[ -f /etc/system-release && "$(awk '{print $1,$2,$3}' /etc/system-release)" 
     CENTOS_SIX='6'
 fi
 
-if [[ "$CENTOS_SEVEN" ! '7' ]]; then
+if [[ "$CENTOS_SEVEN" != '7' ]]; then
   echo "CentOS 7.x Only"
   exit
 fi
