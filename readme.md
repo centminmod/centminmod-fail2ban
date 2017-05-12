@@ -1,6 +1,6 @@
 # fail2ban for centminmod.com LEMP stacks
 
-fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with CSF Firewall
+fail2ban setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html)
 
 * https://github.com/fail2ban/fail2ban
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
