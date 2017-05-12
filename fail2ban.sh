@@ -56,8 +56,8 @@ status() {
     fail2ban-client status $j
     done
     echo "---------------------------------------"
-    echo "Banned IP Stats:"
-    awk '/Ban/ {print $NF}' /var/log/fail2ban.log | sort | uniq -c | sort -n
+    echo "Top 20 Banned IP Addresses:"
+    zgrep -h "Ban " /var/log/fail2ban.log* | awk '{print $NF}' | sort | uniq -c | sort -n | tail -20
     echo "---------------------------------------"
 }
 
