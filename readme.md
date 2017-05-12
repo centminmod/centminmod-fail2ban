@@ -62,6 +62,11 @@ Status for the jail: wordpress-auth
 
 testing Centmin Mod's centmin.sh menu option 22 auto installed and configured Wordpress Nginx vhost which auto configures nginx level rate limiting on wp-login.php pages
 
+    location ~* /(wp-login\.php) {
+        limit_req zone=xwplogin burst=1 nodelay;
+        #limit_conn xwpconlimit 30;
+        
+
 use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks):
 
 ```
