@@ -50,6 +50,49 @@ Status for the jail: wordpress-auth
    `- Banned IP list:
 ```
 
+```
+fail2ban-client status nginx-req-limit
+Status for the jail: nginx-req-limit
+|- Filter
+|  |- Currently failed: 1
+|  |- Total failed:     3
+|  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
+`- Actions
+   |- Currently banned: 0
+   |- Total banned:     0
+   `- Banned IP list:
+```
+
+```
+fail2ban-regex error.log /etc/fail2ban/filter.d/nginx-req-limit.conf 
+
+Running tests
+=============
+
+Use   failregex filter file : nginx-req-limit, basedir: /etc/fail2ban
+Use      datepattern : Default Detectors
+Use         log file : error.log
+Use         encoding : UTF-8
+
+
+Results
+=======
+
+Failregex: 3 total
+|-  #) [# of hits] regular expression
+|   1) [3] ^\s*\[error\] \d+#\d+: \*\d+ limiting requests, excess: [\d\.]+ by zone "(?:[^"]+)", client: <HOST>,
+`-
+
+Ignoreregex: 0 total
+
+Date template hits:
+|- [# of hits] date format
+|  [3] {^LN-BEG}ExYear(?P<_sep>[-/.])Month(?P=_sep)Day[T ]24hour:Minute:Second(?:[.,]Microseconds)?(?:\s*Zone offset)?
+`-
+
+Lines: 3 lines, 0 ignored, 3 matched, 0 missed
+```
+
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
