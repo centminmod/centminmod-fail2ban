@@ -219,23 +219,23 @@ Status for the jail: wordpress-pingback
 `- Actions
    |- Currently banned: 1
    |- Total banned:     1
-   `- Banned IP list:   104.237.4.55
+   `- Banned IP list:   104.237.xxx.xxx
 ```
 
 filter search the fail2ban log for banned ip address = /var/log/fail2ban.log
 
 ```
-grep '104.237.4.55' /var/log/fail2ban.log                       
-2017-05-12 08:02:56,303 fail2ban.filter         [31920]: INFO    [wordpress-pingback] Found 104.237.4.55 - 2017-05-12 08:02:56
-2017-05-12 08:02:56,695 fail2ban.actions        [31920]: NOTICE  [wordpress-pingback] Ban 104.237.4.55
-2017-05-12 11:50:39,167 fail2ban.actions        [31920]: NOTICE  [wordpress-pingback] Unban 104.237.4.55
-2017-05-12 11:50:40,339 fail2ban.actions        [1528]: NOTICE  [wordpress-pingback] Restore Ban 104.237.4.55
-2017-05-12 12:22:33,533 fail2ban.actions        [1528]: NOTICE  [wordpress-pingback] Unban 104.237.4.55
-2017-05-12 12:22:34,613 fail2ban.actions        [1902]: NOTICE  [wordpress-pingback] Restore Ban 104.237.4.55
-2017-05-12 12:23:19,039 fail2ban.actions        [1902]: NOTICE  [wordpress-pingback] Unban 104.237.4.55
-2017-05-12 12:23:20,123 fail2ban.actions        [1991]: NOTICE  [wordpress-pingback] Restore Ban 104.237.4.55
-2017-05-12 14:38:28,392 fail2ban.actions        [1991]: NOTICE  [wordpress-pingback] Unban 104.237.4.55
-2017-05-12 14:38:29,482 fail2ban.actions        [3662]: NOTICE  [wordpress-pingback] Restore Ban 104.237.4.55
+grep '104.237.xxx.xxx' /var/log/fail2ban.log                       
+2017-05-12 08:02:56,303 fail2ban.filter         [31920]: INFO    [wordpress-pingback] Found 104.237.xxx.xxx - 2017-05-12 08:02:56
+2017-05-12 08:02:56,695 fail2ban.actions        [31920]: NOTICE  [wordpress-pingback] Ban 104.237.xxx.xxx
+2017-05-12 11:50:39,167 fail2ban.actions        [31920]: NOTICE  [wordpress-pingback] Unban 104.237.xxx.xxx
+2017-05-12 11:50:40,339 fail2ban.actions        [1528]: NOTICE  [wordpress-pingback] Restore Ban 104.237.xxx.xxx
+2017-05-12 12:22:33,533 fail2ban.actions        [1528]: NOTICE  [wordpress-pingback] Unban 104.237.xxx.xxx
+2017-05-12 12:22:34,613 fail2ban.actions        [1902]: NOTICE  [wordpress-pingback] Restore Ban 104.237.xxx.xxx
+2017-05-12 12:23:19,039 fail2ban.actions        [1902]: NOTICE  [wordpress-pingback] Unban 104.237.xxx.xxx
+2017-05-12 12:23:20,123 fail2ban.actions        [1991]: NOTICE  [wordpress-pingback] Restore Ban 104.237.xxx.xxx
+2017-05-12 14:38:28,392 fail2ban.actions        [1991]: NOTICE  [wordpress-pingback] Unban 104.237.xxx.xxx
+2017-05-12 14:38:29,482 fail2ban.actions        [3662]: NOTICE  [wordpress-pingback] Restore Ban 104.237.xxx.xxx
 ```
 
 Unbanning the IP via fail2ban-client
