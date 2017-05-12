@@ -6,6 +6,7 @@
 # variables
 #############
 DT=`date +"%d%m%y-%H%M%S"`
+FAILBAN_VER='0.10'
 
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
 SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
@@ -50,32 +51,54 @@ fi
 
 install() {
     cd "$DIR_TMP"
-    git clone -b 0.10 https://github.com/fail2ban/fail2ban
+    git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     python setup.py install
-    cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-    cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-    cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+    \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+    \cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+    \cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
 
+    rm -rf /etc/fail2ban/action.d/cloudflare.conf
     wget -O /etc/fail2ban/action.d/cloudflare.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/action.d/cloudflare.conf
+    chmod 0640 /etc/fail2ban/action.d/cloudflare.conf
+
+    rm -rf /etc/fail2ban/action.d/csfdeny.conf
     wget -O /etc/fail2ban/action.d/csfdeny.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/action.d/csfdeny.conf
     
+    rm -rf /etc/fail2ban/filter.d/http-xensec.conf
     wget -O /etc/fail2ban/filter.d/http-xensec.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/http-xensec.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-auth-main.conf
     wget -O /etc/fail2ban/filter.d/nginx-auth-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-auth-main.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-auth.conf
     wget -O /etc/fail2ban/filter.d/nginx-auth.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-auth.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-badrequests.conf
     wget -O /etc/fail2ban/filter.d/nginx-badrequests.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-badrequests.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-botsearch.conf
     wget -O /etc/fail2ban/filter.d/nginx-botsearch.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-botsearch.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-conn-limit.conf
     wget -O /etc/fail2ban/filter.d/nginx-conn-limit.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-conn-limit.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-get-f5.conf
     wget -O /etc/fail2ban/filter.d/nginx-get-f5.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-get-f5.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-req-limit-main.conf
     wget -O /etc/fail2ban/filter.d/nginx-req-limit-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-req-limit-main.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-req-limit.conf
     wget -O /etc/fail2ban/filter.d/nginx-req-limit.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-req-limit.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-w00tw00t.conf
     wget -O /etc/fail2ban/filter.d/nginx-w00tw00t.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-w00tw00t.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-xmlrpc.conf
     wget -O /etc/fail2ban/filter.d/nginx-xmlrpc.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-xmlrpc.conf
+    rm -rf /etc/fail2ban/filter.d/nsd.conf
     wget -O /etc/fail2ban/filter.d/nsd.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nsd.conf
+    rm -rf /etc/fail2ban/filter.d/pure-ftpd.conf
     wget -O /etc/fail2ban/filter.d/pure-ftpd.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/pure-ftpd.conf
+    rm -rf /etc/fail2ban/filter.d/vbulletin.conf
     wget -O /etc/fail2ban/filter.d/vbulletin.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/vbulletin.conf
+    rm -rf /etc/fail2ban/filter.d/wordpress-auth.conf
     wget -O /etc/fail2ban/filter.d/wordpress-auth.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-auth.conf
+    rm -rf /etc/fail2ban/filter.d/wordpress-comment.conf
     wget -O /etc/fail2ban/filter.d/wordpress-comment.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-comment.conf
+    rm -rf /etc/fail2ban/filter.d/wordpress-pingback.conf
     wget -O /etc/fail2ban/filter.d/wordpress-pingback.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-pingback.conf
+    rm -rf /etc/fail2ban/filter.d/wp-login-dict.conf
     wget -O /etc/fail2ban/filter.d/wp-login-dict.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wp-login-dict.conf
     
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" > /etc/fail2ban/jail.local
