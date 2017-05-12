@@ -60,12 +60,18 @@ Status for the jail: wordpress-auth
    `- Banned IP list:
 ```
 
-testing Centmin Mod's centmin.sh menu option 22 auto installed and configured Wordpress Nginx vhost which auto configures nginx level rate limiting on wp-login.php pages
+testing Centmin Mod's `centmin.sh menu option 22` auto installed and configured Wordpress Nginx vhost which auto configures nginx level rate limiting on wp-login.php pages. Connection limit is disabled by default but can be enabled.
+
+`/usr/local/nginx/conf/nginx.conf` level
+
+    limit_req_zone $binary_remote_addr zone=xwplogin:16m rate=40r/m;
+    #limit_conn_zone $binary_remote_addr zone=xwpconlimit:16m;
+
+vhost level `/usr/local/nginx/conf/conf.d/domain.com.conf`
 
     location ~* /(wp-login\.php) {
         limit_req zone=xwplogin burst=1 nodelay;
         #limit_conn xwpconlimit 30;
-
 
 use Siege benchmark tool (auto installed with Centmin Mod LEMP stacks) connection timed out entries are when CSF Firewall banned the IP via `csfdeny.conf` action profile:
 
