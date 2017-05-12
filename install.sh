@@ -49,8 +49,17 @@ fi
 
 ######################################################
 
+pipinstall() {
+if [ ! -f /usr/bin/pip ]; then
+  yum -q -y install python2-pip
+  pip install --upgrade pip
+fi
+}
+
 install() {
     cd "$DIR_TMP"
+    pipinstall
+    pip install pyinotify
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     cd fail2ban
     python setup.py install
