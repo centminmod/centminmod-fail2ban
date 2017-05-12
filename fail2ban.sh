@@ -49,6 +49,15 @@ fi
 
 ######################################################
 
+status() {
+    GETJAILS=$(fail2ban-client status | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | sed 's/,//g')
+    for j in $GETJAILS; do
+    echo "---------------------------------------"
+    fail2ban-client status $j
+    done
+    echo "---------------------------------------"
+}
+
 pipinstall() {
 if [ ! -f /usr/bin/pip ]; then
   yum -q -y install python2-pip
@@ -57,6 +66,10 @@ fi
 }
 
 install() {
+    echo "---------------------------------------"
+    echo "install fail2ban $FAILBAN_VER"
+    echo "---------------------------------------"
+    echo
     cd "$DIR_TMP"
     pipinstall
     pip install pyinotify
@@ -125,14 +138,20 @@ install() {
     echo
     fail2ban-client status
     echo
+    echo "---------------------------------------"
     echo "fail2ban $FAILBAN_VER installed"
+    echo "---------------------------------------"
+    echo
 }
 
 case "$1" in
     install )
         install
         ;;
+    status )
+        status
+        ;;
     * )
-        echo "$0 {install}"
+        echo "$0 {install|status}"
         ;;
 esac
