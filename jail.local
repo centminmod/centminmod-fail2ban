@@ -136,9 +136,23 @@ logpath = /home/nginx/domains/*/log/access.log
 backend  = polling
 journalmatch =
 port = http,https
-bantime = 604800
+bantime = 86400
 maxretry = 1
 findtime = 1
+
+# repeat offender monitor fail2ban log for banned wordpress-pingback
+# entries >5 within 6 hours will be banned for longer 72hr time
+[wordpress-pingback-repeat]
+enabled = true
+filter = wordpress-pingback-repeat
+action = csfdeny[name=wordpress-pingback-repeat]
+#action   = cloudflare
+logpath = /var/log/fail2ban.log
+backend  = polling
+port = http,https
+bantime  = 259200
+maxretry = 5
+findtime = 21600
 
 [vbulletin]
 enabled = true
