@@ -30,6 +30,13 @@ Then
 * copy [filter.d](/filter.d) files to `/etc/fail2ban/filter.d`
 * restart fail2ban `systemctl restart fail2ban` or `fail2ban-client reload`
 
+```
+fail2ban-client status
+Status
+|- Number of jail:      13
+`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-w00tw00t, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-dict, wordpress-pingback
+```
+
 ## notes
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
