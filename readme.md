@@ -189,4 +189,9 @@ Lines: 21 lines, 0 ignored, 21 matched, 0 missed
 
 ```
 
+Unbanning the IP via fail2ban-client
+
+    fail2ban-client unban IPADDR
+
+
 
