@@ -56,6 +56,9 @@ status() {
     fail2ban-client status $j
     done
     echo "---------------------------------------"
+    echo "Banned IP Stats:"
+    awk '/Ban/ {print $NF}' /var/log/fail2ban.log | sort | uniq -c | sort -n
+    echo "---------------------------------------"
 }
 
 pipinstall() {
