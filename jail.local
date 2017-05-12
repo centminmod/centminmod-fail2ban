@@ -128,17 +128,6 @@ bantime = 3600
 maxretry = 5
 findtime = 60
 
-[wordpress-dict]
-enabled = true
-filter = wp-login-dict
-action = csfdeny[name=wordpress-dict]
-#action   = cloudflare
-logpath = /home/nginx/domains/*/log/access.log
-port = http,https
-bantime = 28800
-maxretry = 3
-findtime = 60
-
 [wordpress-pingback]
 enabled = true
 filter = wordpress-pingback
