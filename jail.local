@@ -48,7 +48,7 @@ action = csfdeny[name=nginx-req-limit-main]
 logpath = /usr/local/nginx/logs/*error*.log
 findtime = 600
 bantime = 7200
-maxretry = 10
+maxretry = 5
 
 [nginx-req-limit]
 enabled = true
@@ -58,7 +58,16 @@ action = csfdeny[name=nginx-req-limit]
 logpath = /home/nginx/domains/*/log/error.log
 findtime = 600
 bantime = 7200
-maxretry = 10
+maxretry = 5
+
+[nginx-conn-limit]
+enabled = true
+filter = nginx-conn-limit
+action = csfdeny[name=nginx-req-limit]
+logpath = /home/nginx/domains/*/log/error.log
+findtime = 600
+bantime = 7200
+maxretry = 5
 
 [nginx-botsearch]
 enabled = true
