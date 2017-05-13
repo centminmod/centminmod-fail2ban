@@ -59,6 +59,16 @@ findtime = 600
 bantime = 7200
 maxretry = 5
 
+# repeat offender monitor fail2ban log for banned nginx-req-limit
+# entries >5 within 6 hours will be banned for longer 72hr time
+[nginx-req-limit-repeat]
+enabled = true
+filter = nginx-req-limit-repeat
+logpath = /var/log/fail2ban.log
+bantime  = 259200
+maxretry = 5
+findtime = 21600
+
 [nginx-conn-limit]
 enabled = true
 filter = nginx-conn-limit

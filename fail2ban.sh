@@ -123,6 +123,8 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/nginx-req-limit-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-req-limit-main.conf
     rm -rf /etc/fail2ban/filter.d/nginx-req-limit.conf
     wget -cnv -O /etc/fail2ban/filter.d/nginx-req-limit.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-req-limit.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-req-limit-repeat.conf
+    wget -cnv -O /etc/fail2ban/filter.d/nginx-req-limit-repeat.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-req-limit-repeat.conf
     rm -rf /etc/fail2ban/filter.d/nginx-w00tw00t.conf
     wget -cnv -O /etc/fail2ban/filter.d/nginx-w00tw00t.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-w00tw00t.conf
     rm -rf /etc/fail2ban/filter.d/nginx-xmlrpc.conf
