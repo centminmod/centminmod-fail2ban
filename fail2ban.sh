@@ -117,6 +117,11 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/nginx-auth-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-auth-main.conf
     rm -rf /etc/fail2ban/filter.d/nginx-auth.conf
     wget -cnv -O /etc/fail2ban/filter.d/nginx-auth.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-auth.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-401.conf    wget -cnv -O /etc/fail2ban/filter.d/nginx-401.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-401.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-403.conf
+    wget -cnv -O /etc/fail2ban/filter.d/nginx-403.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-403.conf
+    rm -rf /etc/fail2ban/filter.d/nginx-404.conf
+    wget -cnv -O /etc/fail2ban/filter.d/nginx-404.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-404.conf
     rm -rf /etc/fail2ban/filter.d/nginx-badrequests.conf
     wget -cnv -O /etc/fail2ban/filter.d/nginx-badrequests.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/nginx-badrequests.conf
     rm -rf /etc/fail2ban/filter.d/nginx-botsearch.conf

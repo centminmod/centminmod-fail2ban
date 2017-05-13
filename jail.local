@@ -108,6 +108,36 @@ port = http,https
 maxretry = 6
 findtime = 60
 
+[nginx-401]
+enabled = false
+filter  = nginx-401
+action = csfdeny[name=nginx-401]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 10
+findtime = 60
+
+[nginx-403]
+enabled = false
+filter  = nginx-403
+action = csfdeny[name=nginx-403]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 10
+findtime = 60
+
+[nginx-404]
+enabled = false
+filter  = nginx-404
+action = csfdeny[name=nginx-404]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 10
+findtime = 60
+
 #[nginx-w00tw00t]
 #enabled = true
 #filter = nginx-w00tw00t
