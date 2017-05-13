@@ -426,6 +426,20 @@ I edited `/etc/fail2ban/jail.local` jail for `nginx-req-limit` and commented out
     bantime = 7200
     maxretry = 5
 
+Then edited `action.d/cloudflare.conf` and filled in `cfuser` and `cftoken` variables with Cloudflare account email and API Key which you can find in your [My Account](https://www.cloudflare.com/a/account/my-account) area restart fail2ban service for good measure.
+
+    [Init]
+    # Option: cfuser
+    # Notes.: Replaces <cfuser> in actionban and actionunban with cfuser value below
+    # Values: Your CloudFlare user account
+    
+    cfuser = put-your-cloudflare-email-here
+    
+    # Option: cftoken
+    # Notes.: Replaces <cftoken> in actionban and actionunban with cftoken value below
+    # Values: Your CloudFlare API key can be found here https://www.cloudflare.com/a/account/my-account
+    cftoken = put-your-API-key-here
+
 Ran Siege load testing again from separate server againt `wp-login.php` to trigger a fail2ban action to Cloudflare's v4 API
 
     siege -b -c3 -r10 http://domain.com/wp-login.php
