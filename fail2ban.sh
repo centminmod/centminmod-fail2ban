@@ -74,6 +74,12 @@ status() {
     echo "Today: Top 10 Restored Banned IP Addresses:"
     zgrep -h "Restore Ban " /var/log/fail2ban.log* | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     echo "---------------------------------------"
+    echo "1 hr ago: Top 10 Banned IP Addresses:"
+    zgrep -h "] Ban " /var/log/fail2ban.log* | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
+    echo "---------------------------------------"
+    echo "1 hr ago: Top 10 Restored Banned IP Addresses:"
+    zgrep -h "Restore Ban " /var/log/fail2ban.log* | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
+    echo "---------------------------------------"
 }
 
 pipinstall() {
