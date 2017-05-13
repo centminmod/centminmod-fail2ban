@@ -557,6 +557,20 @@ Checking Cloudflare's Firewall Access Rules for fail2ban inserted IP address sta
 
 ![](/screenshots/cloudflare-api/cloudflare-firewall-access-rules-01.png)
 
+Test curl access from blocked server for `wp-login.php` url link gives 403 forbidden meaning access is blocked at Cloudflare Firewall level
+
+    curl -I http://domain.com/wp-login.php 
+    HTTP/1.1 403 Forbidden
+    Date: Sat, 13 May 2017 05:22:01 GMT
+    Content-Type: text/html; charset=UTF-8
+    Connection: keep-alive
+    Set-Cookie: __cfduid=d34a309e3527a91971491fc853424dbca1494652921; expires=Sun, 13-May-18 05:22:01 GMT; path=/; domain=.domain.com; HttpOnly
+    Cache-Control: max-age=15
+    Expires: Sat, 13 May 2017 05:22:16 GMT
+    X-Frame-Options: SAMEORIGIN
+    Server: cloudflare-nginx
+    CF-RAY: 35e32d7813e63f95-YUL
+
 Unbanning the ip from Cloudflare's Firewall Access Rules is same as before
 
     fail2ban-client unban 149.xxx.xxx.xxx
