@@ -2,12 +2,22 @@
 
 fail2ban 0.10+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
 
+Info & Manuals
+
 * https://github.com/fail2ban/fail2ban
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
 * https://github.com/fail2ban/fail2ban/wiki/Troubleshooting
 * [fail2ban 0.10 change log](https://github.com/fail2ban/fail2ban/blob/0.10/ChangeLog)
 
-## fail2ban installation for CentOS 7.x Only
+Contents
+
+* [fail2ban installation for CentOS 7 Only](fail2ban-installation-for-centos-7-only)
+* [notes](notes)
+* [examples](examples)
+* [fail2ban.sh](fail2ban.sh)
+* [Cloudflare v4 API](cloudflare-v4-api)
+
+## fail2ban installation for CentOS 7 Only
 
     USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
     SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
@@ -37,7 +47,7 @@ Then
 
 * currently this configuration is a work in progress, so not fully tested. Use at your own risk
 * centmin mod buffers access log writes to Nginx in memory with directives `main_ext buffer=256k flush=60m` and custom log format called `main_ext`, so for fail2ban to work optimally, you would need to disable access log memory buffering and revert to nginx default log format by removing those three directives from your Nginx vhost config file's `access_log` line. So `access_log /home/nginx/domains/domain.com/log/access.log main_ext buffer=256k flush=60m;` becomes `access_log /home/nginx/domains/domain.com/log/access.log;` and restart Nginx
-* if switching from CSF Firewall to Cloudflare API action from `action.d/cloudflare.conf`, ensure Centmin Mod 123.09beta01 branch Nginx vhosts are setup with proper real IP detection and Cloudflare IP whitelisting. You can use [tools/csfcf.sh](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/) script to automate the Cloudflare Nginx configuration and Cloudflare IP whitelisting management outlined [here](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/). You can setup a cronjob to run the script in auto mode `/usr/local/src/centminmod/tools/csfcf.sh auto`.This ensures visitor's real IP address is passed on in your server logs which fail2ban reads.
+* if switching from CSF Firewall to Cloudflare API action from `action.d/cloudflare.conf`. Ensure Centmin Mod 123.09beta01 branch Nginx vhosts are setup with proper real IP detection and Cloudflare IP whitelisting. You can use [tools/csfcf.sh](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/) script to automate the Cloudflare Nginx configuration and Cloudflare IP whitelisting management outlined [here](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/). You can setup a cronjob to run the script in auto mode `/usr/local/src/centminmod/tools/csfcf.sh auto`.This ensures visitor's real IP address is passed on in your server logs which fail2ban reads.
 * default `action.d/csfdeny.conf` ban option is to use `csf -d` to permanentaly block ip. Though temp block would be more appropriate:
 
 ```
@@ -398,4 +408,126 @@ fail2ban.sh status output
           5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
 
+## Cloudflare v4 API
 
+Switching from local CSF Firewall action bans to Cloudflare v4 API based action bans for sites behind Cloudflare requires using the `action.d/cloudflare.conf`. Ensure Centmin Mod 123.09beta01 branch Nginx vhosts are setup with proper real IP detection and Cloudflare IP whitelisting. You can use [tools/csfcf.sh](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/) script to automate the Cloudflare Nginx configuration and Cloudflare IP whitelisting management outlined [here](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/). You can setup a cronjob to run the script in auto mode `/usr/local/src/centminmod/tools/csfcf.sh auto`.This ensures visitor's real IP address is passed on in your server logs which fail2ban reads.
+
+Below example is testing Nginx rate limiting with Centmin Mod 123.09beta01's auto installed Wordpress install which out of box uses Nginx level rate limiting for access to commonly targetted urls like `wp-login.php`
+
+I edited `/etc/fail2ban/jail.local` jail for `nginx-req-limit` and commented out the default `csfdeny` action and uncommented the `cloudflare` action and restarted fail2ban service.
+
+    [nginx-req-limit]
+    enabled = true
+    filter = nginx-req-limit
+    #action = csfdeny[name=nginx-req-limit]
+    action   = cloudflare
+    logpath = /home/nginx/domains/*/log/error.log
+    findtime = 600
+    bantime = 7200
+    maxretry = 5
+
+Ran Siege load testing again from separate server againt `wp-login.php` to trigger a fail2ban action to Cloudflare's v4 API
+
+    siege -b -c3 -r10 http://domain.com/wp-login.php
+    ** SIEGE 4.0.2
+    ** Preparing 3 concurrent users for battle.
+    The server is now under siege...
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.58 secs:    7067 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.66 secs:    7066 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    HTTP/1.1 503     0.65 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.46 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.53 secs:    7066 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.93 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    HTTP/1.1 503     0.60 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.52 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.45 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.45 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.48 secs:    7066 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    HTTP/1.1 503     0.93 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.48 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.46 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.51 secs:    7066 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.45 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.45 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    HTTP/1.1 503     0.54 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.53 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 503     0.47 secs:    1665 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.51 secs:    7066 bytes ==> GET  /wp-login.php
+    HTTP/1.1 200     0.94 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+    
+    Transactions:                     12 hits
+    Availability:                  33.33 %
+    Elapsed time:                   7.82 secs
+    Data transferred:               0.65 MB
+    Response time:                  1.75 secs
+    Transaction rate:               1.53 trans/sec
+    Throughput:                     0.08 MB/sec
+    Concurrency:                    2.69
+    Successful transactions:          12
+    Failed transactions:              24
+    Longest transaction:            0.94
+    Shortest transaction:           0.45
+
+Checking the `nginx-req-limit` filter status and regex
+
+filter status
+
+    fail2ban-client status nginx-req-limit                                                                             
+    Status for the jail: nginx-req-limit
+    |- Filter
+    |  |- Currently failed: 1
+    |  |- Total failed:     24
+    |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
+    `- Actions
+      |- Currently banned: 1
+      |- Total banned:     1
+      `- Banned IP list:   IPADDR
+
+regex
+
+    fail2ban-regex /home/nginx/domains/domain.com/log/error.log /etc/fail2ban/filter.d/nginx-req-limit.conf
+    
+    Running tests
+    =============
+    
+    Use   failregex filter file : nginx-req-limit, basedir: /etc/fail2ban
+    Use      datepattern : Default Detectors
+    Use         log file : /home/nginx/domains/domain.com/log/error.log
+    Use         encoding : UTF-8
+    
+    
+    Results
+    =======
+    
+    Failregex: 92 total
+    |-  #) [# of hits] regular expression
+    |   1) [92] ^\s*\[error\] \d+#\d+: \*\d+ limiting requests, excess: [\d\.]+ by zone "(?:[^"]+)", client: <HOST>,
+    `-
+    
+    Ignoreregex: 0 total
+    
+    Date template hits:
+    |- [# of hits] date format
+    |  [92] {^LN-BEG}ExYear(?P<_sep>[-/.])Month(?P=_sep)Day[T ]24hour:Minute:Second(?:[.,]Microseconds)?(?:\s*Zone offset)?
+    `-
+    
+    Lines: 92 lines, 0 ignored, 92 matched, 0 missed
+    [processed in 0.02 sec]
+
+Checking Cloudflare's Firewall Access Rules for fail2ban inserted IP address starting with 149.xxx.xxx.xxx which is remote server I launced the Siege load test from
+
+![](/screenshots/cloudflare-api/cloudflare-firewall-access-rules-01.png)
