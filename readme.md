@@ -414,6 +414,17 @@ Switching from local CSF Firewall action bans to Cloudflare v4 API based action 
 
 Below example is testing Nginx rate limiting with Centmin Mod 123.09beta01's auto installed Wordpress install which out of box uses Nginx level rate limiting for access to commonly targetted urls like `wp-login.php`
 
+`/usr/local/nginx/conf/nginx.conf` level
+
+    limit_req_zone $binary_remote_addr zone=xwplogin:16m rate=40r/m;
+    #limit_conn_zone $binary_remote_addr zone=xwpconlimit:16m;
+
+vhost level `/usr/local/nginx/conf/conf.d/domain.com.conf`
+
+    location ~* /(wp-login\.php) {
+        limit_req zone=xwplogin burst=1 nodelay;
+        #limit_conn xwpconlimit 30;
+
 I edited `/etc/fail2ban/jail.local` jail for `nginx-req-limit` and commented out the default `csfdeny` action and uncommented the `cloudflare` action and restarted fail2ban service.
 
     [nginx-req-limit]
