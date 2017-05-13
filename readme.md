@@ -13,7 +13,7 @@
 
 * [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
 * [notes](#notes)
-* [examples](#examples) - [wordpress-auth filter status](#wordpress-auth-filter-status) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
+* [examples](#examples) - [wordpress-auth filter status](#wordpress-auth-filter-action & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
 
@@ -67,7 +67,7 @@ Status
 `- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-req-limit-repeat, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-pingback, wordpress-pingback-repeat
 ```
 
-### wordpress-auth filter status
+### wordpress-auth filter action
 
 Lets test Wordpress failed login filter `wordpress-auth` with fail2ban and CSF Firewall. The default `jail.local` config for `wordpress-auth`
 
