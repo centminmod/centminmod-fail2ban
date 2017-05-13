@@ -148,6 +148,15 @@ findtime = 60
 #maxretry = 1
 #bantime  = 86400
 
+[phpmyadmin-cmm]
+enabled = false
+filter = phpmyadmin-cmm
+logpath = /var/log/nginx/localhost_ssl.access.log
+port = http,https
+bantime = 3600
+maxretry = 5
+findtime = 60
+
 [wordpress-auth]
 enabled = true
 filter = wordpress-auth
