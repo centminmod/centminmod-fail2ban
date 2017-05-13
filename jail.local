@@ -171,21 +171,19 @@ bantime = 28800
 maxretry = 3
 findtime = 60
 
-[xenforo-sec]
+[http-xensec]
 enabled = false
 port = http,https
 filter = http-xensec
 logpath = /home/nginx/domains/*/log/access.log
 #number of occurances
-maxretry = 3
-#find duration 1 day in seconds
-findtime = 86400 
+maxretry = 5
+findtime = 60
 #ban for 5 days (in seconds)
 bantime = 432000 
-action = csfdeny[name=xenforo-sec]
+action = csfdeny[name=http-xensec]
 #action   = cloudflare
-sendmail-whois[name=XenSec, dest=root]
-ignoreip = 127.0.0.0/8
+#sendmail-whois[name=XenSec, dest=root]
 
 #[pure-ftpd]
 #port     = ftp,ftp-data,ftps,ftps-data
