@@ -13,7 +13,7 @@
 
 * [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
 * [notes](#notes)
-* [examples](#examples)
+* [examples](#examples) - [wordpress-auth filter status](#wordpress-auth-filter-status) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
 
@@ -67,20 +67,99 @@ Status
 `- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-req-limit-repeat, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-pingback, wordpress-pingback-repeat
 ```
 
-wordpress-auth filter status
+### wordpress-auth filter status
+
+Lets test Wordpress failed login filter `wordpress-auth` with fail2ban and CSF Firewall. The default `jail.local` config for `wordpress-auth`
+
+    [wordpress-auth]
+    enabled = true
+    filter = wordpress-auth
+    action = csfdeny[name=wordpress-auth]
+    #action   = cloudflare
+    logpath = /home/nginx/domains/*/log/access.log
+    port = http,https
+    maxretry = 3
+    findtime = 60
+
+Launching a Siege run with POST request for dummy username and passwords.
 
 ```
-fail2ban-client status wordpress-auth                 
+siege -b -c1 -r5 "http://domain.com/wp-login.php POST user_login=admintest&user_pass=passtest" 
+** SIEGE 4.0.2
+** Preparing 1 concurrent users for battle.
+The server is now under siege...
+HTTP/1.1 200     0.53 secs:    7066 bytes ==> POST http://domain.com/wp-login.php
+HTTP/1.1 200     0.71 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 200     0.50 secs:    7066 bytes ==> POST http://domain.com/wp-login.php
+HTTP/1.1 200     0.73 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 200     0.50 secs:    7066 bytes ==> POST http://domain.com/wp-login.php
+HTTP/1.1 200     0.72 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 200     0.50 secs:    7066 bytes ==> POST http://domain.com/wp-login.php
+HTTP/1.1 200     1.16 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+HTTP/1.1 200     0.27 secs:    7066 bytes ==> POST http://domain.com/wp-login.php
+HTTP/1.1 200     0.73 secs:  100250 bytes ==> GET  /wp-admin/load-styles.php?c=0&dir=ltr&load%5B%5D=dashicons,buttons,forms,l10n,login&ver=4.7.4
+
+Transactions:                     10 hits
+Availability:                 100.00 %
+Elapsed time:                   6.35 secs
+Data transferred:               0.51 MB
+Response time:                  0.63 secs
+Transaction rate:               1.57 trans/sec
+Throughput:                     0.08 MB/sec
+Concurrency:                    1.00
+Successful transactions:          10
+Failed transactions:               0
+Longest transaction:            1.16
+Shortest transaction:           0.27
+```
+
+check fail2ban log for `wordpress-auth` entries
+
+```
+tail -50 /var/log/fail2ban.log | grep wordpress-auth
+2017-05-13 06:14:14,216 fail2ban.jail           [12969]: INFO    Jail 'wordpress-auth' started
+2017-05-13 07:07:16,433 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:07:16
+2017-05-13 07:08:06,916 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:06
+2017-05-13 07:08:08,127 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:08
+2017-05-13 07:08:08,459 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] Ban 149.xxx.xxx.xxx
+2017-05-13 07:08:09,365 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:09
+2017-05-13 07:08:10,578 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:10
+2017-05-13 07:08:12,005 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:11
+2017-05-13 07:08:12,132 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] 149.xxx.xxx.xxx already banned
+```
+
+check CSF Firewall grep the banned ip 149.xxx.xxx.xxx - notice the note for `Added by Fail2Ban for wordpress-auth`
+
+```
+csf -g 149.xxx.xxx.xxx                                         
+
+Chain            num   pkts bytes target     prot opt in     out     source               destination         
+No matches found for 149.xxx.xxx.xxx in iptables
+
+
+IPSET: Set:chain_DENY Match:149.xxx.xxx.xxx Setting: File:/etc/csf/csf.deny
+
+csf.deny: 149.xxx.xxx.xxx # Added by Fail2Ban for wordpress-auth - Sat May 13 07:08:08 2017
+```
+
+check the `wordpress-auth` jail status
+
+```
+fail2ban-client status wordpress-auth
 Status for the jail: wordpress-auth
 |- Filter
 |  |- Currently failed: 0
-|  |- Total failed:     0
+|  |- Total failed:     7
 |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
 `- Actions
-   |- Currently banned: 0
-   |- Total banned:     0
-   `- Banned IP list:
+   |- Currently banned: 1
+   |- Total banned:     1
+   `- Banned IP list:   149.xxx.xxx.xxx
 ```
+
+### nginx-req-limit filter action
+
+`nginx-req-limit` filter action
 
 testing Centmin Mod's `centmin.sh menu option 22` auto installed and configured Wordpress Nginx vhost which auto configures nginx level rate limiting on wp-login.php pages. Connection limit is disabled by default but can be enabled.
 
