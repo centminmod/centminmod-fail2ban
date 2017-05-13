@@ -531,3 +531,7 @@ regex
 Checking Cloudflare's Firewall Access Rules for fail2ban inserted IP address starting with 149.xxx.xxx.xxx which is remote server I launced the Siege load test from
 
 ![](/screenshots/cloudflare-api/cloudflare-firewall-access-rules-01.png)
+
+Unbanning the ip from Cloudflare's Firewall Access Rules is same as before
+
+    fail2ban-client unban 149.xxx.xxx.xxx
