@@ -11,11 +11,11 @@ Info & Manuals
 
 Contents
 
-* [fail2ban installation for CentOS 7 Only](fail2ban-installation-for-centos-7-only)
-* [notes](notes)
-* [examples](examples)
-* [fail2ban.sh](fail2ban.sh)
-* [Cloudflare v4 API](cloudflare-v4-api)
+* [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
+* [notes](#notes)
+* [examples](#examples)
+* [fail2ban.sh](#fail2bansh)
+* [Cloudflare v4 API](#cloudflare-v4-api)
 
 ## fail2ban installation for CentOS 7 Only
 
