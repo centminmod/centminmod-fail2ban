@@ -13,7 +13,7 @@
 
 * [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
 * [notes](#notes)
-* [examples](#examples) - [wordpress-auth filter status](#wordpress-auth-filter-action & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
+* [examples](#examples) - [wordpress-auth filter status](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
 
