@@ -667,6 +667,16 @@ fail2ban.sh status after latest test
 
     ./fail2ban.sh status
     ---------------------------------------
+    Status for the jail: http-xensec
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     21
+    |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
+    `- Actions
+      |- Currently banned: 1
+      |- Total banned:     2
+      `- Banned IP list:   149.xxx.xxx.xxx
+    ---------------------------------------
     Status for the jail: nginx-auth
     |- Filter
     |  |- Currently failed: 0
@@ -709,8 +719,8 @@ fail2ban.sh status after latest test
     ---------------------------------------
     Status for the jail: nginx-get-f5
     |- Filter
-    |  |- Currently failed: 0
-    |  |- Total failed:     36
+    |  |- Currently failed: 1
+    |  |- Total failed:     42
     |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
     `- Actions
       |- Currently banned: 0
@@ -720,7 +730,7 @@ fail2ban.sh status after latest test
     Status for the jail: nginx-req-limit
     |- Filter
     |  |- Currently failed: 1
-    |  |- Total failed:     24
+    |  |- Total failed:     31
     |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
     `- Actions
       |- Currently banned: 1
@@ -732,6 +742,16 @@ fail2ban.sh status after latest test
     |  |- Currently failed: 0
     |  |- Total failed:     0
     |  `- File list:        /usr/local/nginx/logs/error.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    Status for the jail: nginx-req-limit-repeat
+    |- Filter
+    |  |- Currently failed: 1
+    |  |- Total failed:     1
+    |  `- File list:        /var/log/fail2ban.log
     `- Actions
       |- Currently banned: 0
       |- Total banned:     0
@@ -760,12 +780,12 @@ fail2ban.sh status after latest test
     Status for the jail: wordpress-auth
     |- Filter
     |  |- Currently failed: 0
-    |  |- Total failed:     0
+    |  |- Total failed:     5
     |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
     `- Actions
-      |- Currently banned: 0
-      |- Total banned:     0
-      `- Banned IP list:
+      |- Currently banned: 1
+      |- Total banned:     1
+      `- Banned IP list:   149.xxx.xxx.xxx
     ---------------------------------------
     Status for the jail: wordpress-comment
     |- Filter
@@ -783,9 +803,9 @@ fail2ban.sh status after latest test
     |  |- Total failed:     0
     |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
     `- Actions
-      |- Currently banned: 1
+      |- Currently banned: 0
       |- Total banned:     1
-      `- Banned IP list:   104.237.xxx.xxx
+      `- Banned IP list:
     ---------------------------------------
     Status for the jail: wordpress-pingback-repeat
     |- Filter
@@ -798,10 +818,10 @@ fail2ban.sh status after latest test
       `- Banned IP list:
     ---------------------------------------
     All Time: Top 10 Banned IP Addresses:
-          3 149.xxx.xxx.xxx [nginx-req-limit]
+          4 149.xxx.xxx.xxx [nginx-req-limit]
+          2 149.xxx.xxx.xxx [wordpress-auth]
           2 149.xxx.xxx.xxx [http-xensec]
           2 104.237.xxx.xxx [wordpress-pingback]
-          1 149.xxx.xxx.xxx [wordpress-auth]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
          16 104.237.xxx.xxx [wordpress-pingback]
@@ -814,9 +834,9 @@ fail2ban.sh status after latest test
           5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:
-          3 149.xxx.xxx.xxx [nginx-req-limit]
+          4 149.xxx.xxx.xxx [nginx-req-limit]
+          2 149.xxx.xxx.xxx [wordpress-auth]
           2 149.xxx.xxx.xxx [http-xensec]
-          1 149.xxx.xxx.xxx [wordpress-auth]
           1 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Restored Banned IP Addresses:
