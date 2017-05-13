@@ -2,14 +2,14 @@
 
 fail2ban 0.10+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
 
-Info & Manuals
+**Info & Manuals**
 
 * https://github.com/fail2ban/fail2ban
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
 * https://github.com/fail2ban/fail2ban/wiki/Troubleshooting
 * [fail2ban 0.10 change log](https://github.com/fail2ban/fail2ban/blob/0.10/ChangeLog)
 
-Contents
+**Contents**
 
 * [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
 * [notes](#notes)
