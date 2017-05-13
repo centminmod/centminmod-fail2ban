@@ -62,6 +62,12 @@ status() {
     echo "All Time: Top 10 Restored Banned IP Addresses:"
     zgrep -h "Restore Ban " /var/log/fail2ban.log* | awk '{print $NF, $6}' | sort | uniq -c | sort -n | tail -10
     echo "---------------------------------------"
+    echo "Yesterday: Top 10 Banned IP Addresses:"
+    zgrep -h "] Ban " /var/log/fail2ban.log* | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -n | tail -10
+    echo "---------------------------------------"
+    echo "Yesterday: Top 10 Restored Banned IP Addresses:"
+    zgrep -h "Restore Ban " /var/log/fail2ban.log* | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -n | tail -10
+    echo "---------------------------------------"
     echo "Today: Top 10 Banned IP Addresses:"
     zgrep -h "] Ban " /var/log/fail2ban.log* | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -n | tail -10
     echo "---------------------------------------"

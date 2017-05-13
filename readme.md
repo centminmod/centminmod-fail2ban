@@ -437,7 +437,7 @@ I edited `/etc/fail2ban/jail.local` jail for `nginx-req-limit` and commented out
     bantime = 7200
     maxretry = 5
 
-Then edited `action.d/cloudflare.conf` and filled in `cfuser` and `cftoken` variables with Cloudflare account email and API Key which you can find in your [My Account](https://www.cloudflare.com/a/account/my-account) area restart fail2ban service for good measure.
+Then edited `action.d/cloudflare.conf` and filled in `cfuser` and `cftoken` variables with Cloudflare account email and API Key which you can find in your [My Account](https://www.cloudflare.com/a/account/my-account) area. Restart fail2ban service for good measure.
 
     [Init]
     # Option: cfuser
@@ -702,6 +702,12 @@ fail2ban.sh status after latest test
     All Time: Top 10 Restored Banned IP Addresses:
           2 149.xxx.xxx.xxx [nginx-req-limit]
         11 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Yesterday: Top 10 Banned IP Addresses:
+          1 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Yesterday: Top 10 Restored Banned IP Addresses:
+          5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:
           2 149.xxx.xxx.xxx [nginx-req-limit]
