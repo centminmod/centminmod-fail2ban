@@ -798,12 +798,12 @@ fail2ban.sh status after latest test
       `- Banned IP list:
     ---------------------------------------
     All Time: Top 10 Banned IP Addresses:
-          1 104.237.xxx.xxx [wordpress-pingback]
           2 149.xxx.xxx.xxx [nginx-req-limit]
+          1 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
-          2 149.xxx.xxx.xxx [nginx-req-limit]
         11 104.237.xxx.xxx [wordpress-pingback]
+          2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Yesterday: Top 10 Banned IP Addresses:
           1 104.237.xxx.xxx [wordpress-pingback]
@@ -815,6 +815,6 @@ fail2ban.sh status after latest test
           2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Today: Top 10 Restored Banned IP Addresses:
-          2 149.xxx.xxx.xxx [nginx-req-limit]
           6 104.237.xxx.xxx [wordpress-pingback]
+          2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
