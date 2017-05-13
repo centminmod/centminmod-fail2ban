@@ -507,6 +507,15 @@ Ran Siege load testing again from separate server againt `wp-login.php` to trigg
     Longest transaction:            0.94
     Shortest transaction:           0.45
 
+Checking fail2ban log for `149.xxx.xxx.xxx`
+
+    grep '149.xxx.xxx.xxx' /var/log/fail2ban.log | grep ' Ban '
+    2017-05-13 03:59:42,227 fail2ban.actions        [11201]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
+    2017-05-13 04:02:04,713 fail2ban.actions        [11393]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
+    2017-05-13 04:03:46,051 fail2ban.actions        [11524]: NOTICE  [nginx-req-limit] Restore Ban 149.xxx.xxx.xxx
+    2017-05-13 04:05:30,268 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Restore Ban 149.xxx.xxx.xxx
+    2017-05-13 05:14:03,388 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
+
 Checking the `nginx-req-limit` filter status and regex
 
 filter status
