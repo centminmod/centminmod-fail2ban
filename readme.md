@@ -385,7 +385,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
     ---------------------------------------
     nginx-common parameters: 
     maxretry: 1 findtime: 600 bantime 604800
-    allow rate: 0 hits/day
+    allow rate: 144 hits/day
     Status for the jail: nginx-common
     |- Filter
     |  |- Currently failed: 0
