@@ -60,7 +60,11 @@ status() {
     if [[ "$MAXRETRY" -eq '1' && "$FINDTIME" -eq '1' ]]; then
         ALLOWRATE=1
     else
-        ALLOWMAX=$(($MAXRETRY-1))
+        if [[ "$MAXRETRY" -eq '1' ]]; then
+            ALLOWMAX=1
+        else
+            ALLOWMAX=$(($MAXRETRY-1))
+        fi
         ALLOWRATE=$(((86400/$FINDTIME) * $ALLOWMAX))
     fi
     echo "$j parameters: "
