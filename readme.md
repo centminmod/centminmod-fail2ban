@@ -559,7 +559,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
           2 149.xxx.xxx.xxx [http-xensec]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
-        25 104.237.xxx.xxx [wordpress-pingback]
+         25 104.237.xxx.xxx [wordpress-pingback]
           2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Yesterday: Top 10 Banned IP Addresses:
@@ -569,7 +569,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
           2 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Yesterday: Top 10 Restored Banned IP Addresses:
-        12 104.237.xxx.xxx [wordpress-pingback]
+         12 104.237.xxx.xxx [wordpress-pingback]
           2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:

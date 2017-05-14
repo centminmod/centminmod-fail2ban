@@ -188,6 +188,8 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/magento.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/magento.conf
     rm -rf /etc/fail2ban/filter.d/wordpress-fail2ban-plugin.conf
     wget -cnv -O /etc/fail2ban/filter.d/wordpress-fail2ban-plugin.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-fail2ban-plugin.conf
+    rm -rf /etc/fail2ban/filter.d/shells.conf
+    wget -cnv -O /etc/fail2ban/filter.d/shells.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/shells.conf
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
