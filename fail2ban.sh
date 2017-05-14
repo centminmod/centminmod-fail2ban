@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.1
+VER=0.2
 DT=`date +"%d%m%y-%H%M%S"`
 FAILBAN_VER='0.10'
 
@@ -101,9 +101,13 @@ install() {
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     cd fail2ban
     python setup.py install
-    \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-    \cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-    \cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+    if [[ "$CENTOS_SEVEN" = '7' ]]; then
+        \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+        \cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+        \cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+    else
+        \cp -f /svr-setup/fail2ban/files/redhat-initd /etc/init.d/fail2ban
+    fi
 
     rm -rf /etc/fail2ban/action.d/cloudflare.conf
     wget -cnv -O /etc/fail2ban/action.d/cloudflare.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/action.d/cloudflare.conf
@@ -175,12 +179,20 @@ install() {
     cat /etc/fail2ban/jail.local.download >> /etc/fail2ban/jail.local
     rm -rf /etc/fail2ban/jail.local.download
 
-    systemctl daemon-reload
-    systemctl stop fail2ban
-    systemctl start fail2ban
-    systemctl enable fail2ban
-    echo
-    systemctl status fail2ban
+    if [[ "$CENTOS_SEVEN" = '7' ]]; then
+        systemctl daemon-reload
+        systemctl stop fail2ban
+        systemctl start fail2ban
+        systemctl enable fail2ban
+        echo
+        systemctl status fail2ban
+    else
+        service fail2ban stop 
+        service fail2ban start 
+        chkconfig fail2ban on
+        echo
+        service fail2ban status 
+    fi
     echo
     sleep 5
     fail2ban-client status
