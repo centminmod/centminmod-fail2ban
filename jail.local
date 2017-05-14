@@ -246,6 +246,18 @@ bantime = 28800
 maxretry = 3
 findtime = 60
 
+[shells]
+enabled = true
+filter = shells
+action = csfdeny[name=shells]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+          /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/localhost_ssl.access.log
+bantime = 604800
+maxretry = 1
+findtime = 86400
+
 [http-xensec]
 enabled = false
 port = http,https
@@ -284,18 +296,6 @@ port = http,https
 maxretry = 5
 bantime = 7200
 findtime = 60
-
-[shells]
-enabled = true
-filter = shells
-action = csfdeny[name=shells]
-#action   = cloudflare
-logpath = /home/nginx/domains/*/log/access.log
-          /usr/local/nginx/logs/*access*.log
-          /var/log/nginx/localhost_ssl.access.log
-bantime = 604800
-maxretry = 1
-findtime = 86400
 
 #[pure-ftpd]
 #port     = ftp,ftp-data,ftps,ftps-data
