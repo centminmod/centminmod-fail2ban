@@ -51,7 +51,7 @@ logpath = /home/nginx/domains/*/log/access.log
           /var/log/nginx/localhost_ssl.access.log
 bantime = 604800
 maxretry = 1
-findtime = 3600
+findtime = 43200
 
 [nginx-req-limit-main]
 enabled = true
