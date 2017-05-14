@@ -530,7 +530,7 @@ Then edited `action.d/cloudflare.conf` and filled in `cfuser` and `cftoken` vari
     # Values: Your CloudFlare API key can be found here https://www.cloudflare.com/a/account/my-account
     cftoken = put-your-API-key-here
 
-Ran Siege load testing again from separate server againt `wp-login.php` to trigger a fail2ban action to Cloudflare's v4 API
+Ran Siege load testing again from separate server against `wp-login.php` to trigger a fail2ban action to Cloudflare's v4 API
 
     siege -b -c3 -r10 http://domain.com/wp-login.php
     ** SIEGE 4.0.2
@@ -849,3 +849,5 @@ fail2ban.sh status after latest test
     1 hr ago: Top 10 Restored Banned IP Addresses:
           5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
+
+The `fail2ban.sh status` command lists each fail2ban jail's status as well as the top 10 IP address occurences in banned IPs or restored banned IPs for All Time, Yesterday, Today and the past 1hr.
