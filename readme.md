@@ -340,20 +340,26 @@ Usage options
     ./fail2ban.sh
     ./fail2ban.sh {install|status}
 
-fail2ban.sh status output
+fail2ban.sh status output now includes each jail's parameters for maxretry, findtime, bantime as well as calculated per day hit rate allowed based on those parameters.
 
-    ./fail2ban.sh status 
+    ./fail2ban.sh status
     ---------------------------------------
+    nginx-auth parameters: 
+    maxretry: 3 findtime: 600 bantime 3600
+    allow rate: 288 hits/day
     Status for the jail: nginx-auth
     |- Filter
     |  |- Currently failed: 0
     |  |- Total failed:     0
-    |  `- File list:        /var/log/nginx/localhost.error.log /var/log/nginx/localhost_ssl.error.log
+    |  `- File list:        /home/nginx/domains/domain.com/log/error.log /home/nginx/domains/demodomain.com/log/error.log
     `- Actions
       |- Currently banned: 0
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-auth-main parameters: 
+    maxretry: 3 findtime: 600 bantime 3600
+    allow rate: 288 hits/day
     Status for the jail: nginx-auth-main
     |- Filter
     |  |- Currently failed: 0
@@ -364,6 +370,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-botsearch parameters: 
+    maxretry: 2 findtime: 600 bantime 600
+    allow rate: 144 hits/day
     Status for the jail: nginx-botsearch
     |- Filter
     |  |- Currently failed: 0
@@ -374,6 +383,22 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-common parameters: 
+    maxretry: 1 findtime: 600 bantime 604800
+    allow rate: 0 hits/day
+    Status for the jail: nginx-common
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /var/log/nginx/localhost_ssl.access.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    nginx-conn-limit parameters: 
+    maxretry: 5 findtime: 600 bantime 7200
+    allow rate: 576 hits/day
     Status for the jail: nginx-conn-limit
     |- Filter
     |  |- Currently failed: 0
@@ -384,6 +409,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-get-f5 parameters: 
+    maxretry: 15 findtime: 1 bantime 600
+    allow rate: 1209600 hits/day
     Status for the jail: nginx-get-f5
     |- Filter
     |  |- Currently failed: 0
@@ -394,6 +422,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-req-limit parameters: 
+    maxretry: 5 findtime: 600 bantime 7200
+    allow rate: 576 hits/day
     Status for the jail: nginx-req-limit
     |- Filter
     |  |- Currently failed: 0
@@ -404,6 +435,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-req-limit-main parameters: 
+    maxretry: 5 findtime: 600 bantime 7200
+    allow rate: 576 hits/day
     Status for the jail: nginx-req-limit-main
     |- Filter
     |  |- Currently failed: 0
@@ -414,6 +448,22 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    nginx-req-limit-repeat parameters: 
+    maxretry: 5 findtime: 21600 bantime 259200
+    allow rate: 16 hits/day
+    Status for the jail: nginx-req-limit-repeat
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     0
+    |  `- File list:        /var/log/fail2ban.log
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    nginx-xmlrpc parameters: 
+    maxretry: 6 findtime: 60 bantime 600
+    allow rate: 7200 hits/day
     Status for the jail: nginx-xmlrpc
     |- Filter
     |  |- Currently failed: 0
@@ -424,6 +474,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    vbulletin parameters: 
+    maxretry: 3 findtime: 60 bantime 28800
+    allow rate: 2880 hits/day
     Status for the jail: vbulletin
     |- Filter
     |  |- Currently failed: 0
@@ -434,6 +487,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    wordpress-auth parameters: 
+    maxretry: 3 findtime: 60 bantime 600
+    allow rate: 2880 hits/day
     Status for the jail: wordpress-auth
     |- Filter
     |  |- Currently failed: 0
@@ -444,6 +500,9 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
+    wordpress-comment parameters: 
+    maxretry: 5 findtime: 60 bantime 3600
+    allow rate: 5760 hits/day
     Status for the jail: wordpress-comment
     |- Filter
     |  |- Currently failed: 0
@@ -454,16 +513,35 @@ fail2ban.sh status output
       |- Total banned:     0
       `- Banned IP list:
     ---------------------------------------
-    Status for the jail: wordpress-pingback
+    wordpress-fail2ban-plugin parameters: 
+    maxretry: 1 findtime: 7200 bantime 259200
+    allow rate: 0 hits/day
+    Status for the jail: wordpress-fail2ban-plugin
     |- Filter
     |  |- Currently failed: 0
     |  |- Total failed:     0
+    |  `- File list:        /var/log/secure
+    `- Actions
+      |- Currently banned: 0
+      |- Total banned:     0
+      `- Banned IP list:
+    ---------------------------------------
+    wordpress-pingback parameters: 
+    maxretry: 1 findtime: 1 bantime 86400
+    allow rate: 1 hits/day
+    Status for the jail: wordpress-pingback
+    |- Filter
+    |  |- Currently failed: 0
+    |  |- Total failed:     1
     |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain.com/log/access.log
     `- Actions
       |- Currently banned: 1
       |- Total banned:     1
       `- Banned IP list:   104.237.xxx.xxx
     ---------------------------------------
+    wordpress-pingback-repeat parameters: 
+    maxretry: 5 findtime: 21600 bantime 259200
+    allow rate: 16 hits/day
     Status for the jail: wordpress-pingback-repeat
     |- Filter
     |  |- Currently failed: 0
@@ -475,16 +553,33 @@ fail2ban.sh status output
       `- Banned IP list:
     ---------------------------------------
     All Time: Top 10 Banned IP Addresses:
-          1 104.237.xxx.xxx [wordpress-pingback]
+          4 149.xxx.xxx.xxx [nginx-req-limit]
+          3 104.237.xxx.xxx [wordpress-pingback]
+          2 149.xxx.xxx.xxx [wordpress-auth]
+          2 149.xxx.xxx.xxx [http-xensec]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
-          5 104.237.xxx.xxx [wordpress-pingback]
+        25 104.237.xxx.xxx [wordpress-pingback]
+          2 149.xxx.xxx.xxx [nginx-req-limit]
+    ---------------------------------------
+    Yesterday: Top 10 Banned IP Addresses:
+          4 149.xxx.xxx.xxx [nginx-req-limit]
+          2 149.xxx.xxx.xxx [wordpress-auth]
+          2 149.xxx.xxx.xxx [http-xensec]
+          2 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    Yesterday: Top 10 Restored Banned IP Addresses:
+        12 104.237.xxx.xxx [wordpress-pingback]
+          2 149.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:
-          1 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Restored Banned IP Addresses:
-          5 104.237.xxx.xxx [wordpress-pingback]
+          8 104.237.xxx.xxx [wordpress-pingback]
+    ---------------------------------------
+    1 hr ago: Top 10 Banned IP Addresses:
+    ---------------------------------------
+    1 hr ago: Top 10 Restored Banned IP Addresses:
     ---------------------------------------
 
 ## Cloudflare v4 API
