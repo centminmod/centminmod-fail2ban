@@ -39,6 +39,17 @@ findtime = 600
 #bantime = 604800
 #maxretry = 1
 
+[nginx-common]
+enabled = true
+filter = nginx-common
+action = csfdeny[name=nginx-common]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+logpath = /usr/local/nginx/logs/*access*.log
+logpath = /var/log/nginx/localhost_ssl.access.log
+bantime = 604800
+maxretry = 1
+
 [nginx-req-limit-main]
 enabled = true
 filter = nginx-req-limit
