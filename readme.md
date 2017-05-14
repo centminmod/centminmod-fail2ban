@@ -345,7 +345,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
     ./fail2ban.sh status
     ---------------------------------------
     nginx-auth parameters: 
-    maxretry: 3 findtime: 600 bantime 3600
+    maxretry: 3 findtime: 600 bantime: 3600
     allow rate: 288 hits/day
     Status for the jail: nginx-auth
     |- Filter
@@ -358,7 +358,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-auth-main parameters: 
-    maxretry: 3 findtime: 600 bantime 3600
+    maxretry: 3 findtime: 600 bantime: 3600
     allow rate: 288 hits/day
     Status for the jail: nginx-auth-main
     |- Filter
@@ -371,7 +371,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-botsearch parameters: 
-    maxretry: 2 findtime: 600 bantime 600
+    maxretry: 2 findtime: 600 bantime: 600
     allow rate: 144 hits/day
     Status for the jail: nginx-botsearch
     |- Filter
@@ -384,7 +384,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-common parameters: 
-    maxretry: 1 findtime: 600 bantime 604800
+    maxretry: 1 findtime: 600 bantime: 604800
     allow rate: 144 hits/day
     Status for the jail: nginx-common
     |- Filter
@@ -397,7 +397,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-conn-limit parameters: 
-    maxretry: 5 findtime: 600 bantime 7200
+    maxretry: 5 findtime: 600 bantime: 7200
     allow rate: 576 hits/day
     Status for the jail: nginx-conn-limit
     |- Filter
@@ -410,7 +410,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-get-f5 parameters: 
-    maxretry: 15 findtime: 1 bantime 600
+    maxretry: 15 findtime: 1 bantime: 600
     allow rate: 1209600 hits/day
     Status for the jail: nginx-get-f5
     |- Filter
@@ -423,7 +423,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-req-limit parameters: 
-    maxretry: 5 findtime: 600 bantime 7200
+    maxretry: 5 findtime: 600 bantime: 7200
     allow rate: 576 hits/day
     Status for the jail: nginx-req-limit
     |- Filter
@@ -436,7 +436,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-req-limit-main parameters: 
-    maxretry: 5 findtime: 600 bantime 7200
+    maxretry: 5 findtime: 600 bantime: 7200
     allow rate: 576 hits/day
     Status for the jail: nginx-req-limit-main
     |- Filter
@@ -449,7 +449,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-req-limit-repeat parameters: 
-    maxretry: 5 findtime: 21600 bantime 259200
+    maxretry: 5 findtime: 21600 bantime: 259200
     allow rate: 16 hits/day
     Status for the jail: nginx-req-limit-repeat
     |- Filter
@@ -462,7 +462,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     nginx-xmlrpc parameters: 
-    maxretry: 6 findtime: 60 bantime 600
+    maxretry: 6 findtime: 60 bantime: 600
     allow rate: 7200 hits/day
     Status for the jail: nginx-xmlrpc
     |- Filter
@@ -475,7 +475,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     vbulletin parameters: 
-    maxretry: 3 findtime: 60 bantime 28800
+    maxretry: 3 findtime: 60 bantime: 28800
     allow rate: 2880 hits/day
     Status for the jail: vbulletin
     |- Filter
@@ -488,7 +488,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     wordpress-auth parameters: 
-    maxretry: 3 findtime: 60 bantime 600
+    maxretry: 3 findtime: 60 bantime: 600
     allow rate: 2880 hits/day
     Status for the jail: wordpress-auth
     |- Filter
@@ -501,7 +501,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     wordpress-comment parameters: 
-    maxretry: 5 findtime: 60 bantime 3600
+    maxretry: 5 findtime: 60 bantime: 3600
     allow rate: 5760 hits/day
     Status for the jail: wordpress-comment
     |- Filter
@@ -514,7 +514,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     wordpress-fail2ban-plugin parameters: 
-    maxretry: 1 findtime: 7200 bantime 259200
+    maxretry: 1 findtime: 7200 bantime: 259200
     allow rate: 12 hits/day
     Status for the jail: wordpress-fail2ban-plugin
     |- Filter
@@ -527,7 +527,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     wordpress-pingback parameters: 
-    maxretry: 1 findtime: 1 bantime 86400
+    maxretry: 1 findtime: 1 bantime: 86400
     allow rate: 1 hits/day
     Status for the jail: wordpress-pingback
     |- Filter
@@ -540,7 +540,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:   104.237.xxx.xxx
     ---------------------------------------
     wordpress-pingback-repeat parameters: 
-    maxretry: 5 findtime: 21600 bantime 259200
+    maxretry: 5 findtime: 21600 bantime: 259200
     allow rate: 16 hits/day
     Status for the jail: wordpress-pingback-repeat
     |- Filter

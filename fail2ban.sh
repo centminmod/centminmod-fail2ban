@@ -70,7 +70,7 @@ status() {
     echo "$j parameters: "
     echo -n "maxretry: $MAXRETRY "
     echo -n "findtime: $FINDTIME "
-    echo "bantime $BANTIME"
+    echo "bantime: $BANTIME"
     echo "allow rate: $ALLOWRATE hits/day"
     fail2ban-client status $j
     done
