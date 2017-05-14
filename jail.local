@@ -211,6 +211,18 @@ bantime  = 259200
 maxretry = 5
 findtime = 21600
 
+# https://en-au.wordpress.org/plugins/sucuri-scanner/
+# https://en-au.wordpress.org/plugins/wp-fail2ban/
+[wordpress-fail2ban-plugin]
+enabled = true
+filter = wordpress-fail2ban-plugin
+action = csfdeny[name=wordpress-fail2ban-plugin]
+logpath = /var/log/auth.log
+logpath = /var/log/secure
+bantime  = 259200
+maxretry = 1
+findtime = 7200
+
 [vbulletin]
 enabled = true
 filter = vbulletin
