@@ -160,6 +160,10 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/wordpress-pingback-repeat.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-pingback-repeat.conf
     rm -rf /etc/fail2ban/filter.d/phpmyadmin-cmm.conf
     wget -cnv -O /etc/fail2ban/filter.d/phpmyadmin-cmm.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/phpmyadmin-cmm.conf
+    rm -rf /etc/fail2ban/filter.d/joomla-auth.conf
+    wget -cnv -O /etc/fail2ban/filter.d/joomla-auth.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/joomla-auth.conf
+    rm -rf /etc/fail2ban/filter.d/magento.conf
+    wget -cnv -O /etc/fail2ban/filter.d/magento.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/magento.conf
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local

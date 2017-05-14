@@ -242,7 +242,19 @@ action = csfdeny[name=joomla-auth]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
 port = http,https
-maxretry = 3
+maxretry = 5
+bantime = 7200
+findtime = 60
+
+[magento]
+enabled = false
+filter = magento
+action = csfdeny[name=magento]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 5
+bantime = 7200
 findtime = 60
 
 #[pure-ftpd]
