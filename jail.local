@@ -235,6 +235,16 @@ action = csfdeny[name=http-xensec]
 #action   = cloudflare
 #sendmail-whois[name=XenSec, dest=root]
 
+[joomla-auth]
+enabled = false
+filter = joomla-auth
+action = csfdeny[name=joomla-auth]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+maxretry = 3
+findtime = 60
+
 #[pure-ftpd]
 #port     = ftp,ftp-data,ftps,ftps-data
 #logpath  = %(pureftpd_log)s
