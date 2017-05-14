@@ -515,7 +515,7 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
     ---------------------------------------
     wordpress-fail2ban-plugin parameters: 
     maxretry: 1 findtime: 7200 bantime 259200
-    allow rate: 0 hits/day
+    allow rate: 12 hits/day
     Status for the jail: wordpress-fail2ban-plugin
     |- Filter
     |  |- Currently failed: 0
