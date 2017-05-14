@@ -54,6 +54,20 @@ status() {
     GETJAILS=$(fail2ban-client status | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | sed 's/,//g')
     for j in $GETJAILS; do
     echo "---------------------------------------"
+    MAXRETRY=$(fail2ban-client get $j maxretry)
+    FINDTIME=$(fail2ban-client get $j findtime)
+    BANTIME=$(fail2ban-client get $j bantime)
+    if [[ "$MAXRETRY" -eq '1' && "$FINDTIME" -eq '1' ]]; then
+        ALLOWRATE=1
+    else
+        ALLOWMAX=$(($MAXRETRY-1))
+        ALLOWRATE=$(((86400/$FINDTIME) * $ALLOWMAX))
+    fi
+    echo "$j parameters: "
+    echo -n "maxretry: $MAXRETRY "
+    echo -n "findtime: $FINDTIME "
+    echo "bantime $BANTIME"
+    echo "allow rate: $ALLOWRATE hits/day"
     fail2ban-client status $j
     done
     echo "---------------------------------------"
