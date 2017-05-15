@@ -48,6 +48,16 @@ if [ ! -d "$DIR_TMP" ]; then
   exit
 fi
 
+# required otherwise fail2ban doesn't start
+if [ ! -f /var/log/nginx/localhost_ssl.access.log ]; then
+    touch /var/log/nginx/localhost_ssl.access.log
+fi
+
+# required otherwise fail2ban doesn't start
+if [ ! -f /var/log/auth.log ]; then
+    touch /var/log/auth.log
+fi
+
 ######################################################
 
 status() {
@@ -204,6 +214,10 @@ install() {
     sed -i '/ignoreip/d' /etc/fail2ban/jail.local.download
     cat /etc/fail2ban/jail.local.download >> /etc/fail2ban/jail.local
     rm -rf /etc/fail2ban/jail.local.download
+
+    if [ ! -f /var/log/fail2ban.log ]; then
+        touch /var/log/fail2ban.log
+    fi
 
     if [[ "$CENTOS_SEVEN" = '7' ]]; then
         systemctl daemon-reload
