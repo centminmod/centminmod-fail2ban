@@ -20,7 +20,7 @@
 
 **fail2ban.sh status output**
 
-![](/screenshots/fail2bansh/fail2bansh-status-01.png)
+![](/screenshots/fail2bansh/fail2bansh-status-02.png)
 
 ## fail2ban installation for CentOS 7 Only
 
