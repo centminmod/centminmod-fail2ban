@@ -597,7 +597,7 @@ Switching from local CSF Firewall action bans to Cloudflare v4 API based action 
 
 **Cloudflare Firewall Rule Limits**
 
-* Note, Cloudflare Firewall has Rule limits based on the Cloudflare plan you're using as outlined [here](https://community.cloudflare.com/clicks/track?url=https%3A%2F%2Fsupport.cloudflare.com%2Fhc%2Fen-us%2Farticles%2F200434798-How-many-IPs-can-I-add-to-rules-in-the-IP-Firewall-&post_id=921&topic_id=467)
+* Note, Cloudflare Firewall has Rule limits based on the Cloudflare plan you're using as outlined [here](https://support.cloudflare.com/hc/en-us/articles/200434798-How-many-IPs-can-I-add-to-rules-in-the-IP-Firewall-)
 
 
     | Cloudflare Plan | Cloudflare Firewall IP Rules Limits Per Zone |
