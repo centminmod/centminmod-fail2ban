@@ -595,6 +595,20 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
 
 Switching from local CSF Firewall action bans to Cloudflare v4 API based action bans for sites behind Cloudflare requires using the `action.d/cloudflare.conf` profile. Ensure Centmin Mod 123.09beta01 branch Nginx vhosts are setup with proper real IP detection and Cloudflare IP whitelisting. You can use [tools/csfcf.sh](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/) script to automate the Cloudflare Nginx configuration and Cloudflare IP whitelisting management outlined [here](https://community.centminmod.com/threads/csfcf-sh-automate-cloudflare-nginx-csf-firewall-setups.6241/). You can setup a cronjob to run the script in auto mode `/usr/local/src/centminmod/tools/csfcf.sh auto`.This ensures visitor's real IP address is passed on in your server logs which fail2ban reads.
 
+**Cloudflare Firewall Rule Limits**
+
+* Note, Cloudflare Firewall has Rule limits based on the Cloudflare plan you're using as outlined [here](https://community.cloudflare.com/clicks/track?url=https%3A%2F%2Fsupport.cloudflare.com%2Fhc%2Fen-us%2Farticles%2F200434798-How-many-IPs-can-I-add-to-rules-in-the-IP-Firewall-&post_id=921&topic_id=467)
+
+    --------------------------
+    | Cloudflare Plan | Cloudflare Firewall IP Rules Limits Per Zone |
+    | --------- | ---------- |
+    | Free      | 200       |
+    | Pro      | 1000       |
+    | Business      | 2000       |
+    | Enterprise      | 10000       |
+
+**Cloudflare Firewall API Usage**
+
 Below example is testing Nginx rate limiting with Centmin Mod 123.09beta01's auto installed Wordpress install ([centmin.sh menu option 22](https://centminmod.com/nginx-wordpress-installer.html)) which out of box uses Nginx level rate limiting for access to commonly targeted urls like `wp-login.php`
 
 `/usr/local/nginx/conf/nginx.conf` level
