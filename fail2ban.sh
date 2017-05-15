@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.2
+VER=0.3
 DT=`date +"%d%m%y-%H%M%S"`
 FAILBAN_VER='0.10'
 
@@ -57,6 +57,11 @@ status() {
     MAXRETRY=$(fail2ban-client get $j maxretry)
     FINDTIME=$(fail2ban-client get $j findtime)
     BANTIME=$(fail2ban-client get $j bantime)
+    if [ -f "/etc/fail2ban/filter.d/$j.local" ]; then
+        LASTMOD=$(date -d @$(stat -c %Y /etc/fail2ban/filter.d/$j.local))
+    else
+        LASTMOD=$(date -d @$(stat -c %Y /etc/fail2ban/filter.d/$j.conf))
+    fi
     if [[ "$MAXRETRY" -eq '1' && "$FINDTIME" -eq '1' ]]; then
         ALLOWRATE=1
     else
@@ -72,6 +77,7 @@ status() {
     echo -n "findtime: $FINDTIME "
     echo "bantime: $BANTIME"
     echo "allow rate: $ALLOWRATE hits/day"
+    echo "filter last modified: $LASTMOD"
     fail2ban-client status $j
     done
     echo "---------------------------------------"
