@@ -597,7 +597,7 @@ Switching from local CSF Firewall action bans to Cloudflare v4 API based action 
 
 **Cloudflare Firewall Rule Limits**
 
-* Note, Cloudflare Firewall has Rule limits based on the Cloudflare plan you're using as outlined [here](https://support.cloudflare.com/hc/en-us/articles/200434798-How-many-IPs-can-I-add-to-rules-in-the-IP-Firewall-)
+* Note, Cloudflare Firewall has Rule limits based on the Cloudflare plan you're using as outlined [here](https://support.cloudflare.com/hc/en-us/articles/200434798-How-many-IPs-can-I-add-to-rules-in-the-IP-Firewall-). So you may need to drastically lower the failban jails' relative bantime durations if you intend to use Cloudflare Firewall with fail2ban.
 
 
     | Cloudflare Plan | Cloudflare Firewall IP Rules Limits Per Zone |
