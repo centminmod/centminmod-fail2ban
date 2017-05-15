@@ -13,6 +13,7 @@
 
 * [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
 * [notes](#notes)
+* [customising fail2ban](#customising-fail2ban)
 * [examples](#examples) - [wordpress-auth filter action](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
@@ -61,6 +62,10 @@ Then
        Optional  direction  of  block  can  be one of: in, out or inout
        (default:in)
 ```
+
+## customising fail2ban
+
+If you need to modify the default created fail2ban filters located at `/etc/fail2ban/filter.d`, indead of editing the `/etc/fail2ban/filter.d/filtername.conf` you should create an override file at `/etc/fail2ban/filter.d/filtername.local` with the modified settings to override the defaults. This ensures your changes survive update changes to the `/etc/fail2ban/filter.d/filtername.conf`.
 
 ## examples
 
