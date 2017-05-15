@@ -17,6 +17,10 @@
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
 
+**fail2ban.sh status output**
+
+![](/screenshots/fail2bansh/fail2bansh-status-01.png)
+
 ## fail2ban installation for CentOS 7 Only
 
     USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
