@@ -31,15 +31,15 @@ bantime = 3600
 maxretry = 3
 findtime = 600
 
-#[nginx-badrequests]
-#enabled = true
-#filter = nginx-badrequests
-#action = csfdeny[name=nginx-badrequests]
-##action   = cloudflare
-#logpath = /home/nginx/domains/*/log/access.log
-#          /usr/local/nginx/logs/*access*.log
-#bantime = 604800
-#maxretry = 1
+[nginx-badrequests]
+enabled = true
+filter = nginx-badrequests
+action = csfdeny[name=nginx-badrequests]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+          /usr/local/nginx/logs/*access*.log
+bantime = 604800
+maxretry = 1
 
 [nginx-common]
 enabled = true
