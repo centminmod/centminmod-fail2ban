@@ -92,56 +92,56 @@ status() {
     done
     echo "---------------------------------------"
     echo "All Time: Top 10 Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "] Ban " /var/log/fail2ban.log{-*,*} | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "] Ban " /var/log/fail2ban.log | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "All Time: Top 10 Restored Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "Restore Ban " /var/log/fail2ban.log{-*,*} | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "Restore Ban " /var/log/fail2ban.log | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "Yesterday: Top 10 Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "] Ban " /var/log/fail2ban.log{-*,*} | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "] Ban " /var/log/fail2ban.log | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "Yesterday: Top 10 Restored Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "Restore Ban " /var/log/fail2ban.log{-*,*} | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "Restore Ban " /var/log/fail2ban.log | grep `date -d "1 day ago" +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "Today: Top 10 Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "] Ban " /var/log/fail2ban.log{-*,*} | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "] Ban " /var/log/fail2ban.log | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "Today: Top 10 Restored Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "Restore Ban " /var/log/fail2ban.log{-*,*} | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "Restore Ban " /var/log/fail2ban.log | grep `date +%Y-%m-%d` | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "1 hr ago: Top 10 Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "] Ban " /var/log/fail2ban.log{-*,*} | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "] Ban " /var/log/fail2ban.log | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     fi
     echo "---------------------------------------"
     echo "1 hr ago: Top 10 Restored Banned IP Addresses:"
-    if [[ "$(ls -lah /var/log | grep -q 'fail2ban.log-')" -eq '0' ]]; then
+    if [[ "$(ls -lah /var/log | grep -q "fail2ban.log-$(date "+%Y")"; echo $?)" -eq '0' ]]; then
         zgrep -h "Restore Ban " /var/log/fail2ban.log{-*,*} | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
     else
         zgrep -h "Restore Ban " /var/log/fail2ban.log | grep "$(date -d "1 hour ago" '+%Y-%m-%d %H:')" | awk '{print $NF, $6}' | sort | uniq -c | sort -rn | tail -10
