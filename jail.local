@@ -78,6 +78,8 @@ maxretry = 5
 [nginx-req-limit-repeat]
 enabled = true
 filter = nginx-req-limit-repeat
+action = csfdeny[nginx-req-limit-repeat]
+#action   = cloudflare
 logpath = /var/log/fail2ban.log
 bantime  = 259200
 maxretry = 5
@@ -86,7 +88,8 @@ findtime = 21600
 [nginx-conn-limit]
 enabled = true
 filter = nginx-conn-limit
-action = csfdeny[name=nginx-req-limit]
+action = csfdeny[name=nginx-conn-limit]
+#action   = cloudflare
 logpath = /home/nginx/domains/*/log/error.log
 findtime = 600
 bantime = 7200
@@ -171,6 +174,8 @@ findtime = 60
 [phpmyadmin-cmm]
 enabled = false
 filter = phpmyadmin-cmm
+action = csfdeny[name=phpmyadmin-cmm]
+#action   = cloudflare
 logpath = /var/log/nginx/localhost_ssl.access.log
 port = http,https
 bantime = 3600
@@ -191,6 +196,8 @@ findtime = 60
 [wordpress-comment]
 enabled = true
 filter = wordpress-comment
+action = csfdeny[name=wordpress-comment]
+#action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
 port = http,https
@@ -217,6 +224,8 @@ findtime = 1
 [wordpress-pingback-repeat]
 enabled = true
 filter = wordpress-pingback-repeat
+action = csfdeny[name=wordpress-pingback-repeat]
+#action   = cloudflare
 logpath = /var/log/fail2ban.log
 bantime  = 259200
 maxretry = 5
@@ -228,6 +237,7 @@ findtime = 21600
 enabled = true
 filter = wordpress-fail2ban-plugin
 action = csfdeny[name=wordpress-fail2ban-plugin]
+#action   = cloudflare
 logpath = /var/log/auth.log
           /var/log/secure
 bantime  = 259200
