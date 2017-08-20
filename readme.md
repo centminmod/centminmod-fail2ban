@@ -22,7 +22,7 @@
 
 ![](/screenshots/fail2bansh/fail2bansh-status-02.png)
 
-## fail2ban installation for CentOS 7 Only
+## manual fail2ban installation for CentOS 7 Only
 
     USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
     SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
@@ -47,6 +47,14 @@ Then
 * copy [action.d](/action.d) files to `/etc/fail2ban/action.d`
 * copy [filter.d](/filter.d) files to `/etc/fail2ban/filter.d`
 * restart fail2ban `systemctl restart fail2ban` or `fail2ban-client reload`
+
+## automated fail2ban install via fail2ban.sh
+
+    mkdir -p /root/tools
+    cd /root/tools
+    git clone https://github.com/centminmod/centminmod-fail2ban
+    cd centminmod-fail2ban
+    ./fail2ban.sh install
 
 ## notes
 
@@ -343,7 +351,7 @@ Unbanning the IP via fail2ban-client
 
 ## fail2ban.sh
 
-fail2ban.sh is a script to automate fail2ban install for CentOS 7 based Centmin Mod LEMP stack based servers. The install routine also installs pyinotify as a fail2ban backend instead of the default polling backend for better performance when there's many log files.
+fail2ban.sh is a script to automate fail2ban install for CentOS 7 based Centmin Mod LEMP stack based servers. The install routine also installs pyinotify as a fail2ban backend instead of the default polling backend for better performance when there's many log files. If you installed as per above instructions for automated install via `fail2ban.sh`, you would run `fail2ban.sh` from `/root/tools/fail2ban/fail2ban.sh`.
 
 Usage options
 
