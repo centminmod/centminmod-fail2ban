@@ -166,6 +166,7 @@ install() {
     pip install pyinotify
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     cd fail2ban
+    git pull
     python setup.py install
     if [[ "$CENTOS_SEVEN" = '7' ]]; then
         \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
