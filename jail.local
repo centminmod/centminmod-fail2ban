@@ -102,17 +102,17 @@ logpath = /home/nginx/domains/*/log/access.log
 port     = http,https
 maxretry = 2
 
-[nginx-get-f5]
-enabled = true
-filter = nginx-get-f5
-action = csfdeny[name=nginx-get-f5]
-#action   = cloudflare
-logpath = /home/nginx/domains/*/log/access.log
-          /usr/local/nginx/logs/*access*.log
-port   = http,https
-maxretry = 15
-findtime = 1
-bantime = 600
+#[nginx-get-f5]
+#enabled = true
+#filter = nginx-get-f5
+#action = csfdeny[name=nginx-get-f5]
+##action   = cloudflare
+#logpath = /home/nginx/domains/*/log/access.log
+#          /usr/local/nginx/logs/*access*.log
+#port   = http,https
+#maxretry = 15
+#findtime = 1
+#bantime = 600
 
 [nginx-xmlrpc]
 enabled = true
