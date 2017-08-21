@@ -17,6 +17,7 @@
 * [examples](#examples) - [wordpress-auth filter action](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
 * [fail2ban.sh](#fail2bansh)
 * [Cloudflare v4 API](#cloudflare-v4-api)
+* [troubleshooting fail2ban](#troubleshoot)
 
 **fail2ban.sh status output**
 
@@ -979,3 +980,35 @@ fail2ban.sh status after latest test
     ---------------------------------------
 
 The `fail2ban.sh status` command lists each fail2ban jail's status as well as the top 10 IP address occurences in banned IPs or restored banned IPs for All Time, Yesterday, Today and the past 1hr.
+
+## troubleshoot
+
+For some simple troubleshooting steps for fail2ban jail testing, you can do the following:
+
+`1.` Enable debug logging instead of default info log level
+
+    fail2ban-client get loglevel
+    fail2ban-client set loglevel debug
+
+`2.` Then do test attacks against your fail2ban server for the jail config you want to test
+
+`3.` Then search the /var/log/fail2ban.log log and grep filter on the IP address of attacking server for clues escaping dots . with backslashes
+
+    grep '149\.xxx\.xxx\.xxx' /var/log/fail2ban.log
+
+example output
+
+    2017-08-21 15:02:10,728 fail2ban.filter         [2351]: INFO    [nginx-req-limit] Found 149.xxx.xxx.xxx - 2017-08-21 15:02:10
+    2017-08-21 15:02:10,728 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 5. Current failures from 1 IPs (IP:count): 149.xxx.xxx.xxx:5
+    2017-08-21 15:02:11,264 fail2ban.actions        [2351]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
+    2017-08-21 15:02:11,264 fail2ban.action         [2351]: DEBUG   csf -d 149.xxx.xxx.xxx Added by Fail2Ban for nginx-req-limit
+    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: DEBUG   Processing line with time:1503327731.0 and ip:149.xxx.xxx.xxx
+    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: INFO    [nginx-req-limit-repeat] Found 149.xxx.xxx.xxx - 2017-08-21 15:02:11
+    2017-08-21 15:02:11,272 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 1. Current failures from 1 IPs (IP:count): 149.xxx.xxx.xxx:1
+    2017-08-21 15:02:12,249 fail2ban.utils          [2351]: DEBUG   25fee10 -- stdout: 'deny failed: 149.xxx.xxx.xxx is in the allow file /etc/csf/csf.allow'
+
+Then set log level back to info
+
+    fail2ban-client get loglevel
+    fail2ban-client set loglevel info
+
