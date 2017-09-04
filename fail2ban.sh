@@ -169,11 +169,11 @@ install() {
     git pull
     python setup.py install
     if [[ "$CENTOS_SEVEN" = '7' ]]; then
-        \cp -f /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-        \cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-        \cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+        \cp -f centos/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+        \cp -f centos/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+        \cp -f centos/fail2ban-logrotate /etc/logrotate.d/fail2ban
     else
-        \cp -f /svr-setup/fail2ban/files/redhat-initd /etc/init.d/fail2ban
+        \cp -f centos/redhat-initd /etc/init.d/fail2ban
     fi
 
     rm -rf /etc/fail2ban/action.d/cloudflare.conf
