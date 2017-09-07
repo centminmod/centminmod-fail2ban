@@ -52,7 +52,6 @@ action = csfdeny[name=nginx-common]
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/access.log
           /var/log/nginx/*.access.log
-          /var/log/nginx/localhost_ssl.access.log
 bantime = 604800
 maxretry = 1
 findtime = 43200
@@ -188,8 +187,7 @@ enabled = false
 filter = phpmyadmin-cmm
 action = csfdeny[name=phpmyadmin-cmm]
 #action   = cloudflare
-logpath = /var/log/nginx/localhost_ssl.access.log
-          /var/log/nginx/*.access.log
+logpath = /var/log/nginx/*.access.log
 port = http,https
 bantime = 3600
 maxretry = 5
@@ -280,7 +278,6 @@ action = csfdeny[name=shells]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/access.log
-          /var/log/nginx/localhost_ssl.access.log
           /var/log/nginx/*.access.log
 bantime = 604800
 maxretry = 1
