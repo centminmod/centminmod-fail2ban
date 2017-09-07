@@ -16,6 +16,7 @@ filter = nginx-auth-main
 action = csfdeny[name=nginx-auth-main]
 #action   = cloudflare
 logpath = /usr/local/nginx/logs/*error*.log
+          /var/log/nginx/*.error.log
 bantime = 3600
 maxretry = 3
 findtime = 600
@@ -27,6 +28,7 @@ action = csfdeny[name=nginx-auth]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 bantime = 3600
 maxretry = 3
 findtime = 600
@@ -38,6 +40,7 @@ action = csfdeny[name=nginx-badrequests]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 bantime = 604800
 maxretry = 1
 
@@ -48,6 +51,7 @@ action = csfdeny[name=nginx-common]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
           /var/log/nginx/localhost_ssl.access.log
 bantime = 604800
 maxretry = 1
@@ -59,6 +63,7 @@ filter = nginx-req-limit
 action = csfdeny[name=nginx-req-limit-main]
 #action   = cloudflare
 logpath = /usr/local/nginx/logs/*error*.log
+          /var/log/nginx/*.error.log
 findtime = 600
 bantime = 7200
 maxretry = 5
@@ -102,6 +107,7 @@ action = csfdeny[name=nginx-get-f5]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port     = http,https
 maxretry = 2
 
@@ -112,6 +118,7 @@ maxretry = 2
 ##action   = cloudflare
 #logpath = /home/nginx/domains/*/log/access.log
 #          /usr/local/nginx/logs/*access*.log
+#          /var/log/nginx/*.access.log
 #port   = http,https
 #maxretry = 15
 #findtime = 1
@@ -124,6 +131,7 @@ action = csfdeny[name=nginx-xmlrpc]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 6
 findtime = 60
@@ -135,6 +143,7 @@ action = csfdeny[name=nginx-401]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 10
 findtime = 60
@@ -146,6 +155,7 @@ action = csfdeny[name=nginx-403]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 10
 findtime = 60
@@ -157,6 +167,7 @@ action = csfdeny[name=nginx-404]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 10
 findtime = 60
@@ -167,6 +178,7 @@ findtime = 60
 #action = csfdeny[name=nginx-w00tw00t]
 ##action   = cloudflare
 #logpath = /home/nginx/domains/*/log/access.log
+#          /var/log/nginx/*.access.log
 #port   = http,https
 #maxretry = 1
 #bantime  = 86400
@@ -177,6 +189,7 @@ filter = phpmyadmin-cmm
 action = csfdeny[name=phpmyadmin-cmm]
 #action   = cloudflare
 logpath = /var/log/nginx/localhost_ssl.access.log
+          /var/log/nginx/*.access.log
 port = http,https
 bantime = 3600
 maxretry = 5
@@ -189,6 +202,7 @@ action = csfdeny[name=wordpress-auth]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 3
 findtime = 60
@@ -200,6 +214,7 @@ action = csfdeny[name=wordpress-comment]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 bantime = 3600
 maxretry = 5
@@ -212,6 +227,7 @@ action = csfdeny[name=wordpress-pingback]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 #backend  = polling
 journalmatch =
 port = http,https
@@ -251,6 +267,7 @@ action = csfdeny[name=vbulletin]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 bantime = 28800
 maxretry = 3
@@ -264,6 +281,7 @@ action = csfdeny[name=shells]
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
           /var/log/nginx/localhost_ssl.access.log
+          /var/log/nginx/*.access.log
 bantime = 604800
 maxretry = 1
 findtime = 86400
@@ -274,6 +292,7 @@ port = http,https
 filter = http-xensec
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 #number of occurances
 maxretry = 5
 findtime = 60
@@ -290,6 +309,7 @@ action = csfdeny[name=joomla-auth]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 5
 bantime = 7200
@@ -302,6 +322,7 @@ action = csfdeny[name=magento]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
           /usr/local/nginx/logs/*access*.log
+          /var/log/nginx/*.access.log
 port = http,https
 maxretry = 5
 bantime = 7200
