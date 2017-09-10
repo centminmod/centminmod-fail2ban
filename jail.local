@@ -26,7 +26,6 @@ filter = nginx-auth
 action = csfdeny[name=nginx-auth]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
-          /var/log/nginx/*.access.log
 bantime = 3600
 maxretry = 3
 findtime = 600
