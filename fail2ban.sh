@@ -277,6 +277,10 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/shells-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/shells-main.conf
     rm -rf /etc/fail2ban/filter.d/shells.conf
     wget -cnv -O /etc/fail2ban/filter.d/shells.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/shells.conf
+    rm -rf /etc/fail2ban/filter.d/adminer-main.conf
+    wget -cnv -O /etc/fail2ban/filter.d/adminer-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/adminer-main.conf
+    rm -rf /etc/fail2ban/filter.d/adminer.conf
+    wget -cnv -O /etc/fail2ban/filter.d/adminer.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/adminer.conf
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local

@@ -282,6 +282,28 @@ bantime = 3600
 maxretry = 5
 findtime = 60
 
+[adminer-main]
+enabled = false
+filter = adminer-main
+action = csfdeny[name=adminer-main]
+#action   = cloudflare
+logpath = /var/log/nginx/*.access.log
+port = http,https
+bantime = 3600
+maxretry = 5
+findtime = 60
+
+[adminer]
+enabled = false
+filter = adminer
+action = csfdeny[name=adminer]
+#action   = cloudflare
+logpath = /home/nginx/domains/*/log/access.log
+port = http,https
+bantime = 3600
+maxretry = 5
+findtime = 60
+
 [wordpress-auth-main]
 enabled = true
 filter = wordpress-auth-main
