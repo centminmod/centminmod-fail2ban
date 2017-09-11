@@ -397,13 +397,22 @@ bantime = 28800
 maxretry = 3
 findtime = 60
 
+[shells-main]
+enabled = true
+filter = shells-main
+action = csfdeny[name=shells-main]
+#action   = cloudflare
+logpath = /var/log/nginx/*.access.log
+bantime = 604800
+maxretry = 1
+findtime = 86400
+
 [shells]
 enabled = true
 filter = shells
 action = csfdeny[name=shells]
 #action   = cloudflare
 logpath = /home/nginx/domains/*/log/access.log
-          /var/log/nginx/*.access.log
 bantime = 604800
 maxretry = 1
 findtime = 86400

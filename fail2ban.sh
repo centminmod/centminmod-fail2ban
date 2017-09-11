@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.3
+VER=0.4
 DT=`date +"%d%m%y-%H%M%S"`
 FAILBAN_VER='0.10'
 
@@ -273,6 +273,8 @@ install() {
     wget -cnv -O /etc/fail2ban/filter.d/magento.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/magento.conf
     rm -rf /etc/fail2ban/filter.d/wordpress-fail2ban-plugin.conf
     wget -cnv -O /etc/fail2ban/filter.d/wordpress-fail2ban-plugin.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/wordpress-fail2ban-plugin.conf
+    rm -rf /etc/fail2ban/filter.d/shells-main.conf
+    wget -cnv -O /etc/fail2ban/filter.d/shells-main.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/shells-main.conf
     rm -rf /etc/fail2ban/filter.d/shells.conf
     wget -cnv -O /etc/fail2ban/filter.d/shells.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/filter.d/shells.conf
     
