@@ -612,7 +612,7 @@ Switching from local CSF Firewall action bans to Cloudflare v4 API based action 
 
     | Cloudflare Plan | Cloudflare Firewall IP Rules Limits Per Zone |
     | --------- | ---------- |
-    | Free      | 200       |
+    | Free      | 500       |
     | Pro      | 1000       |
     | Business      | 2000       |
     | Enterprise      | 10000       |
