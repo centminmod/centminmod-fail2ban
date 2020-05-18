@@ -5,9 +5,9 @@
 ######################################################
 # variables
 #############
-VER=0.5
+VER=0.6
 DT=`date +"%d%m%y-%H%M%S"`
-FAILBAN_VER='0.10.3.1'
+FAILBAN_VER='0.10.5'
 
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
 SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
