@@ -607,7 +607,7 @@ Switching from local CSF Firewall action bans to Cloudflare v4 API based action 
 
 **Cloudflare Firewall Rule Limits**
 
-* Note, Cloudflare Firewall has Rule limits og 50,0000 IPs per CF Account as outlined [here](https://support.cloudflare.com/hc/en-us/articles/217074967). So you may need to drastically lower the failban jails' relative bantime durations if you intend to use Cloudflare Firewall with fail2ban.
+* Note, Cloudflare Firewall has Rule limits of 50,0000 IPs per CF Account as outlined [here](https://support.cloudflare.com/hc/en-us/articles/217074967). So you may need to drastically lower the failban jails' relative bantime durations if you intend to use Cloudflare Firewall with fail2ban.
 
 
 **Cloudflare Firewall API Usage**
