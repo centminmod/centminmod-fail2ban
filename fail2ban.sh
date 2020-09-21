@@ -5,9 +5,10 @@
 ######################################################
 # variables
 #############
-VER=0.7
-DT=`date +"%d%m%y-%H%M%S"`
-FAILBAN_VER='0.10.5'
+VER=0.8
+DT=$(date +"%d%m%y-%H%M%S")
+# branch version https://github.com/fail2ban/fail2ban/branches/active
+FAILBAN_VER='0.10'
 
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
 SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
@@ -167,7 +168,7 @@ install() {
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     cd fail2ban
     git pull
-    python setup.py install
+    PYTHONWARNINGS=ignore:::pip._internal.cli.base_command python setup.py install
     if [[ "$CENTOS_SEVEN" = '7' ]]; then
         \cp -f build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
         \cp -f files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
