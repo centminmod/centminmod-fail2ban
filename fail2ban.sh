@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.6
+VER=0.7
 DT=`date +"%d%m%y-%H%M%S"`
 FAILBAN_VER='0.10.5'
 
@@ -152,7 +152,7 @@ status() {
 pipinstall() {
 if [ ! -f /usr/bin/pip ]; then
   yum -q -y install python2-pip
-  pip install --upgrade pip
+  PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install --upgrade pip
 fi
 }
 
@@ -163,7 +163,7 @@ install() {
     echo
     cd "$DIR_TMP"
     pipinstall
-    pip install pyinotify
+    PYTHONWARNINGS=ignore:::pip._internal.cli.base_command pip install pyinotify
     git clone -b ${FAILBAN_VER} https://github.com/fail2ban/fail2ban
     cd fail2ban
     git pull
