@@ -136,17 +136,17 @@ Use         encoding : UTF-8
 Results
 =======
 
-Failregex: 14 total
+Failregex: 22 total
 |-  #) [# of hits] regular expression
-|   1) [14] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|iiop|\$\{lower).*
-|   2) [0] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}).*
+|   1) [15] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\$\{lower).*
+|   2) [7] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}).*
 `-
 
 Ignoreregex: 0 total
 
 Date template hits:
 |- [# of hits] date format
-|  [14] Day(?P<_sep>[-/])MON(?P=_sep)ExYear[ :]?24hour:Minute:Second(?:\.Microseconds)?(?: Zone offset)?
+|  [22] Day(?P<_sep>[-/])MON(?P=_sep)ExYear[ :]?24hour:Minute:Second(?:\.Microseconds)?(?: Zone offset)?
 `-
 
 Lines: 15 lines, 0 ignored, 15 matched, 0 missed
@@ -168,6 +168,13 @@ Lines: 15 lines, 0 ignored, 15 matched, 0 missed
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:40:59 +0000] "WHATEVER / HTTP/2.0" 405 150 "-" "${jndi:ldap"
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:44:51 +0000] "WHATEVER / HTTP/2.0" 405 150 "-" "${jndi:ldap"
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:48:01 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:18:30 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "(${${::-j}$"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:18:32 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "(${${::-j}$"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:18:51 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "(${${::-j}$"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:19:34 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "${${lower:jndi}"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:20:38 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:26:16 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "(${${::-n}$"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:30:58 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "${lower:rmi}"
 `-
 ```
 
@@ -247,7 +254,7 @@ Debug output check for `nginx-log4j` filter action
 fail2ban-client -d | grep "nginx-log4j'"
 ['add', 'nginx-log4j', 'auto']
 ['set', 'nginx-log4j', 'usedns', 'warn']
-['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}).*']]
+['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}).*']]
 ['set', 'nginx-log4j', 'maxmatches', 1]
 ['set', 'nginx-log4j', 'maxretry', 1]
 ['set', 'nginx-log4j', 'addignoreip', '127.0.0.1/8', '::1', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx']
