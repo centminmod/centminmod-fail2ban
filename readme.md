@@ -1,6 +1,6 @@
 # fail2ban for centminmod.com LEMP stacks
 
-[fail2ban](https://github.com/fail2ban/fail2ban) 0.10+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
+[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
 
 **Info & Manuals**
 
@@ -128,7 +128,7 @@ Results
 
 Failregex: 14 total
 |-  #) [# of hits] regular expression
-|   1) [14] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|\$\{lower).*
+|   1) [14] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|iiop|\$\{lower).*
 `-
 
 Ignoreregex: 0 total
@@ -236,7 +236,7 @@ Debug output check for `nginx-log4j` filter action
 fail2ban-client -d | grep "nginx-log4j'"
 ['add', 'nginx-log4j', 'auto']
 ['set', 'nginx-log4j', 'usedns', 'warn']
-['set', 'nginx-log4j', 'addfailregex', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|\\$\\{lower).*']
+['set', 'nginx-log4j', 'addfailregex', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|\\$\\{lower).*']
 ['set', 'nginx-log4j', 'maxmatches', 1]
 ['set', 'nginx-log4j', 'maxretry', 1]
 ['set', 'nginx-log4j', 'addignoreip', '127.0.0.1/8', '::1', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx']
