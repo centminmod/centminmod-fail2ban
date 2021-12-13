@@ -200,9 +200,9 @@ The relevant excerpt from `fail2ban.sh status` output
 
 ---------------------------------------
 nginx-log4j parameters: 
-maxretry: 1 findtime: 300 bantime: 86400
-allow rate: 288 hits/day
-filter last modified: Mon Dec 13 04:16:40 UTC 2021
+maxretry: 1 findtime: 86400 bantime: 86400
+allow rate: 1 hits/day
+filter last modified: Mon Dec 13 13:52:03 UTC 2021
 Status for the jail: nginx-log4j
 |- Filter
 |  |- Currently failed: 0
@@ -210,42 +210,50 @@ Status for the jail: nginx-log4j
 |  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/log4j.domain.com/log/access.log
 `- Actions
    |- Currently banned: 1
-   |- Total banned:     1
+   |- Total banned:     2
    `- Banned IP list:   xxx.xxx.xxx.xxx
 ---------------------------------------
 nginx-log4j-main parameters: 
-maxretry: 1 findtime: 300 bantime: 86400
-allow rate: 288 hits/day
-filter last modified: Mon Dec 13 04:16:31 UTC 2021
+maxretry: 1 findtime: 86400 bantime: 86400
+allow rate: 1 hits/day
+filter last modified: Mon Dec 13 13:51:53 UTC 2021
 Status for the jail: nginx-log4j-main
 |- Filter
 |  |- Currently failed: 0
 |  |- Total failed:     0
 |  `- File list:        /var/log/nginx/localhost.access.log
 `- Actions
-   |- Currently banned: 0
-   |- Total banned:     0
-   `- Banned IP list:
+   |- Currently banned: 1
+   |- Total banned:     1
+   `- Banned IP list:   45.xxx.xxx.xxx
 ---------------------------------------
 All Time: Top 10 Banned IP Addresses:
+     16 xxx.xxx.xxx.xxx [nginx-log4j]
+      1 45.xxx.xxx.xxx  [nginx-log4j-main]
       1 xxx.xxx.xxx.xxx [nginx-log4j-main]
-      1 xxx.xxx.xxx.xxx [nginx-log4j]
 ---------------------------------------
 All Time: Top 10 Restored Banned IP Addresses:
+      5 45.xxx.xxx.xxx  [nginx-log4j-main]
+      5 xxx.xxx.xxx.xxx [nginx-log4j]
 ---------------------------------------
 Yesterday: Top 10 Banned IP Addresses:
 ---------------------------------------
 Yesterday: Top 10 Restored Banned IP Addresses:
 ---------------------------------------
 Today: Top 10 Banned IP Addresses:
+     16 xxx.xxx.xxx.xxx [nginx-log4j]
+      1 45.xxx.xxx.xxx  [nginx-log4j-main]
       1 xxx.xxx.xxx.xxx [nginx-log4j-main]
-      1 xxx.xxx.xxx.xxx [nginx-log4j]
 ---------------------------------------
 Today: Top 10 Restored Banned IP Addresses:
+      5 45.xxx.xxx.xxx  [nginx-log4j-main]
+      5 xxx.xxx.xxx.xxx [nginx-log4j]
 ---------------------------------------
 1 hr ago: Top 10 Banned IP Addresses:
 ---------------------------------------
 1 hr ago: Top 10 Restored Banned IP Addresses:
+      1 45.xxx.xxx.xxx  [nginx-log4j-main]
+      1 xxx.xxx.xxx.xxx [nginx-log4j]
 ---------------------------------------
 ```
 Debug output check for `nginx-log4j` filter action

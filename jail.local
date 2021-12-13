@@ -60,7 +60,7 @@ action = csfdeny[name=nginx-log4j-main]
 #action   = cloudflaretoken
 logpath = /var/log/nginx/localhost.access.log
 bantime = 86400
-findtime = 300
+findtime = 86400
 maxretry = 1
 
 [nginx-log4j]
@@ -71,7 +71,7 @@ action = csfdeny[name=nginx-log4j]
 #action   = cloudflaretoken
 logpath = /home/nginx/domains/*/log/access.log
 bantime = 86400
-findtime = 300
+findtime = 86400
 maxretry = 1
 
 [nginx-common-main]
