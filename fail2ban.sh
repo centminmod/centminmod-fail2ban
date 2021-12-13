@@ -5,12 +5,12 @@
 ######################################################
 # variables
 #############
-VER=0.9
+VER=0.10
 DT=$(date +"%d%m%y-%H%M%S")
 # branch version https://github.com/fail2ban/fail2ban/branches/active
 # 0.11.2 downgrade to 0.10.x requires changes to sqllit3 database outlined
 # at # https://github.com/fail2ban/fail2ban/blob/0.11.2/ChangeLog
-FAILBAN_VER='0.11.2'
+FAILBAN_VER='0.11'
 
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
 SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
