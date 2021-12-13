@@ -98,6 +98,16 @@ curl -A '${jndi:ldap' -skD - https://$domain/log4j.html
 curl -A '${jndi:ldap' -Ik https://$domain
 curl -A '${jndi:ldap' -Ik https://$domain/log4j.html
 
+curl -A '(${${::-j}$' -skD - http://$domain
+curl -A '${${lower:jndi}' -skD - http://$domain
+curl -A '${${lower:j}${lower:n}${lower:d}i:${lower:rmi}' -skD - http://$domain
+curl -A '${lower:rmi}' -skD - http://$domain
+
+curl -A '(${${::-j}$' -skD - http://$domain/log4j.html
+curl -A '${${lower:jndi}' -skD - http://$domain/log4j.html
+curl -A '${${lower:j}${lower:n}${lower:d}i:${lower:rmi}' -skD - http://$domain/log4j.html
+curl -A '${lower:rmi}' -skD - http://$domain/log4j.html
+
 curl -X PUT -A '${jndi:ldap' -skD - https://$domain
 curl -X PUT -A '${jndi:ldap' -skD - https://$domain/log4j.html
 
