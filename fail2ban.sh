@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.11
+VER=0.12
 DT=$(date +"%d%m%y-%H%M%S")
 # branch version https://github.com/fail2ban/fail2ban/branches/active
 # 0.11.2 downgrade to 0.10.x requires changes to sqllit3 database outlined

@@ -170,11 +170,11 @@ Ignoreregex: 0 total
 
 Date template hits:
 |- [# of hits] date format
-|  [22] Day(?P<_sep>[-/])MON(?P=_sep)ExYear[ :]?24hour:Minute:Second(?:\.Microseconds)?(?: Zone offset)?
+|  [86] Day(?P<_sep>[-/])MON(?P=_sep)ExYear[ :]?24hour:Minute:Second(?:\.Microseconds)?(?: Zone offset)?
 `-
 
-Lines: 15 lines, 0 ignored, 15 matched, 0 missed
-[processed in 0.02 sec]
+Lines: 86 lines, 0 ignored, 60 matched, 26 missed
+[processed in 0.06 sec]
 
 |- Matched line(s):
 |  xxx.xxx.xxx.xxx - - [13/Dec/2021:05:16:57 +0000] "GET / HTTP/2.0" 200 6592 "-" "${jndi:ldap"
@@ -297,7 +297,7 @@ Debug output check for `nginx-log4j` filter action
 fail2ban-client -d | grep "nginx-log4j'"
 ['add', 'nginx-log4j', 'auto']
 ['set', 'nginx-log4j', 'usedns', 'warn']
-['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?((lower|upper):j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{(lower|upper):(rmi|n|d|i|\xc4\xb1)}|env:ENV_NAME|env:TEST:|env:BARFOO:-j|7(b|B)j|base64:JHtqbmRp|\\/Basic\\/Command\\/Base64\\/).*']]
+['multi-set', 'nginx-log4j', 'addfailregex', ['^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?jndi:(ldap[s]?|rmi|dns|iiop|corba|nds|http|\\$\\{lower).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*\\$?\\{?((lower|upper):j(ndi)?|{::-j}|{::-n}|{::-d}|{::-i}|{(lower|upper):(rmi|n|d|i|\xc4\xb1)}|env:ENV_NAME|env:TEST:|env:BARFOO:-j|7(b|B)j|base64:JHtqbmRp|\\/Basic\\/Command\\/Base64\\/).*', '^<HOST> .*"(GET|HEAD|POST|PUT|PATCH|DELETE|.*).*(\\$\\{[^\\}]*\\$\\{|\\$\\{jndi)']]
 ['set', 'nginx-log4j', 'maxmatches', 1]
 ['set', 'nginx-log4j', 'maxretry', 1]
 ['set', 'nginx-log4j', 'addignoreip', '127.0.0.1/8', '::1', 'xxx.xxx.xxx.xxx', 'xxx.xxx.xxx.xxx']
