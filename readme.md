@@ -47,7 +47,7 @@ git fetch --tags
 git checkout ${FAIL2BAN_TAG}
 python3 setup.py install
 
-cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+cp /svr-setup/fail2ban/build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
 cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
 cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
 echo "[DEFAULT]" > /etc/fail2ban/jail.local

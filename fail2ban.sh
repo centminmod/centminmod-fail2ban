@@ -263,7 +263,7 @@ install() {
     git fetch --tags
     git checkout ${FAIL2BAN_TAG}
     python3 setup.py install
-    if [[ "$CENTOS_SEVEN" = '7' || "$CENTOS_EIGHT" '8' ]]; then
+    if [[ "$CENTOS_SEVEN" = '7' || "$CENTOS_EIGHT" = '8' ]]; then
         \cp -f build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
         \cp -f files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
         \cp -f files/fail2ban-logrotate /etc/logrotate.d/fail2ban
@@ -395,7 +395,7 @@ install() {
         touch /var/log/fail2ban.log
     fi
 
-    if [[ "$CENTOS_SEVEN" = '7' || "$CENTOS_EIGHT" '8' ]]; then
+    if [[ "$CENTOS_SEVEN" = '7' || "$CENTOS_EIGHT" = '8' ]]; then
         systemctl daemon-reload
         systemctl stop fail2ban
         systemctl start fail2ban
