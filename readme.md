@@ -34,6 +34,8 @@ The manual fail2ban installation methods outlined below are not the recommended 
 
 ### For CentOS 7
 
+EPEL repo for EL7 uses fail2ban 0.11 older version, so for fail2ban 1.0.2 need to install it manually or via recommended `fail2ban.sh` installer [here](#automated-fail2ban-install-via-fail2bansh).
+
 ```
 yum -y install python3 python3-pip python3-setuptools python-tools
 
@@ -73,6 +75,8 @@ journalctl -u fail2ban.service --since today --no-pager | sed -e "s|$HOSTNAME|ho
 ```
 
 ### For AlmaLinux and Rocky Linux 8
+
+EPEL repo for EL8 uses fail2ban 0.11 older version, so for fail2ban 1.0.2 need to install it manually or via recommended `fail2ban.sh` installer [here](#automated-fail2ban-install-via-fail2bansh).
 
 ```
 yum -y install python36 python3-pip python3-setuptools platform-python-devel-3.6
