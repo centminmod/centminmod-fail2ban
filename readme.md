@@ -36,8 +36,8 @@
 yum -y install python3 python3-pip python3-setuptools
 
 FAIL2BAN_TAG="1.0.2"
-USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
-SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
+SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 cd /svr-setup/
 pip3 install pyinotify
@@ -64,8 +64,8 @@ systemctl status fail2ban
 yum -y install python36 python3-pip python3-setuptools
 
 FAIL2BAN_TAG="1.0.2"
-USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
-SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
+SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 cd /svr-setup/
 pip3 install pyinotify

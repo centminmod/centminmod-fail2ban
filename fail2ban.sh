@@ -10,8 +10,8 @@ DT=$(date +"%d%m%y-%H%M%S")
 # https://github.com/fail2ban/fail2ban/tags
 FAIL2BAN_TAG="1.0.2"
 
-USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
-SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
+SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 DIR_TMP='/svr-setup'
 ######################################################
