@@ -1,6 +1,8 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/centminmod/centminmod-fail2ban) ![GitHub contributors](https://img.shields.io/github/contributors/centminmod/centminmod-fail2ban) ![GitHub Repo stars](https://img.shields.io/github/stars/centminmod/centminmod-fail2ban) ![GitHub watchers](https://img.shields.io/github/watchers/centminmod/centminmod-fail2ban) ![GitHub Sponsors](https://img.shields.io/github/sponsors/centminmod) ![GitHub top language](https://img.shields.io/github/languages/top/centminmod/centminmod-fail2ban) ![GitHub language count](https://img.shields.io/github/languages/count/centminmod/centminmod-fail2ban)
+
 # fail2ban for centminmod.com LEMP stacks
 
-[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
+[fail2ban](https://github.com/fail2ban/fail2ban) 1.0.x setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 1.0.x which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
 
 **Info & Manuals**
 
@@ -9,10 +11,12 @@
 * https://github.com/fail2ban/fail2ban/wiki/Troubleshooting
 * [fail2ban 0.10 change log](https://github.com/fail2ban/fail2ban/blob/0.10/ChangeLog)
 * [fail2ban 0.11.2 change log](https://github.com/fail2ban/fail2ban/blob/0.11.2/ChangeLog)
+* [fail2ban 1.0.1 change log](https://github.com/fail2ban/fail2ban/blob/1.0.1/ChangeLog)
+* [fail2ban 1.0.2 change log](https://github.com/fail2ban/fail2ban/blob/1.0.2/ChangeLog)
 
 **Contents**
 
-* [fail2ban installation for CentOS 7 Only](#fail2ban-installation-for-centos-7-only)
+* [fail2ban installation for CentOS 7 or AlmaLinux/Rocky Linux 8 Only](#manual-fail2ban-installation)
 * [notes](#notes)
 * [customising fail2ban](#customising-fail2ban)
 * [examples](#examples) - [wordpress-auth filter action](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
@@ -24,24 +28,63 @@
 
 ![](/screenshots/fail2bansh/fail2bansh-status-02.png)
 
-## manual fail2ban installation for CentOS 7 Only
+## manual fail2ban installation
 
-    USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
-    SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
-    IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
-    cd /svr-setup/
-    git clone -b 0.10 https://github.com/fail2ban/fail2ban
-    cd fail2ban
-    python setup.py install
-    cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-    cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-    cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
-    echo "[DEFAULT]" > /etc/fail2ban/jail.local
-    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
-    systemctl daemon-reload
-    systemctl start fail2ban
-    systemctl enable fail2ban
-    systemctl status fail2ban
+### For CentOS 7
+
+```
+yum -y install python3 python3-pip python3-setuptools
+
+FAIL2BAN_TAG="1.0.2"
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
+SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
+cd /svr-setup/
+pip3 install pyinotify
+git clone https://github.com/fail2ban/fail2ban
+cd fail2ban
+git fetch --tags
+git checkout ${FAIL2BAN_TAG}
+python3 setup.py install
+
+cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+echo "[DEFAULT]" > /etc/fail2ban/jail.local
+echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
+systemctl daemon-reload
+systemctl start fail2ban
+systemctl enable fail2ban
+systemctl status fail2ban
+```
+
+### For AlmaLinux and Rocky Linux 8
+
+```
+yum -y install python36 python3-pip python3-setuptools
+
+FAIL2BAN_TAG="1.0.2"
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
+SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
+IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
+cd /svr-setup/
+pip3 install pyinotify
+git clone https://github.com/fail2ban/fail2ban
+cd fail2ban
+git fetch --tags
+git checkout ${FAIL2BAN_TAG}
+python3 setup.py install
+
+cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+echo "[DEFAULT]" > /etc/fail2ban/jail.local
+echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
+systemctl daemon-reload
+systemctl start fail2ban
+systemctl enable fail2ban
+systemctl status fail2ban
+```
 
 Then 
 
