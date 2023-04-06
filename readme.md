@@ -30,6 +30,8 @@
 
 ## manual fail2ban installation
 
+The manual fail2ban installation methods outlined below are not the recommended method of installing fail2ban. Ideally, you should use the `fail2ban.sh` installer [here](#automated-fail2ban-install-via-fail2bansh).
+
 ### For CentOS 7
 
 ```
