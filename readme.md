@@ -33,7 +33,7 @@
 ### For CentOS 7
 
 ```
-yum -y install python3 python3-pip python3-setuptools
+yum -y install python3 python3-pip python3-setuptools python-tools
 
 FAIL2BAN_TAG="1.0.2"
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
@@ -45,23 +45,35 @@ git clone https://github.com/fail2ban/fail2ban
 cd fail2ban
 git fetch --tags
 git checkout ${FAIL2BAN_TAG}
+./fail2ban-2to3
 python3 setup.py install
 
-cp /svr-setup/fail2ban/build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+\cp -f /svr-setup/fail2ban/build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+\cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+\cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
 echo "[DEFAULT]" > /etc/fail2ban/jail.local
 echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
+
+mkdir -p /etc/systemd/system/fail2ban.service.d
+echo -e "[Service]\nEnvironment=PYTHONPATH=/usr/local/lib/python3.6/site-packages" > /etc/systemd/system/fail2ban.service.d/pythonpath.conf
+
 systemctl daemon-reload
 systemctl start fail2ban
 systemctl enable fail2ban
 systemctl status fail2ban
+
+# verify fail2ban-python binary both commands should retunr = 1.0.2 version
+pip3 show fail2ban
+fail2ban-python -c 'from fail2ban.version import version; print(version)'
+python3 -c 'from fail2ban.version import version; print(version)'
+# verify no errors
+journalctl -u fail2ban.service --since today --no-pager | sed -e "s|$HOSTNAME|hostname|g"
 ```
 
 ### For AlmaLinux and Rocky Linux 8
 
 ```
-yum -y install python36 python3-pip python3-setuptools
+yum -y install python36 python3-pip python3-setuptools platform-python-devel-3.6
 
 FAIL2BAN_TAG="1.0.2"
 USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
@@ -73,17 +85,29 @@ git clone https://github.com/fail2ban/fail2ban
 cd fail2ban
 git fetch --tags
 git checkout ${FAIL2BAN_TAG}
+./fail2ban-2to3
 python3 setup.py install
 
-cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+\cp -f /svr-setup/fail2ban/build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+\cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+\cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
 echo "[DEFAULT]" > /etc/fail2ban/jail.local
 echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
+
+mkdir -p /etc/systemd/system/fail2ban.service.d
+echo -e "[Service]\nEnvironment=PYTHONPATH=/usr/local/lib/python3.6/site-packages" > /etc/systemd/system/fail2ban.service.d/pythonpath.conf
+
 systemctl daemon-reload
 systemctl start fail2ban
 systemctl enable fail2ban
 systemctl status fail2ban
+
+# verify fail2ban-python binary both commands should retunr = 1.0.2 version
+pip3 show fail2ban
+fail2ban-python -c 'from fail2ban.version import version; print(version)'
+python3 -c 'from fail2ban.version import version; print(version)'
+# verify no errors
+journalctl -u fail2ban.service --since today --no-pager | sed -e "s|$HOSTNAME|hostname|g"
 ```
 
 Then 

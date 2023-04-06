@@ -230,7 +230,7 @@ status() {
 pipinstall() {
   if [ "$CENTOS_SEVEN" == '7' ]; then
     if [ ! -f /usr/bin/pip3 ]; then
-      yum -q -y install python3 python3-pip
+      yum -q -y install python3 python3-pip python-tools
       pip3 install --upgrade pip
     fi
     if ! rpm -q python3-setuptools >/dev/null 2>&1; then
@@ -238,7 +238,7 @@ pipinstall() {
     fi
   elif [ "$CENTOS_EIGHT" == '8' ]; then
     if [ ! -f /usr/bin/pip3 ]; then
-      yum -q -y install python36 python3-pip
+      yum -q -y install python36 python3-pip platform-python-devel
       pip3 install --upgrade pip
     fi
     if ! rpm -q python3-setuptools >/dev/null 2>&1; then
@@ -262,6 +262,7 @@ install() {
     cd fail2ban
     git fetch --tags
     git checkout ${FAIL2BAN_TAG}
+    ./fail2ban-2to3
     python3 setup.py install
     if [[ "$CENTOS_SEVEN" = '7' || "$CENTOS_EIGHT" = '8' ]]; then
         \cp -f build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
@@ -269,6 +270,15 @@ install() {
         \cp -f files/fail2ban-logrotate /etc/logrotate.d/fail2ban
     else
         \cp -f files/redhat-initd /etc/init.d/fail2ban
+    fi
+
+    if [[ "$CENTOS_SEVEN" = '7' ]]; then
+        mkdir -p /etc/systemd/system/fail2ban.service.d
+        echo -e "[Service]\nEnvironment=PYTHONPATH=/usr/local/lib/python3.6/site-packages" > /etc/systemd/system/fail2ban.service.d/pythonpath.conf
+    fi
+    if [[ "$CENTOS_EIGHT" = '8' ]]; then
+        mkdir -p /etc/systemd/system/fail2ban.service.d
+        echo -e "[Service]\nEnvironment=PYTHONPATH=/usr/local/lib/python3.6/site-packages" > /etc/systemd/system/fail2ban.service.d/pythonpath.conf
     fi
 
     rm -rf /etc/fail2ban/action.d/cloudflare.conf
