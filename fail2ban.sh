@@ -281,6 +281,10 @@ install() {
         echo -e "[Service]\nEnvironment=PYTHONPATH=/usr/local/lib/python3.6/site-packages" > /etc/systemd/system/fail2ban.service.d/pythonpath.conf
     fi
 
+    rm -rf /etc/fail2ban/action.d/abuseipdb.conf
+    wget -4 -cnv -O /etc/fail2ban/action.d/abuseipdb.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/action.d/abuseipdb.conf
+    chmod 0640 /etc/fail2ban/action.d/abuseipdb.conf
+
     rm -rf /etc/fail2ban/action.d/cloudflare.conf
     wget -4 -cnv -O /etc/fail2ban/action.d/cloudflare.conf https://github.com/centminmod/centminmod-fail2ban/raw/master/action.d/cloudflare.conf
     chmod 0640 /etc/fail2ban/action.d/cloudflare.conf
