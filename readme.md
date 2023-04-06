@@ -677,7 +677,7 @@ Unbanning the IP via fail2ban-client
 
 ## fail2ban.sh
 
-fail2ban.sh is a script to automate fail2ban install for CentOS 7 based Centmin Mod LEMP stack based servers. The install routine also installs pyinotify as a fail2ban backend instead of the default polling backend for better performance when there's many log files. If you installed as per above instructions for automated install via `fail2ban.sh`, you would run `fail2ban.sh` from `/root/tools/fail2ban/fail2ban.sh`.
+fail2ban.sh is a script to automate fail2ban install for CentOS 7 or AlmaLinux 8 or Rocky Linux 8 based Centmin Mod LEMP stack based servers. The install routine also installs pyinotify as a fail2ban backend instead of the default polling backend for better performance when there's many log files. If you installed as per above instructions for automated install via `fail2ban.sh`, you would run `fail2ban.sh` from `/root/tools/fail2ban/fail2ban.sh`.
 
 Usage options
 
