@@ -112,6 +112,32 @@ python3 -c 'from fail2ban.version import version; print(version)'
 journalctl -u fail2ban.service --since today --no-pager | sed -e "s|$HOSTNAME|hostname|g"
 ```
 
+Example verification command outputs:
+
+```
+pip3 show fail2ban
+
+Name: fail2ban
+Version: 1.0.2
+Summary: Ban IPs that make too many password failures
+Home-page: http://www.fail2ban.org
+Author: Cyril Jaquier & Fail2Ban Contributors
+Author-email: cyril.jaquier@fail2ban.org
+License: GPL
+Location: /usr/local/lib/python3.6/site-packages
+Requires: 
+```
+```
+fail2ban-python -c 'from fail2ban.version import version; print(version)'
+
+1.0.2
+```
+```
+python3 -c 'from fail2ban.version import version; print(version)'
+
+1.0.2
+```
+
 Then 
 
 * populate your `/etc/fail2ban/jail.local` with the [jail.local](/jail.local) contents
