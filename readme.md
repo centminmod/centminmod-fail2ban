@@ -54,7 +54,7 @@ Then
 
     mkdir -p /root/tools
     cd /root/tools
-    git clone https://github.com/centminmod/centminmod-fail2ban
+    git clone -b 0.11 https://github.com/centminmod/centminmod-fail2ban
     cd centminmod-fail2ban
     ./fail2ban.sh install
 
