@@ -44,6 +44,8 @@ USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
 SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 cd /svr-setup/
+# if upgrading from fail2ban 0.11 to 1.0.2
+rm -rf /svr-setup/fail2ban
 pip3 install pyinotify
 git clone https://github.com/fail2ban/fail2ban
 cd fail2ban
@@ -86,6 +88,8 @@ USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
 SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 cd /svr-setup/
+# if upgrading from fail2ban 0.11 to 1.0.2
+rm -rf /svr-setup/fail2ban
 pip3 install pyinotify
 git clone https://github.com/fail2ban/fail2ban
 cd fail2ban

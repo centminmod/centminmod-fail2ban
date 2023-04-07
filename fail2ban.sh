@@ -5,7 +5,7 @@
 ######################################################
 # variables
 #############
-VER=0.13
+VER=0.14
 DT=$(date +"%d%m%y-%H%M%S")
 # https://github.com/fail2ban/fail2ban/tags
 FAIL2BAN_TAG="1.0.2"
@@ -269,6 +269,10 @@ install() {
     cd "$DIR_TMP"
     pipinstall
     pip3 install pyinotify
+    if [ -d "${DIR_TMP}/fail2ban" ]; then
+        # if upgrading from fail2ban 0.11 to 1.0.2
+        rm -rf "${DIR_TMP}/fail2ban"
+    fi
     git clone https://github.com/fail2ban/fail2ban
     cd fail2ban
     git fetch --tags
