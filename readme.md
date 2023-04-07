@@ -2,7 +2,7 @@
 
 # fail2ban for centminmod.com LEMP stacks
 
-[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed. If you want to use a newer fail2ban version besides 0.11, check out [fail2ban 1.0.2 implementation](https://github.com/centminmod/centminmod-fail2ban/tree/1.0) that uses Python 3.6 instead of Python 2.7 and supports both CentOS 7 and AlmaLinux 8 and Rocky Linux 8.
+[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup with Python 2.7 for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.11+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed. If you want to use a newer fail2ban version besides 0.11, check out [fail2ban 1.0.2 implementation](https://github.com/centminmod/centminmod-fail2ban/tree/1.0) that uses Python 3.6 instead of Python 2.7 and supports both CentOS 7 and AlmaLinux 8 and Rocky Linux 8.
 
 **Info & Manuals**
 
@@ -28,22 +28,26 @@
 
 ## manual fail2ban installation for CentOS 7 Only
 
-    USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq)
-    SERVERIPS=$(ip route get 8.8.8.8 | awk 'NR==1 {print $NF}')
-    IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
-    cd /svr-setup/
-    git clone -b 0.10 https://github.com/fail2ban/fail2ban
-    cd fail2ban
-    python setup.py install
-    cp /svr-setup/fail2ban/files/fail2ban.service /usr/lib/systemd/system/fail2ban.service
-    cp /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
-    cp /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
-    echo "[DEFAULT]" > /etc/fail2ban/jail.local
-    echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
-    systemctl daemon-reload
-    systemctl start fail2ban
-    systemctl enable fail2ban
-    systemctl status fail2ban
+Centmin Mod LEMP stack installs Python 2.7 by default which will be the version used to build fail2ban on CentOS 7. If you want to use a newer fail2ban version besides 0.11, check out [fail2ban 1.0.2 implementation](https://github.com/centminmod/centminmod-fail2ban/tree/1.0) that uses Python 3.6 instead of Python 2.7 and supports both CentOS 7 and AlmaLinux 8 and Rocky Linux 8.
+
+```
+USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
+SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
+IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
+cd /svr-setup/
+git clone -b 0.11 https://github.com/fail2ban/fail2ban
+cd fail2ban
+python setup.py install
+\cp -f /svr-setup/fail2ban/build/fail2ban.service /usr/lib/systemd/system/fail2ban.service
+\cp -f /svr-setup/fail2ban/files/fail2ban-tmpfiles.conf /usr/lib/tmpfiles.d/fail2ban.conf
+\cp -f /svr-setup/fail2ban/files/fail2ban-logrotate /etc/logrotate.d/fail2ban
+echo "[DEFAULT]" > /etc/fail2ban/jail.local
+echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
+systemctl daemon-reload
+systemctl start fail2ban
+systemctl enable fail2ban
+systemctl status fail2ban
+```
 
 Then 
 
