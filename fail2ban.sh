@@ -231,21 +231,28 @@ status() {
 pipinstall() {
   if [ "$CENTOS_SEVEN" == '7' ]; then
     if [ ! -f /usr/bin/pip3 ]; then
+      echo "yum -q -y install python3 python3-pip python-tools"
       yum -q -y install python3 python3-pip python-tools
+      echo "pip3 install --upgrade pip"
       pip3 install --upgrade pip
     fi
     if [ ! -f /usr/bin/2to3 ]; then
+      echo "yum -q -y install python-tools"
       yum -q -y install python-tools
     fi
     if ! rpm -q python3-setuptools >/dev/null 2>&1; then
+      echo "yum -q -y install python3-setuptools"
       yum -q -y install python3-setuptools
     fi
   elif [ "$CENTOS_EIGHT" == '8' ]; then
     if [ ! -f /usr/bin/pip3 ]; then
+      echo "yum -q -y install python36 python3-pip platform-python-devel"
       yum -q -y install python36 python3-pip platform-python-devel
+      echo "pip3 install --upgrade pip"
       pip3 install --upgrade pip
     fi
     if ! rpm -q python3-setuptools >/dev/null 2>&1; then
+      echo "yum -q -y install python3-setuptools"
       yum -q -y install python3-setuptools
     fi
   else
@@ -403,7 +410,7 @@ install() {
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
-    wget -4 -cnv -O /etc/fail2ban/jail.local.download https://github.com/centminmod/centminmod-fail2ban/raw/master/jail.local
+    wget -4 -cnv -O /etc/fail2ban/jail.local.download https://github.com/centminmod/centminmod-fail2ban/raw/1.0/jail.local
     sed -i '/\[DEFAULT\]/d' /etc/fail2ban/jail.local.download
     sed -i '/ignoreip/d' /etc/fail2ban/jail.local.download
     cat /etc/fail2ban/jail.local.download >> /etc/fail2ban/jail.local
