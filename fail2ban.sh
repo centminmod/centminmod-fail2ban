@@ -293,7 +293,7 @@ install() {
     
     echo "[DEFAULT]" > /etc/fail2ban/jail.local
     echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS" >> /etc/fail2ban/jail.local
-    wget -4 -cnv -O /etc/fail2ban/jail.local.download https://github.com/centminmod/centminmod-fail2ban/raw/master/jail.local
+    wget -4 -cnv -O /etc/fail2ban/jail.local.download https://github.com/centminmod/centminmod-fail2ban/raw/0.11/jail.local
     sed -i '/\[DEFAULT\]/d' /etc/fail2ban/jail.local.download
     sed -i '/ignoreip/d' /etc/fail2ban/jail.local.download
     cat /etc/fail2ban/jail.local.download >> /etc/fail2ban/jail.local
