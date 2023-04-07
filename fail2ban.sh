@@ -140,7 +140,8 @@ fi
 ######################################################
 
 status() {
-    GETJAILS=$(fail2ban-client status | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | sed 's/,//g')
+    FAIL2BAN_CLIENT_OUTPUT=$(fail2ban-client status)
+    GETJAILS=$(echo "$FAIL2BAN_CLIENT_OUTPUT" | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | sed 's/,//g')
     for j in $GETJAILS; do
     echo "---------------------------------------"
     MAXRETRY=$(fail2ban-client get $j maxretry)
