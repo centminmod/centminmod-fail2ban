@@ -1,6 +1,8 @@
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/centminmod/centminmod-fail2ban/0.11) ![GitHub contributors](https://img.shields.io/github/contributors/centminmod/centminmod-fail2ban) ![GitHub Repo stars](https://img.shields.io/github/stars/centminmod/centminmod-fail2ban) ![GitHub watchers](https://img.shields.io/github/watchers/centminmod/centminmod-fail2ban) ![GitHub Sponsors](https://img.shields.io/github/sponsors/centminmod) ![GitHub top language](https://img.shields.io/github/languages/top/centminmod/centminmod-fail2ban) ![GitHub language count](https://img.shields.io/github/languages/count/centminmod/centminmod-fail2ban)
+
 # fail2ban for centminmod.com LEMP stacks
 
-[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed
+[fail2ban](https://github.com/fail2ban/fail2ban) 0.11+ setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html). CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 0.10+ which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed. If you want to use a newer fail2ban version besides 0.11, check out [fail2ban 1.0.2 implementation](https://github.com/centminmod/centminmod-fail2ban/tree/1.0) that uses Python 3.6 instead of Python 2.7 and supports both CentOS 7 and AlmaLinux 8 and Rocky Linux 8.
 
 **Info & Manuals**
 
