@@ -6,6 +6,7 @@ import time
 import sqlite3
 import requests
 from pathlib import Path
+from urllib.parse import quote
 
 REPORTED_IP_LIST_FILE = '/home/pi/abuseipdb-reported-ip-list'
 FAIL2BAN_SQLITE_DB = '/var/lib/fail2ban/fail2ban.sqlite3'
@@ -58,7 +59,7 @@ def main():
             },
             data={
                 'comment': COMMENT,
-                'ip': IP,
+                'ip': quote(IP),  # Urlencode the IP address
                 'categories': CATEGORIES,
             }
         )
