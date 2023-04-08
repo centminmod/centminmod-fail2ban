@@ -1,11 +1,20 @@
 #!/bin/bash
-######################################################
+##########################################################################
 # written by George Liu (eva2000) centminmod.com
 # https://github.com/centminmod/centminmod-fail2ban
-######################################################
+##########################################################################
+# set locale temporarily to english
+# due to some non-english locale issues
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+# disable systemd pager so it doesn't pipe systemctl output to less
+export SYSTEMD_PAGER=''
+##########################################################################
 # variables
-#############
-VER=0.14
+##########################################################################
+VER=0.15
 DT=$(date +"%d%m%y-%H%M%S")
 # https://github.com/fail2ban/fail2ban/tags
 FAIL2BAN_TAG="1.0.2"
@@ -14,7 +23,7 @@ USERIP=$(last -i | grep "still logged in" | awk '{print $3}' | uniq | xargs)
 SERVERIPS=$(curl -4s https://geoip.centminmod.com/v4 | jq -r '.ip')
 IGNOREIP=$(echo "ignoreip = 127.0.0.1/8 ::1 $USERIP $SERVERIPS")
 DIR_TMP='/svr-setup'
-######################################################
+##########################################################################
 # functions
 #############
 CENTOSVER=$(awk '{ print $3 }' /etc/redhat-release)
@@ -250,6 +259,10 @@ pipinstall() {
       yum -q -y install python36 python3-pip platform-python-devel
       echo "pip3 install --upgrade pip"
       pip3 install --upgrade pip
+    fi
+    if [ ! -f /usr/bin/2to3 ]; then
+      echo "yum -q -y install platform-python-devel"
+      yum -q -y install platform-python-devel
     fi
     if ! rpm -q python3-setuptools >/dev/null 2>&1; then
       echo "yum -q -y install python3-setuptools"
