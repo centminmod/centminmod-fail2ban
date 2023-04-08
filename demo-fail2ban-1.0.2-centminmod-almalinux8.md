@@ -103,6 +103,103 @@ Lines: 43 lines, 0 ignored, 1 matched, 42 missed
 Missed line(s): too many to print.  Use --print-all-missed to print all 42 lines
 ```
 
+# fail2ban.sh
+
+fail2ban has a native `fail2ban-client status` command that can list all fail2ban jailnames and `fail2ban-client status jailname` will output the status of a specific jailname. The `fail2ban.sh` script supports a similar feature just that the specific jailname's status output is in JSON format for easier parsing and scripting.
+
+The native command output:
+
+```
+fail2ban-client status wordpress-pingback
+Status for the jail: wordpress-pingback
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     3
+|  `- File list:        /home/nginx/domains/domain.com/log/access.log /home/nginx/domains/log4j.domain.com/log/access.log /home/nginx/domains/domain3.com/log/access.log /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain4.com/log/access.log
+`- Actions
+   |- Currently banned: 2
+   |- Total banned:     2
+   `- Banned IP list:   162.158.244.169 162.158.244.165
+```
+
+Using `fail2ban.sh`:
+
+```
+./fail2ban.sh 
+./fail2ban.sh install
+./fail2ban.sh status
+./fail2ban.sh get JAILNAME
+```
+
+Example getting the status for jailname = `wordpress-pingback`
+
+```
+./fail2ban.sh get wordpress-pingback
+{
+  "jail": "wordpress-pingback",
+  "currentlyFailed": "0",
+  "totalFailed": "3",
+  "logPaths": ["/home/nginx/domains/domain.com/log/access.log", "/home/nginx/domains/log4j.domain.com/log/access.log", "/home/nginx/domains/domain3.com/log/access.log", "/home/nginx/domains/demodomain.com/log/access.log", "/home/nginx/domains/domain4.com/log/access.log"],
+  "currentlyBanned": "2",
+  "totalBanned": "2",
+  "bannedIPList": ["162.158.244.169", "162.158.244.165"]
+}
+```
+
+Using `jq` to parse `logPaths`
+
+```
+./fail2ban.sh get wordpress-pingback | jq -r '.logPaths[]'
+/home/nginx/domains/domain.com/log/access.log
+/home/nginx/domains/log4j.domain.com/log/access.log
+/home/nginx/domains/domain3.com/log/access.log
+/home/nginx/domains/demodomain.com/log/access.log
+/home/nginx/domains/domain4.com/log/access.log
+```
+
+Using `jq` to parse `bannedIPList`
+
+```
+./fail2ban.sh get wordpress-pingback | jq -r '.bannedIPList[]'
+162.158.244.169
+162.158.244.165
+```
+
+## Jailnames
+
+Currently, there are 28 fail2ban jailnames configured:
+
+* nginx-auth
+* nginx-auth-main
+* nginx-badrequests
+* nginx-badrequests-main
+* nginx-botsearch
+* nginx-botsearch-main
+* nginx-common
+* nginx-common-main
+* nginx-conn-limit
+* nginx-conn-limit-main
+* nginx-log4j
+* nginx-log4j-main
+* nginx-req-limit
+* nginx-req-limit-main
+* nginx-xmlrpc
+* nginx-xmlrpc-main
+* shells
+* shells-main
+* vbulletin
+* vbulletin-main
+* wordpress-auth
+* wordpress-auth-main
+* wordpress-comment
+* wordpress-comment-main
+* wordpress-fail2ban-plugin
+* wordpress-pingback
+* wordpress-pingback-main
+* wordpress-pingback-repeat
+
+## status
+
 ```
 ./fail2ban.sh status
 
