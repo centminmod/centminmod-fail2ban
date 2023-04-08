@@ -251,7 +251,7 @@ Then
 
 ## customising fail2ban
 
-If you need to modify the default created fail2ban filters located at `/etc/fail2ban/filter.d`, indead of editing the `/etc/fail2ban/filter.d/filtername.conf` you should create an override file at `/etc/fail2ban/filter.d/filtername.local` with the modified settings to override the defaults. This ensures your changes survive update changes to the `/etc/fail2ban/filter.d/filtername.conf`.
+If you need to modify the default created fail2ban filters located at `/etc/fail2ban/filter.d`, instead of editing the `/etc/fail2ban/filter.d/filtername.conf` you should create an override file at `/etc/fail2ban/filter.d/filtername.local` with the modified settings to override the defaults. This ensures your changes survive update changes to the `/etc/fail2ban/filter.d/filtername.conf`.
 
 ## examples
 
