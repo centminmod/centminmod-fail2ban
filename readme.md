@@ -2,7 +2,7 @@
 
 # fail2ban for centminmod.com LEMP stacks
 
-[fail2ban](https://github.com/fail2ban/fail2ban) 1.0.x setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html) that supports both CentOS 7 or AlmaLinux/Rocky Linux 8. CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.9.6+, while below instructions are for fail2ban 1.0.x which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed. If you want to use older fail2ban 0.11 with Python 2.7 only support for CentOS 7 only check out the [fail2ban 0.11 branch](https://github.com/centminmod/centminmod-fail2ban/tree/0.11).
+[fail2ban](https://github.com/fail2ban/fail2ban) 1.0.x setup for [centminmod.com LEMP stacks](https://centminmod.com) with [CSF Firewall](https://centminmod.com/csf_firewall.html) that supports both CentOS 7 or AlmaLinux/Rocky Linux 8. CentOS EPEL Yum repo fail2ban version is using older fail2ban 0.11.x, while below instructions are for fail2ban 1.0.x which now supports IPv6 addresses and improved performance. Suggestions, corrections and bug fixes are welcomed. If you want to use older fail2ban 0.11.x with Python 2.7 only support for CentOS 7 only check out the [fail2ban 0.11 branch](https://github.com/centminmod/centminmod-fail2ban/tree/0.11).
 
 **Info & Manuals**
 
