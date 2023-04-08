@@ -14,7 +14,7 @@ export SYSTEMD_PAGER=''
 ##########################################################################
 # variables
 ##########################################################################
-VER=0.15
+VER=0.16
 DT=$(date +"%d%m%y-%H%M%S")
 # https://github.com/fail2ban/fail2ban/tags
 FAIL2BAN_TAG="1.0.2"
@@ -461,6 +461,64 @@ install() {
     echo
 }
 
+getjailstatus() {
+  jailname="$1"
+  if [ -z "$jailname" ]; then
+    echo "Please provide a jail name as an argument."
+    exit 1
+  fi
+
+  status_output=$(fail2ban-client status "$jailname")
+
+  currently_failed=$(echo "$status_output" | grep 'Currently failed:' | awk '{print $5}')
+  total_failed=$(echo "$status_output" | grep 'Total failed:' | awk '{print $5}')
+  log_paths=$(echo "$status_output" | grep 'File list:' | awk -F'File list:' '{print $2}' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+  currently_banned=$(echo "$status_output" | grep 'Currently banned:' | awk '{print $4}')
+  total_banned=$(echo "$status_output" | grep 'Total banned:' | awk '{print $4}')
+  banned_ip_list=$(echo "$status_output" | grep 'Banned IP list:' | awk -F'Banned IP list:' '{print $2}' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+  log_paths_json="["
+  first=true
+  for path in $log_paths; do
+    if [ "$first" = true ]; then
+      first=false
+    else
+      log_paths_json+=", "
+    fi
+    log_paths_json+="\"$path\""
+  done
+  log_paths_json+="]"
+
+  banned_ip_list_json="["
+  first=true
+  for banned_ip in $banned_ip_list; do
+    if [ "$first" = true ]; then
+      first=false
+    else
+      banned_ip_list_json+=", "
+    fi
+    banned_ip_list_json+="\"$banned_ip\""
+  done
+  banned_ip_list_json+="]"
+
+echo "{
+  \"jail\": \"$jailname\",
+  \"currentlyFailed\": \"$currently_failed\",
+  \"totalFailed\": \"$total_failed\",
+  \"logPaths\": $log_paths_json,
+  \"currentlyBanned\": \"$currently_banned\",
+  \"totalBanned\": \"$total_banned\",
+  \"bannedIPList\": $banned_ip_list_json
+}"
+}
+
+help() {
+    echo "$0 install"
+    echo "$0 status"
+    echo "$0 get JAILNAME"
+}
+
 case "$1" in
     install )
         install
@@ -468,7 +526,14 @@ case "$1" in
     status )
         status
         ;;
+    get )
+        if [ -n "$2" ]; then
+            help
+        else
+            getjailstatus "$2"
+        fi
+        ;;
     * )
-        echo "$0 {install|status}"
+        help
         ;;
 esac

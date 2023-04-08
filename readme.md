@@ -16,7 +16,8 @@
 
 **Contents**
 
-* [fail2ban installation for CentOS 7 or AlmaLinux/Rocky Linux 8 Only](#manual-fail2ban-installation)
+* [fail2ban installation for CentOS 7 or AlmaLinux/Rocky Linux 8 Only](#automated-fail2ban-install-via-fail2bansh)
+  * [fail2ban.sh get jail status](#fail2bansh-get-jail-status)
 * [notes](#notes)
 * [customising fail2ban](#customising-fail2ban)
 * [examples](#examples) - [wordpress-auth filter action](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
@@ -27,6 +28,85 @@
 **fail2ban.sh status output**
 
 ![](/screenshots/fail2bansh/fail2bansh-status-02.png)
+
+## automated fail2ban install via fail2ban.sh
+
+```
+./fail2ban.sh 
+./fail2ban.sh install
+./fail2ban.sh status
+./fail2ban.sh get JAILNAME
+```
+
+```
+mkdir -p /root/tools
+cd /root/tools
+git clone -b 1.0 https://github.com/centminmod/centminmod-fail2ban
+cd centminmod-fail2ban
+./fail2ban.sh install
+```
+
+### fail2ban.sh get jail status
+
+fail2ban has a native `fail2ban-client status` command that can list all fail2ban jailnames and `fail2ban-client status jailname` will output the status of a specific jailname. The `fail2ban.sh` script supports a similar feature just that the specific jailname's status output is in JSON format for easier parsing and scripting.
+
+The native command output:
+
+```
+fail2ban-client status wordpress-pingback
+Status for the jail: wordpress-pingback
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     3
+|  `- File list:        /home/nginx/domains/domain.com/log/access.log /home/nginx/domains/log4j.domain.com/log/access.log /home/nginx/domains/domain3.com/log/access.log /home/nginx/domains/demodomain.com/log/access.log /home/nginx/domains/domain4.com/log/access.log
+`- Actions
+   |- Currently banned: 2
+   |- Total banned:     2
+   `- Banned IP list:   162.158.244.169 162.158.244.165
+```
+
+Using `fail2ban.sh`:
+
+```
+./fail2ban.sh 
+./fail2ban.sh install
+./fail2ban.sh status
+./fail2ban.sh get JAILNAME
+```
+
+Example getting the status for jailname = `wordpress-pingback`
+
+```
+./fail2ban.sh get wordpress-pingback
+{
+  "jail": "wordpress-pingback",
+  "currentlyFailed": "0",
+  "totalFailed": "3",
+  "logPaths": ["/home/nginx/domains/domain.com/log/access.log", "/home/nginx/domains/log4j.domain.com/log/access.log", "/home/nginx/domains/domain3.com/log/access.log", "/home/nginx/domains/demodomain.com/log/access.log", "/home/nginx/domains/domain4.com/log/access.log"],
+  "currentlyBanned": "2",
+  "totalBanned": "2",
+  "bannedIPList": ["162.158.244.169", "162.158.244.165"]
+}
+```
+
+Using `jq` to parse `logPaths`
+
+```
+./fail2ban.sh get wordpress-pingback | jq -r '.logPaths[]'
+/home/nginx/domains/domain.com/log/access.log
+/home/nginx/domains/log4j.domain.com/log/access.log
+/home/nginx/domains/domain3.com/log/access.log
+/home/nginx/domains/demodomain.com/log/access.log
+/home/nginx/domains/domain4.com/log/access.log
+```
+
+Using `jq` to parse `bannedIPList`
+
+```
+./fail2ban.sh get wordpress-pingback | jq -r '.bannedIPList[]'
+162.158.244.169
+162.158.244.165
+```
 
 ## manual fail2ban installation
 
@@ -152,14 +232,6 @@ Then
 * copy [action.d](/action.d) files to `/etc/fail2ban/action.d`
 * copy [filter.d](/filter.d) files to `/etc/fail2ban/filter.d`
 * restart fail2ban `systemctl restart fail2ban` or `fail2ban-client reload`
-
-## automated fail2ban install via fail2ban.sh
-
-    mkdir -p /root/tools
-    cd /root/tools
-    git clone -b 1.0 https://github.com/centminmod/centminmod-fail2ban
-    cd centminmod-fail2ban
-    ./fail2ban.sh install
 
 ## notes
 
