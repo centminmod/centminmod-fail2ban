@@ -18,6 +18,7 @@
 
 * [fail2ban installation for CentOS 7 or AlmaLinux/Rocky Linux 8 Only](#automated-fail2ban-install-via-fail2bansh)
   * [fail2ban.sh get jail status](#fail2bansh-get-jail-status)
+    * [Jailnames](#jailnames)
 * [notes](#notes)
 * [customising fail2ban](#customising-fail2ban)
 * [examples](#examples) - [wordpress-auth filter action](#wordpress-auth-filter-action) & [nginx-req-limit filter action](#nginx-req-limit-filter-action)
@@ -107,6 +108,39 @@ Using `jq` to parse `bannedIPList`
 162.158.244.169
 162.158.244.165
 ```
+
+### Jailnames
+
+Currently, there are 28 fail2ban jailnames configured:
+
+* nginx-auth
+* nginx-auth-main
+* nginx-badrequests
+* nginx-badrequests-main
+* nginx-botsearch
+* nginx-botsearch-main
+* nginx-common
+* nginx-common-main
+* nginx-conn-limit
+* nginx-conn-limit-main
+* nginx-log4j
+* nginx-log4j-main
+* nginx-req-limit
+* nginx-req-limit-main
+* nginx-xmlrpc
+* nginx-xmlrpc-main
+* shells
+* shells-main
+* vbulletin
+* vbulletin-main
+* wordpress-auth
+* wordpress-auth-main
+* wordpress-comment
+* wordpress-comment-main
+* wordpress-fail2ban-plugin
+* wordpress-pingback
+* wordpress-pingback-main
+* wordpress-pingback-repeat
 
 ## manual fail2ban installation
 
@@ -258,8 +292,8 @@ If you need to modify the default created fail2ban filters located at `/etc/fail
 ```
 fail2ban-client status
 Status
-|- Number of jail:      16
-`- Jail list:   nginx-auth, nginx-auth-main, nginx-botsearch, nginx-common, nginx-conn-limit, nginx-get-f5, nginx-req-limit, nginx-req-limit-main, nginx-req-limit-repeat, nginx-xmlrpc, vbulletin, wordpress-auth, wordpress-comment, wordpress-fail2ban-plugin, wordpress-pingback, wordpress-pingback-repeat
+|- Number of jail:      28
+`- Jail list:   nginx-auth, nginx-auth-main, nginx-badrequests, nginx-badrequests-main, nginx-botsearch, nginx-botsearch-main, nginx-common, nginx-common-main, nginx-conn-limit, nginx-conn-limit-main, nginx-log4j, nginx-log4j-main, nginx-req-limit, nginx-req-limit-main, nginx-xmlrpc, nginx-xmlrpc-main, shells, shells-main, vbulletin, vbulletin-main, wordpress-auth, wordpress-auth-main, wordpress-comment, wordpress-comment-main, wordpress-fail2ban-plugin, wordpress-pingback, wordpress-pingback-main, wordpress-pingback-repeat
 ```
 
 ### log4j vulnerability filter action
