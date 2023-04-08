@@ -1,1 +1,3 @@
 ignored/
+*.sublime-project
+*.sublime-workspace
